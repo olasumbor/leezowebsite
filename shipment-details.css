@@ -1,0 +1,372 @@
+/* ========================================
+   SHIPMENT DETAILS PAGE
+======================================== */
+
+.shipment-details-top {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px 0;
+}
+
+
+/* ========================================
+   BACK BUTTON
+======================================== */
+
+.back-button {
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.back-arrow {
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1;
+}
+
+
+/* ========================================
+   MAIN AREA
+======================================== */
+
+.shipment-details-main {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 80px auto 110px;
+
+    padding: 0 40px;
+}
+
+
+/* ========================================
+   DETAILS CARD
+======================================== */
+
+.shipment-details-card {
+    background: #f3f4f7;
+
+    width: 100%;
+
+    min-height: 880px;
+
+    padding: 90px 55px;
+
+    box-sizing: border-box;
+}
+
+
+/* ========================================
+   SHIPMENT TITLE
+======================================== */
+
+.shipment-details-card h1 {
+    margin: 0 0 28px;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+}
+
+
+/* ========================================
+   ROUTE
+======================================== */
+
+.shipment-route {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    margin-bottom: 28px;
+}
+
+.route-line {
+    white-space: nowrap;
+    font-size: 18px;
+}
+
+
+/* ========================================
+   PROGRESS
+======================================== */
+
+.shipment-progress {
+    margin-bottom: 28px;
+}
+
+.shipment-progress p {
+    margin: 0 0 5px;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* ========================================
+   INFORMATION
+======================================== */
+
+.shipment-information {
+    margin-bottom: 28px;
+}
+
+.shipment-information p {
+    margin: 0 0 5px;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* ========================================
+   DATES
+======================================== */
+
+.shipment-dates {
+    margin-bottom: 28px;
+}
+
+.shipment-dates p {
+    margin: 0 0 5px;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* ========================================
+   RECIPIENT
+======================================== */
+
+.shipment-recipient {
+    margin-bottom: 28px;
+}
+
+.shipment-recipient p {
+    margin: 0 0 5px;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* ========================================
+   SHIPPING COST
+======================================== */
+
+.shipment-cost {
+    margin-bottom: 30px;
+}
+
+.shipment-cost p {
+    margin: 0 0 5px;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* ========================================
+   ACTION BUTTONS
+======================================== */
+
+.shipment-actions {
+    display: flex;
+    gap: 25px;
+
+    margin-top: 25px;
+}
+
+.shipment-actions button {
+    border: none;
+    background: transparent;
+
+    padding: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    text-decoration: underline;
+}
+
+
+/* ========================================
+   FOOTER
+======================================== */
+
+
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 768px) {
+
+    .shipment-details-top {
+        padding: 50px 25px 0;
+    }
+
+    .shipment-details-main {
+        margin-top: 60px;
+
+        padding: 0 25px;
+
+        margin-bottom: 70px;
+    }
+
+    .shipment-details-card {
+        padding: 55px 30px;
+
+        min-height: auto;
+    }
+
+    .shipment-route {
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+        font-size: 16px;
+    }
+
+    .route-line {
+        font-size: 15px;
+    }
+
+    .shipment-progress p,
+    .shipment-information p,
+    .shipment-dates p,
+    .shipment-recipient p,
+    .shipment-cost p {
+        font-size: 15px;
+    }
+
+    .shipment-actions {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+   
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+
+    .shipment-details-top {
+        padding: 35px 20px 0;
+    }
+
+    .back-arrow {
+        font-size: 34px;
+    }
+
+    .shipment-details-main {
+        margin-top: 45px;
+
+        padding: 0 20px;
+
+        margin-bottom: 50px;
+    }
+
+    .shipment-details-card {
+        padding: 40px 22px;
+    }
+
+    .shipment-details-card h1 {
+        font-size: 16px;
+    }
+
+    .shipment-route {
+        display: block;
+
+        font-size: 15px;
+    }
+
+    .route-line {
+        display: block;
+
+        margin: 12px 0;
+
+        font-size: 14px;
+    }
+
+    .shipment-progress p,
+    .shipment-information p,
+    .shipment-dates p,
+    .shipment-recipient p,
+    .shipment-cost p {
+        font-size: 14px;
+    }
+
+    .shipment-actions {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    
+
+}
+
+
+
+
+/* =================================================
+   SHIPMENT ACTION BUTTONS
+================================================= */
+
+#downloadReceipt,
+#trackShipment {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 24px;
+
+    background: #00A63C;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 6px;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+#downloadReceipt:hover,
+#trackShipment:hover {
+    background: #008f34;
+}

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Procurement Details | Leezoexports Logistics</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Procurement Details CSS -->
+    <link rel="stylesheet" href="procurement-details.css">
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         HEADER
+    =========================================== -->
+
+
+
+    <!-- ==========================================
+         BACK BUTTON
+    =========================================== -->
+
+    <div class="procurement-details-back">
+
+        <a href="procurement-history.html">
+
+            <span class="back-arrow">←</span>
+
+            <span>back</span>
+
+        </a>
+
+    </div>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="procurement-details-main">
+
+        <section class="procurement-details-card">
+
+
+            <!-- ==================================
+                 PROCUREMENT TITLE
+            =================================== -->
+
+            <div class="procurement-title">
+
+                <h1>
+                    PROCUREMENT
+                    <span id="procurementId"></span>
+                </h1>
+
+            </div>
+
+
+            <!-- ==================================
+                 PROCUREMENT STATUS
+            =================================== -->
+
+            <div class="procurement-progress">
+
+                <p id="statusSubmitted">
+                    ✓ Request Submitted
+                </p>
+
+                <p id="statusApproved">
+                    ✓ Request Approved
+                </p>
+
+                <p id="statusSupplier">
+                    ✓ Supplier Confirmed
+                </p>
+
+                <p id="statusProcured">
+                    ✓ Items Procured
+                </p>
+
+                <p id="statusDelivered">
+                    ✓ Delivered
+                </p>
+
+            </div>
+
+
+            <!-- ==================================
+                 PROCUREMENT INFORMATION
+            =================================== -->
+
+            <div class="procurement-information">
+
+
+                <p>
+                    Procurement ID:
+                    <span id="detailProcurementId"></span>
+                </p>
+
+
+                <p>
+                    Product:
+                    <span id="procurementProduct"></span>
+                </p>
+
+
+                <p>
+                    Category:
+                    <span id="procurementCategory"></span>
+                </p>
+
+
+                <p>
+                    Quantity:
+                    <span id="procurementQuantity"></span>
+                </p>
+
+
+                <p>
+                    Supplier:
+                    <span id="procurementSupplier"></span>
+                </p>
+
+
+                <p>
+                    Delivery Location:
+                    <span id="procurementLocation"></span>
+                </p>
+
+
+                <br>
+
+
+                <p>
+                    Request Date:
+                    <span id="procurementRequestDate"></span>
+                </p>
+
+
+                <p>
+                    Expected Delivery:
+                    <span id="procurementExpectedDate"></span>
+                </p>
+
+
+                <p>
+                    Delivered:
+                    <span id="procurementDeliveredDate"></span>
+                </p>
+
+
+                <br>
+
+
+                <!-- RECIPIENT -->
+
+                <p>
+                    Recipient
+                </p>
+
+                <p id="procurementRecipient"></p>
+
+                <p id="procurementRecipientLocation"></p>
+
+
+                <br>
+
+
+                <!-- COST -->
+
+                <p>
+                    Procurement Cost
+                </p>
+
+                <p id="procurementCost"></p>
+
+
+            </div>
+
+
+            <!-- ==================================
+                 ACTIONS
+            =================================== -->
+
+            <div class="procurement-actions">
+
+                <button type="button" id="downloadReceipt">
+                    Download Receipt
+                </button>
+
+
+                <button type="button" id="trackProcurement">
+                    Track Procurement
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         FOOTER
+    =========================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-contact">
+
+                <h3>Get in Touch</h3>
+
+                <div class="contact-item">
+                    <img src="images/location.svg" alt="Location">
+                    <span>99, Shasha Road, Lagos</span>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/phone.svg" alt="Phone">
+
+                    <span>+234 484 93948</span>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/email.svg" alt="Email">
+
+                    <span>info@leezoexports.com</span>
+                </div>
+
+                <div class="social-icons">
+
+                    <a href="#">
+                        <img src="images/icons-facebook.svg" alt="Facebook">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/instagram.svg" alt="Instagram">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/twitter.svg" alt="Twitter">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+
+                <ul class="footer-menu">
+
+                    <li><a href="#">About Us</a></li>
+
+                    <li><a href="#">Contact</a></li>
+
+                    <li><a href="#">Our Services</a></li>
+
+                    <li><a href="#">Track Shipment</a></li>
+
+                    <li><a href="#">Procurement</a></li>
+
+                </ul>
+
+            </div>
+
+            <div class="footer-newsletter">
+
+                <h3>Newsletter</h3>
+
+                <p class="newsletter-text">
+                    Join our newsletter to receive important logistics updates,
+                    freight tips, company news, and exclusive promotions delivered
+                    straight to your inbox.
+                </p>
+
+                <form class="newsletter-form">
+
+                    <input type="email" placeholder="Your Email Address">
+
+                    <button type="submit">
+                        Sign Up
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+
+            <p>
+                <span>Leezofoodng.export</span>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script src="script.js"></script>
+    <script src="procurement-details.js"></script>
+
+</body>
+
+</html>

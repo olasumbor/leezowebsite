@@ -1,0 +1,463 @@
+/* =================================================
+   PROCUREMENT HISTORY PAGE
+================================================= */
+
+
+/* =================================================
+   HEADER
+================================================= */
+
+.procurement-header {
+    width: 100%;
+    padding: 50px 5.5%;
+}
+
+.procurement-logo {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.logo-green {
+    color: #00a63c;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.logo-red {
+    color: #ef3340;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+/* =================================================
+   BACK TO DASHBOARD
+================================================= */
+
+.procurement-back {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto 0;
+}
+
+.procurement-back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+
+    color: #111;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back-arrow {
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 300;
+}
+
+
+/* =================================================
+   MAIN CONTENT
+================================================= */
+
+.procurement-history-main {
+    width: 100%;
+    padding: 145px 0 100px;
+}
+
+
+/* =================================================
+   MAIN CARD
+================================================= */
+
+.procurement-history-card {
+    width: 76%;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    background: #edf5f7;
+}
+
+
+/* =================================================
+   INTRO
+================================================= */
+
+.procurement-history-intro {
+    padding: 50px 30px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.procurement-history-intro h1 {
+    margin: 0 0 12px;
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.procurement-history-intro p {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 400;
+}
+
+
+/* =================================================
+   STATISTICS
+================================================= */
+
+.procurement-statistics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    padding: 40px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.procurement-stat {
+    text-align: center;
+}
+
+.procurement-stat h3 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.procurement-stat p {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* =================================================
+   SEARCH
+================================================= */
+
+.procurement-search-area {
+    padding: 20px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.procurement-search {
+    width: 380px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+
+    background: #fff;
+
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.procurement-search input {
+    flex: 1;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0 15px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+}
+
+.procurement-search input::placeholder {
+    color: #d2d2d2;
+}
+
+.procurement-search button {
+    width: 60px;
+    height: 100%;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
+
+
+/* =================================================
+   TABLE
+================================================= */
+
+.procurement-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.procurement-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.procurement-table th,
+.procurement-table td {
+    padding: 14px 20px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.procurement-table th {
+    padding-top: 55px;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.procurement-table td {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* =================================================
+   VIEW BUTTON
+================================================= */
+
+.view-procurement {
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #111;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.view-procurement:hover {
+    color: #00a63c;
+}
+
+
+
+
+
+
+/* =================================================
+   992px — TABLET / SMALL LAPTOP
+================================================= */
+
+@media (max-width: 992px) {
+
+    .procurement-history-card {
+        width: 85%;
+    }
+
+    .procurement-history-main {
+        padding-top: 120px;
+    }
+
+    .procurement-statistics {
+        padding: 35px 20px;
+    }
+
+    .procurement-table th,
+    .procurement-table td {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}
+
+
+/* =================================================
+   768px — TABLET
+================================================= */
+
+@media (max-width: 768px) {
+
+    .procurement-header {
+        padding: 35px 6%;
+    }
+
+    .procurement-history-main {
+        padding-top: 80px;
+        padding-bottom: 70px;
+    }
+
+    .procurement-history-card {
+        width: 92%;
+    }
+
+    .procurement-history-intro {
+        padding: 30px 20px;
+    }
+
+    .procurement-history-intro h1 {
+        font-size: 19px;
+    }
+
+    .procurement-history-intro p {
+        font-size: 15px;
+    }
+
+    .procurement-statistics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px 10px;
+        padding: 35px 20px;
+    }
+
+    .procurement-search-area {
+        padding: 20px;
+    }
+
+    .procurement-search {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .procurement-table th,
+    .procurement-table td {
+        padding: 12px 15px;
+    }
+
+}
+
+
+/* =================================================
+   576px — MOBILE
+================================================= */
+
+@media (max-width: 576px) {
+
+    .procurement-header {
+        padding: 25px 6%;
+    }
+
+    .logo-green {
+        font-size: 18px;
+    }
+
+    .logo-red {
+        font-size: 15px;
+    }
+
+    .procurement-back {
+        width: 88%;
+        margin-top: 10px;
+    }
+
+    .back-arrow {
+        font-size: 34px;
+    }
+
+    .procurement-back a {
+        font-size: 12px;
+    }
+
+    .procurement-history-main {
+        padding-top: 55px;
+        padding-bottom: 50px;
+    }
+
+    .procurement-history-card {
+        width: 92%;
+    }
+
+    .procurement-history-intro {
+        padding: 25px 18px;
+    }
+
+    .procurement-history-intro h1 {
+        font-size: 17px;
+        margin-bottom: 8px;
+    }
+
+    .procurement-history-intro p {
+        font-size: 13px;
+    }
+
+    .procurement-statistics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px 5px;
+        padding: 30px 10px;
+    }
+
+    .procurement-stat h3 {
+        font-size: 13px;
+    }
+
+    .procurement-stat p {
+        font-size: 15px;
+    }
+
+    .procurement-search-area {
+        padding: 15px;
+    }
+
+    .procurement-search {
+        width: 100%;
+        height: 52px;
+    }
+
+    .procurement-search input {
+        font-size: 13px;
+    }
+
+    .procurement-search button {
+        width: 50px;
+        font-size: 18px;
+    }
+
+    /*
+       Keep the table scrollable horizontally
+       instead of squeezing the columns.
+    */
+
+    .procurement-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .procurement-table {
+        min-width: 550px;
+    }
+
+    .procurement-table th {
+        padding-top: 35px;
+        font-size: 13px;
+    }
+
+    .procurement-table td {
+        font-size: 13px;
+        padding: 11px 12px;
+    }
+
+    .view-procurement {
+        font-size: 13px;
+    }
+
+}

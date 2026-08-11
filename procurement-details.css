@@ -1,0 +1,284 @@
+/* ==========================================
+   PROCUREMENT DETAILS PAGE
+========================================== */
+
+.procurement-details-header {
+    width: 100%;
+    padding: 80px 5%;
+}
+
+.procurement-details-logo {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.logo-green {
+    color: #0a9f43;
+}
+
+.logo-red {
+    color: #ef3338;
+}
+
+
+/* ==========================================
+   BACK BUTTON
+========================================== */
+
+.procurement-details-back {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.procurement-details-back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+
+    color: #111;
+    text-decoration: none;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.back-arrow {
+    font-size: 40px;
+    line-height: 1;
+}
+
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+.procurement-details-main {
+    width: 90%;
+    max-width: 1000px;
+
+    margin: 150px auto 120px;
+}
+
+
+/* ==========================================
+   DETAILS CARD
+========================================== */
+
+.procurement-details-card {
+    background: #f1f4f8;
+
+    padding: 70px;
+
+    min-height: 700px;
+}
+
+
+/* ==========================================
+   TITLE
+========================================== */
+
+.procurement-title h1 {
+    margin: 0 0 45px;
+
+    font-size: 24px;
+    font-weight: 600;
+    color: #171a24;
+}
+
+
+/* ==========================================
+   PROCUREMENT PROGRESS
+========================================== */
+
+.procurement-progress {
+    margin-bottom: 40px;
+}
+
+.procurement-progress p {
+    margin: 8px 0;
+
+    font-size: 18px;
+    font-weight: 500;
+
+    color: #171a24;
+}
+
+
+/* ==========================================
+   PROCUREMENT INFORMATION
+========================================== */
+
+.procurement-information {
+    margin-top: 35px;
+}
+
+.procurement-information p {
+    margin: 8px 0;
+
+    font-size: 18px;
+    line-height: 1.5;
+
+    color: #171a24;
+}
+
+.procurement-information span {
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.procurement-actions {
+    display: flex;
+    gap: 20px;
+
+    margin-top: 45px;
+}
+
+.procurement-actions button {
+    border: none;
+
+    padding: 15px 25px;
+
+    border-radius: 8px;
+
+    background: #00a849;
+    color: white;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.procurement-actions button:hover {
+    background: #008d3e;
+}
+
+
+/* ==========================================
+   TABLET — 992px
+========================================== */
+
+@media (max-width: 992px) {
+
+    .procurement-details-header {
+        padding: 60px 5%;
+    }
+
+    .procurement-details-main {
+        margin-top: 100px;
+    }
+
+    .procurement-details-card {
+        padding: 50px;
+    }
+
+}
+
+
+/* ==========================================
+   TABLET — 768px
+========================================== */
+
+@media (max-width: 768px) {
+
+    .procurement-details-header {
+        padding: 45px 5%;
+    }
+
+    .procurement-details-main {
+        width: 90%;
+        margin-top: 80px;
+        margin-bottom: 80px;
+    }
+
+    .procurement-details-card {
+        padding: 40px 30px;
+    }
+
+    .procurement-title h1 {
+        font-size: 21px;
+    }
+
+    .procurement-progress p,
+    .procurement-information p {
+        font-size: 16px;
+    }
+
+    .procurement-actions {
+        flex-direction: column;
+    }
+
+    .procurement-actions button {
+        width: 100%;
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE — 576px
+========================================== */
+
+@media (max-width: 576px) {
+
+    .procurement-details-header {
+        padding: 35px 5%;
+    }
+
+    .procurement-details-logo {
+        font-size: 19px;
+    }
+
+    .procurement-details-main {
+        width: 92%;
+        margin-top: 60px;
+        margin-bottom: 60px;
+    }
+
+    .procurement-details-card {
+        padding: 30px 20px;
+        min-height: auto;
+    }
+
+    .procurement-details-back a {
+        font-size: 14px;
+    }
+
+    .back-arrow {
+        font-size: 32px;
+    }
+
+    .procurement-title h1 {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .procurement-progress p,
+    .procurement-information p {
+        font-size: 14px;
+    }
+
+    .procurement-actions {
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .procurement-actions button {
+        font-size: 14px;
+        padding: 13px 20px;
+    }
+
+}

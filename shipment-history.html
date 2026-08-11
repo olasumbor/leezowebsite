@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Shipment History | Leezoexports Logistics</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="shipment-history.css">
+</head>
+
+
+<body>
+
+    <!-- =================================
+         SHIPMENT HISTORY HEADER
+    ================================== -->
+
+    <header class="shipment-history-header">
+
+        <div class="shipment-history-logo">
+
+            <a href="dashboard.html">
+
+                <img src="images/logo-leezo.NG.svg" alt="Leezoexports Logistics">
+
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =================================
+         MAIN CONTENT
+    ================================== -->
+
+    <main class="shipment-history-main">
+
+
+        <!-- BACK TO DASHBOARD -->
+
+        <div class="back-dashboard">
+
+            <a href="dashboard.html">
+
+                <span class="back-arrow">←</span>
+
+                <span>Back to dashboard</span>
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =================================
+             SHIPMENT HISTORY CARD
+        ================================== -->
+
+        <section class="shipment-history-card">
+
+
+            <!-- TITLE -->
+
+            <div class="shipment-history-intro">
+
+                <h1>
+                    My shipment history
+                </h1>
+
+                <p>
+                    Track and review all your previous shipments.
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SHIPMENT STATISTICS
+            ================================== -->
+
+            <div class="shipment-statistics">
+
+                <div class="shipment-stat">
+
+                    <h3>
+                        Total shipments
+                    </h3>
+
+                    <p>
+                        24
+                    </p>
+
+                </div>
+
+
+                <div class="shipment-stat">
+
+                    <h3>
+                        Delivered
+                    </h3>
+
+                    <p>
+                        24
+                    </p>
+
+                </div>
+
+
+                <div class="shipment-stat">
+
+                    <h3>
+                        In Transit
+                    </h3>
+
+                    <p>
+                        4
+                    </p>
+
+                </div>
+
+
+                <div class="shipment-stat">
+
+                    <h3>
+                        Pending
+                    </h3>
+
+                    <p>
+                        10
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SEARCH
+            ================================== -->
+
+            <div class="shipment-search-area">
+
+                <div class="shipment-search">
+
+                    <input type="text" id="shipmentSearch" placeholder="enter Shipment id">
+
+                    <button type="button" id="shipmentSearchButton" aria-label="Search shipment">
+                        🔍
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 SHIPMENT TABLE
+            ================================== -->
+
+            <div class="shipment-table-wrapper">
+
+                <table class="shipment-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Shipment ID
+                            </th>
+
+                            <th>
+                                Route
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Details
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="shipmentTableBody">
+
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-contact">
+
+                <h3>Get in Touch</h3>
+
+                <div class="contact-item">
+                    <img src="images/location.svg" alt="Location">
+                    <span>99, Shasha Road, Lagos</span>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/phone.svg" alt="Phone">
+
+                    <span>+234 484 93948</span>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/email.svg" alt="Email">
+
+                    <span>info@leezoexports.com</span>
+                </div>
+
+                <div class="social-icons">
+
+                    <a href="#">
+                        <img src="images/icons-facebook.svg" alt="Facebook">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/instagram.svg" alt="Instagram">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/twitter.svg" alt="Twitter">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+
+                <ul class="footer-menu">
+
+                    <li><a href="#">About Us</a></li>
+
+                    <li><a href="#">Contact</a></li>
+
+                    <li><a href="#">Our Services</a></li>
+
+                    <li><a href="#">Track Shipment</a></li>
+
+                    <li><a href="#">Procurement</a></li>
+
+                </ul>
+
+            </div>
+
+            <div class="footer-newsletter">
+
+                <h3>Newsletter</h3>
+
+                <p class="newsletter-text">
+                    Join our newsletter to receive important logistics updates,
+                    freight tips, company news, and exclusive promotions delivered
+                    straight to your inbox.
+                </p>
+
+                <form class="newsletter-form">
+
+                    <input type="email" placeholder="Your Email Address">
+
+                    <button type="submit">
+                        Sign Up
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+
+            <p>
+                <span>Leezofoodng.export</span>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+    <script src="shipment-history.js"></script>
+
+</body>
+
+</html>

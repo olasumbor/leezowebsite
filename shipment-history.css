@@ -1,0 +1,375 @@
+/* =================================================
+   SHIPMENT HISTORY PAGE
+================================================= */
+
+
+/* =================================================
+   MAIN SHIPMENT HISTORY AREA
+================================================= */
+
+.shipment-history-main {
+    width: 100%;
+    padding: 0 0 100px;
+}
+
+
+/* =================================================
+   SHIPMENT HISTORY CARD
+================================================= */
+
+.shipment-history-card {
+    width: 76%;
+    max-width: 1100px;
+
+    margin: 150px auto 0;
+
+    background: #edf5f7;
+}
+
+
+/* =================================================
+   PAGE INTRO / HEADER
+================================================= */
+
+.shipment-history-header {
+    padding: 50px 30px 35px;
+
+    border-bottom: 1px solid #222;
+}
+
+.shipment-history-header h1 {
+    margin: 0 0 12px;
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.shipment-history-header p {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 400;
+}
+
+
+/* =================================================
+   STATISTICS
+================================================= */
+
+.shipment-statistics {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    padding: 40px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.shipment-stat {
+    text-align: center;
+}
+
+.shipment-stat h3 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.shipment-stat p {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* =================================================
+   SEARCH AREA
+================================================= */
+
+.shipment-search-area {
+    padding: 20px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.shipment-search {
+    width: 380px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+
+    background: #fff;
+
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.shipment-search input {
+    flex: 1;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0 15px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.shipment-search input::placeholder {
+    color: #d2d2d2;
+}
+
+.shipment-search button {
+    width: 60px;
+    height: 100%;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
+
+
+/* =================================================
+   SHIPMENT TABLE
+================================================= */
+
+.shipment-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.shipment-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.shipment-table th,
+.shipment-table td {
+    padding: 14px 20px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.shipment-table th {
+    padding-top: 55px;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.shipment-table td {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* =================================================
+   VIEW SHIPMENT BUTTON
+================================================= */
+
+.view-shipment {
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #111;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.view-shipment:hover {
+    color: #00a63c;
+}
+
+
+/* =================================================
+   992px — SMALL DESKTOP / TABLET
+================================================= */
+
+@media (max-width: 992px) {
+
+    .shipment-history-card {
+        width: 85%;
+    }
+
+    .shipment-history-main {
+        padding-top: 0;
+    }
+
+    .shipment-statistics {
+        padding: 35px 20px;
+    }
+
+    .shipment-table th,
+    .shipment-table td {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}
+
+
+/* =================================================
+   768px — TABLET
+================================================= */
+
+@media (max-width: 768px) {
+
+    .shipment-history-card {
+        width: 92%;
+    }
+
+    .shipment-history-main {
+        padding-bottom: 70px;
+    }
+
+    .shipment-history-header {
+        padding: 30px 20px;
+    }
+
+    .shipment-history-header h1 {
+        font-size: 19px;
+    }
+
+    .shipment-history-header p {
+        font-size: 15px;
+    }
+
+    .shipment-statistics {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 30px 10px;
+
+        padding: 35px 20px;
+    }
+
+    .shipment-search-area {
+        padding: 20px;
+    }
+
+    .shipment-search {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .shipment-table th,
+    .shipment-table td {
+        padding: 12px 15px;
+    }
+
+}
+
+
+/* =================================================
+   576px — MOBILE
+================================================= */
+
+@media (max-width: 576px) {
+
+    .shipment-history-card {
+        width: 92%;
+    }
+
+    .shipment-history-header {
+        padding: 25px 18px;
+    }
+
+    .shipment-history-header h1 {
+        font-size: 17px;
+
+        margin-bottom: 8px;
+    }
+
+    .shipment-history-header p {
+        font-size: 13px;
+    }
+
+    .shipment-statistics {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 25px 5px;
+
+        padding: 30px 10px;
+    }
+
+    .shipment-stat h3 {
+        font-size: 13px;
+    }
+
+    .shipment-stat p {
+        font-size: 15px;
+    }
+
+    .shipment-search-area {
+        padding: 15px;
+    }
+
+    .shipment-search {
+        width: 100%;
+        height: 52px;
+    }
+
+    .shipment-search input {
+        font-size: 13px;
+    }
+
+    .shipment-search button {
+        width: 50px;
+
+        font-size: 18px;
+    }
+
+    /*
+       Keep the table readable on small screens.
+       The user can scroll horizontally.
+    */
+
+    .shipment-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .shipment-table {
+        min-width: 650px;
+    }
+
+    .shipment-table th {
+        padding-top: 35px;
+
+        font-size: 13px;
+    }
+
+    .shipment-table td {
+        padding: 11px 12px;
+
+        font-size: 13px;
+    }
+
+    .view-shipment {
+        font-size: 13px;
+    }
+
+}

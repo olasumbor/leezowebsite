@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Dashboard | Leezowebsite</title>
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- DASHBOARD HEADER -->
+
+    <header class="dashboard-header">
+
+        <div class="dashboard-logo">
+            <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+        </div>
+
+        <button type="button" id="logoutButton" class="logout-button">
+            Sign Out
+        </button>
+
+    </header>
+
+
+    <!-- DASHBOARD CONTENT -->
+
+
+
+    <section class="dashboard-section">
+
+        <h1>Welcome !</h1>
+
+
+        <div class="dashboard-actions">
+
+            <!-- TRACK SHIPMENT -->
+
+            <a href="track-shipment.html" class="dashboard-card track-card">
+                Track Shipment
+            </a>
+
+
+
+
+            <!-- VIEW MY SHIPMENT -->
+
+            <a href="shipment-history.html" class="dashboard-card shipment-card">
+                View My Shipments
+            </a>
+
+
+            <!-- MANAGE PROFILE -->
+
+            <a href="#" class="dashboard-card profile-card">
+                Manage My Profile
+            </a>
+
+
+            <!-- PROCUREMENT -->
+
+            <a href="procurement-history.html" class="dashboard-card procurement-card">
+                View My Procurement
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+
+
+
+    <!-- FOOTER SECTION -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-contact">
+
+                <h3>Get in Touch</h3>
+
+                <div class="contact-item">
+                    <img src="images/location.svg" alt="Location">
+                    <span>99, Shasha Road, Lagos</span>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/phone.svg" alt="Phone">
+
+                    <span>+234 484 93948</span>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/email.svg" alt="Email">
+
+                    <span>info@leezoexports.com</span>
+                </div>
+
+                <div class="social-icons">
+
+                    <a href="#">
+                        <img src="images/icons-facebook.svg" alt="Facebook">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/instagram.svg" alt="Instagram">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/twitter.svg" alt="Twitter">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+
+                <ul class="footer-menu">
+
+                    <li><a href="#">About Us</a></li>
+
+                    <li><a href="#">Contact</a></li>
+
+                    <li><a href="#">Our Services</a></li>
+
+                    <li><a href="#">Track Shipment</a></li>
+
+                    <li><a href="#">Procurement</a></li>
+
+                </ul>
+
+            </div>
+
+            <div class="footer-newsletter">
+
+                <h3>Newsletter</h3>
+
+                <p class="newsletter-text">
+                    Join our newsletter to receive important logistics updates,
+                    freight tips, company news, and exclusive promotions delivered
+                    straight to your inbox.
+                </p>
+
+                <form class="newsletter-form">
+
+                    <input type="email" placeholder="Your Email Address">
+
+                    <button type="submit">
+                        Sign Up
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+
+            <p>
+                <span>Leezofoodng.export</span>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
