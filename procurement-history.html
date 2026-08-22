@@ -2,196 +2,196 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Procurement History | Leezoexports Logistics</title>
+  <title>Procurement History | Leezoexports Logistics</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="style.css">
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="style.css">
 
-    <!-- Procurement History CSS -->
-    <link rel="stylesheet" href="procurement-history.css">
+  <!-- Procurement History CSS -->
+  <link rel="stylesheet" href="procurement-history.css">
 </head>
 
 
 <body>
 
 
-    <!-- ==========================================
+  <!-- ==========================================
          HEADER
     =========================================== -->
 
-    
 
 
 
 
 
 
-    
 
 
-    <!-- ==========================================
+
+
+  <!-- ==========================================
          BACK TO DASHBOARD
     =========================================== -->
 
-    <div class="procurement-back">
+  <div class="procurement-back">
 
-        <a href="dashboard.html">
+    <a href="dashboard.html">
 
-            <span class="back-arrow">←</span>
+      <span class="back-arrow">←</span>
 
-            <span>back to dashboard</span>
+      <span>back to dashboard</span>
 
-        </a>
+    </a>
 
-    </div>
+  </div>
 
 
-    <!-- ==========================================
+  <!-- ==========================================
          MAIN CONTENT
     =========================================== -->
 
-    <main class="procurement-history-main">
+  <main class="procurement-history-main">
 
 
-        <section class="procurement-history-card">
+    <section class="procurement-history-card">
 
 
-            <!-- ==================================
+      <!-- ==================================
                  PAGE INTRO
             =================================== -->
 
-            <div class="procurement-history-intro">
+      <div class="procurement-history-intro">
 
-                <h1>My procurements</h1>
+        <h1>My procurements</h1>
 
-                <p>
-                    Track and review all your previous procurements
-                </p>
+        <p>
+          Track and review all your previous procurements
+        </p>
 
-            </div>
+      </div>
 
 
-            <!-- ==================================
+      <!-- ==================================
                  STATISTICS
             =================================== -->
 
-            <div class="procurement-statistics">
+      <div class="procurement-statistics">
 
 
-                <div class="procurement-stat">
+        <div class="procurement-stat">
 
-                    <h3>Total procurements</h3>
+          <h3>Total procurements</h3>
 
-                    <p id="totalProcurements">0</p>
+          <p id="totalProcurements">0</p>
 
-                </div>
-
-
-                <div class="procurement-stat">
-
-                    <h3>Completed</h3>
-
-                    <p id="completedProcurements">0</p>
-
-                </div>
+        </div>
 
 
-                <div class="procurement-stat">
+        <div class="procurement-stat">
 
-                    <h3>In Progress</h3>
+          <h3>Completed</h3>
 
-                    <p id="inProgressProcurements">0</p>
+          <p id="completedProcurements">0</p>
 
-                </div>
-
-
-                <div class="procurement-stat">
-
-                    <h3>Pending</h3>
-
-                    <p id="pendingProcurements">0</p>
-
-                </div>
+        </div>
 
 
-            </div>
+        <div class="procurement-stat">
+
+          <h3>In Progress</h3>
+
+          <p id="inProgressProcurements">0</p>
+
+        </div>
 
 
-            <!-- ==================================
+        <div class="procurement-stat">
+
+          <h3>Pending</h3>
+
+          <p id="pendingProcurements">0</p>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- ==================================
                  SEARCH
             =================================== -->
 
-            <div class="procurement-search-area">
+      <div class="procurement-search-area">
 
-                <div class="procurement-search">
+        <div class="procurement-search">
 
-                    <input type="text" id="procurementSearch" placeholder="enter procurement i.d">
+          <input type="text" id="procurementSearch" placeholder="enter procurement i.d">
 
-                    <button type="button" id="procurementSearchButton" aria-label="Search procurement">
-                        🔍
-                    </button>
+          <button type="button" id="procurementSearchButton" aria-label="Search procurement">
+            🔍
+          </button>
 
-                </div>
+        </div>
 
-            </div>
+      </div>
 
 
-            <!-- ==================================
+      <!-- ==================================
                  PROCUREMENT TABLE
             =================================== -->
 
-            <div class="procurement-table-wrapper">
+      <div class="procurement-table-wrapper">
 
-                <table class="procurement-table">
-
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Procurement ID</th>
-
-                            <th>Date</th>
-
-                            <th>Status</th>
-
-                            <th>Action</th>
-
-                        </tr>
-
-                    </thead>
+        <table class="procurement-table">
 
 
-                    <tbody id="procurementTableBody">
+          <thead>
 
-                        <!-- Procurement records
+            <tr>
+
+              <th>Procurement ID</th>
+
+              <th>Date</th>
+
+              <th>Status</th>
+
+              <th>Action</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="procurementTableBody">
+
+            <!-- Procurement records
                              will be inserted by JavaScript -->
 
-                    </tbody>
+          </tbody>
 
 
-                </table>
+        </table>
 
-            </div>
-
-
-        </section>
+      </div>
 
 
-    </main>
+    </section>
 
 
-    <!-- ==========================================
+  </main>
+
+
+  <!-- ==========================================
          FOOTER
     =========================================== -->
 
@@ -214,13 +214,13 @@
         <div class="contact-item">
           <img src="images/phone.svg" alt="Phone">
 
-         <a href="tel:+2348136710716">+234 813 671 0716</a>
+          <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
         </div>
 
         <div class="contact-item">
           <img src="images/Email.svg" alt="Email">
 
-          <a href="mailto:leezoe1414@gmail.com">leezoe1414@gmail.com</a>
+          <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
         </div>
 
         <div class="social-icons">
@@ -307,11 +307,11 @@
 
   </footer>
 
-    <!-- ==========================================
+  <!-- ==========================================
          JAVASCRIPT
     =========================================== -->
 
-    <script src="procurement-history.js"></script>
+  <script src="procurement-history.js"></script>
 
 </body>
 
