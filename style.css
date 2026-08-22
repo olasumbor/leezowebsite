@@ -2343,6 +2343,16 @@ CORE VALUES LAYOUT
     transition: 0.3s ease;
 }
 
+
+.pickup-delivery-card {
+    background-color: #8e44ad;
+    width: 100%;
+}
+
+.pickup-delivery-card:hover {
+    background-color: #74368d;
+}
+
 .track-card {
     background-color: #00a947;
 }
@@ -2378,6 +2388,9 @@ CORE VALUES LAYOUT
 .procurement-card:hover {
     background-color: #df8422;
 }
+
+
+
 
 
 
