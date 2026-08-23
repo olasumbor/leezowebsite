@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pick Up & Delivery History | Leezowebsite</title>
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Global CSS -->
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <!-- Pick Up & Delivery History CSS -->
+
+    <link rel="stylesheet" href="pickup-delivery-history.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- BACK TO DASHBOARD -->
+
+    <div class="pickup-history-back">
+
+        <a href="dashboard.html">
+
+            <span class="back-arrow">←</span>
+
+            <span>back to dashboard</span>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="pickup-history-main">
+
+
+        <section class="pickup-history-card">
+
+
+            <!-- PAGE INTRO -->
+
+            <div class="pickup-history-intro">
+
+                <h1>My pick ups & deliveries</h1>
+
+                <p>
+                    Track and review all your previous pick up and delivery requests
+                </p>
+
+            </div>
+
+
+
+            <!-- STATISTICS -->
+
+            <div class="pickup-statistics">
+
+
+                <div class="pickup-stat">
+
+                    <h3>Total Requests</h3>
+
+                    <p id="totalPickups">0</p>
+
+                </div>
+
+
+                <div class="pickup-stat">
+
+                    <h3>Completed</h3>
+
+                    <p id="completedPickups">0</p>
+
+                </div>
+
+
+                <div class="pickup-stat">
+
+                    <h3>In Progress</h3>
+
+                    <p id="inProgressPickups">0</p>
+
+                </div>
+
+
+                <div class="pickup-stat">
+
+                    <h3>Pending</h3>
+
+                    <p id="pendingPickups">0</p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+
+            <div class="pickup-search-area">
+
+                <div class="pickup-search">
+
+                    <input type="text" id="pickupSearch" placeholder="enter request i.d">
+
+                    <button type="button" id="pickupSearchButton" aria-label="Search request">
+                        🔍
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PICK UP & DELIVERY TABLE -->
+
+            <div class="pickup-table-wrapper">
+
+
+                <table class="pickup-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Request ID</th>
+
+                            <th>Date</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody id="pickupTableBody">
+
+                        <!-- Requests will be inserted by JavaScript -->
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <!-- You can copy your existing footer here exactly -->
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="pickup-delivery-history.js"></script>
+
+
+</body>
+
+</html>

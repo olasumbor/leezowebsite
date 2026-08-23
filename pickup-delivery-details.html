@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Pick Up & Delivery Details | Leezoexports Logistics</title>
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Global CSS -->
+
+    <link rel="stylesheet" href="style.css">
+
+
+    <!-- Details CSS -->
+
+    <link rel="stylesheet" href="pickup-delivery-details.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+    <!-- BACK BUTTON -->
+
+    <div class="pickup-details-back">
+
+        <a href="pickup-delivery-history.html">
+
+            <span class="back-arrow">←</span>
+
+            <span>back</span>
+
+        </a>
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="pickup-details-main">
+
+
+        <section class="pickup-details-card">
+
+
+            <!-- TITLE -->
+
+            <div class="pickup-title">
+
+                <h1>
+
+                    PICK UP & DELIVERY
+
+                    <span id="pickupId"></span>
+
+                </h1>
+
+            </div>
+
+
+
+            <!-- DELIVERY PROGRESS -->
+
+            <div class="pickup-progress">
+
+
+                <p id="statusRequested">
+
+                    ✓ Request Submitted
+
+                </p>
+
+
+                <p id="statusAssigned">
+
+                    ✓ Driver Assigned
+
+                </p>
+
+
+                <p id="statusPickup">
+
+                    ✓ Pick Up Confirmed
+
+                </p>
+
+
+                <p id="statusTransit">
+
+                    ✓ In Transit
+
+                </p>
+
+
+                <p id="statusDelivered">
+
+                    ✓ Delivered
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- REQUEST INFORMATION -->
+
+            <div class="pickup-information">
+
+
+                <p>
+
+                    Request ID:
+
+                    <span id="detailPickupId"></span>
+
+                </p>
+
+
+                <p>
+
+                    Customer Name:
+
+                    <span id="pickupName"></span>
+
+                </p>
+
+
+                <p>
+
+                    Phone Number:
+
+                    <span id="pickupPhone"></span>
+
+                </p>
+
+
+                <p>
+
+                    Pick Up Address:
+
+                    <span id="pickupAddress"></span>
+
+                </p>
+
+
+                <p>
+
+                    Delivery Address:
+
+                    <span id="deliveryAddress"></span>
+
+                </p>
+
+
+                <p>
+
+                    Other Details:
+
+                    <span id="otherDetails"></span>
+
+                </p>
+
+
+                <br>
+
+
+                <p>
+
+                    Request Date:
+
+                    <span id="pickupRequestDate"></span>
+
+                </p>
+
+
+                <p>
+
+                    Expected Delivery:
+
+                    <span id="pickupExpectedDate"></span>
+
+                </p>
+
+
+                <p>
+
+                    Delivered:
+
+                    <span id="pickupDeliveredDate"></span>
+
+                </p>
+
+
+                <br>
+
+
+                <p>
+
+                    Status
+
+                </p>
+
+
+                <p id="pickupStatus"></p>
+
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="pickup-actions">
+
+
+                <button type="button" id="downloadPickupReceipt">
+                    Download Receipt
+                </button>
+
+
+                <button type="button" id="trackPickup">
+                    Track Delivery
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <!-- Copy your normal footer here -->
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="pickup-delivery-details.js"></script>
+
+
+</body>
+
+</html>

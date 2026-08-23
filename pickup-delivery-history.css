@@ -1,0 +1,411 @@
+/* =================================================
+   PICK UP & DELIVERY HISTORY PAGE
+================================================= */
+
+
+/* =================================================
+   BACK TO DASHBOARD
+================================================= */
+
+.pickup-history-back {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto 0;
+}
+
+.pickup-history-back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+
+    color: #111;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.back-arrow {
+    font-size: 42px;
+    line-height: 1;
+    font-weight: 300;
+}
+
+
+/* =================================================
+   MAIN CONTENT
+================================================= */
+
+.pickup-history-main {
+    width: 100%;
+    padding: 145px 0 100px;
+}
+
+
+/* =================================================
+   MAIN CARD
+================================================= */
+
+.pickup-history-card {
+    width: 76%;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    background: #edf5f7;
+}
+
+
+/* =================================================
+   INTRO
+================================================= */
+
+.pickup-history-intro {
+    padding: 50px 30px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.pickup-history-intro h1 {
+    margin: 0 0 12px;
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.pickup-history-intro p {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 400;
+}
+
+
+/* =================================================
+   STATISTICS
+================================================= */
+
+.pickup-statistics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    padding: 40px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.pickup-stat {
+    text-align: center;
+}
+
+.pickup-stat h3 {
+    margin: 0 0 5px;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.pickup-stat p {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 500;
+}
+
+
+/* =================================================
+   SEARCH
+================================================= */
+
+.pickup-search-area {
+    padding: 20px 30px;
+
+    border-bottom: 1px solid #222;
+}
+
+.pickup-search {
+    width: 380px;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+
+    background: #fff;
+
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.pickup-search input {
+    flex: 1;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0 15px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+}
+
+.pickup-search input::placeholder {
+    color: #d2d2d2;
+}
+
+.pickup-search button {
+    width: 60px;
+    height: 100%;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
+
+
+/* =================================================
+   TABLE
+================================================= */
+
+.pickup-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.pickup-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.pickup-table th,
+.pickup-table td {
+    padding: 14px 20px;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.pickup-table th {
+    padding-top: 55px;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.pickup-table td {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* =================================================
+   VIEW BUTTON
+================================================= */
+
+.view-pickup {
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #111;
+
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.view-pickup:hover {
+    color: #0c913f;
+}
+
+
+/* =================================================
+   992px — TABLET / SMALL LAPTOP
+================================================= */
+
+@media (max-width: 992px) {
+
+    .pickup-history-card {
+        width: 85%;
+    }
+
+    .pickup-history-main {
+        padding-top: 120px;
+    }
+
+    .pickup-statistics {
+        padding: 35px 20px;
+    }
+
+    .pickup-table th,
+    .pickup-table td {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}
+
+
+/* =================================================
+   768px — TABLET
+================================================= */
+
+@media (max-width: 768px) {
+
+    .pickup-history-main {
+        padding-top: 80px;
+        padding-bottom: 70px;
+    }
+
+    .pickup-history-card {
+        width: 92%;
+    }
+
+    .pickup-history-intro {
+        padding: 30px 20px;
+    }
+
+    .pickup-history-intro h1 {
+        font-size: 19px;
+    }
+
+    .pickup-history-intro p {
+        font-size: 15px;
+    }
+
+    .pickup-statistics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px 10px;
+        padding: 35px 20px;
+    }
+
+    .pickup-search-area {
+        padding: 20px;
+    }
+
+    .pickup-search {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .pickup-table th,
+    .pickup-table td {
+        padding: 12px 15px;
+    }
+
+}
+
+
+/* =================================================
+   576px — MOBILE
+================================================= */
+
+@media (max-width: 576px) {
+
+    .pickup-history-back {
+        width: 88%;
+        margin-top: 10px;
+    }
+
+    .back-arrow {
+        font-size: 34px;
+    }
+
+    .pickup-history-back a {
+        font-size: 12px;
+    }
+
+    .pickup-history-main {
+        padding-top: 55px;
+        padding-bottom: 50px;
+    }
+
+    .pickup-history-card {
+        width: 92%;
+    }
+
+    .pickup-history-intro {
+        padding: 25px 18px;
+    }
+
+    .pickup-history-intro h1 {
+        font-size: 17px;
+        margin-bottom: 8px;
+    }
+
+    .pickup-history-intro p {
+        font-size: 13px;
+    }
+
+    .pickup-statistics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px 5px;
+        padding: 30px 10px;
+    }
+
+    .pickup-stat h3 {
+        font-size: 13px;
+    }
+
+    .pickup-stat p {
+        font-size: 15px;
+    }
+
+    .pickup-search-area {
+        padding: 15px;
+    }
+
+    .pickup-search {
+        width: 100%;
+        height: 52px;
+    }
+
+    .pickup-search input {
+        font-size: 13px;
+    }
+
+    .pickup-search button {
+        width: 50px;
+        font-size: 18px;
+    }
+
+    /* Keep the table scrollable instead
+       of squeezing the columns */
+
+    .pickup-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .pickup-table {
+        min-width: 550px;
+    }
+
+    .pickup-table th {
+        padding-top: 35px;
+        font-size: 13px;
+    }
+
+    .pickup-table td {
+        font-size: 13px;
+        padding: 11px 12px;
+    }
+
+    .view-pickup {
+        font-size: 13px;
+    }
+
+}
