@@ -26,6 +26,30 @@ navItems.forEach(link => {
     });
 });
 
+// Dynamic Nav Auth State (Sign In -> Dashboard if logged in)
+function updateNavAuthState() {
+    const token = localStorage.getItem("auth_token");
+    const loggedIn = localStorage.getItem("loggedIn") === "true";
+    const isLoggedIn = !!token || loggedIn;
+
+    const navSigninBtns = document.querySelectorAll(".nav-signin-btn, .nav-signin-link, .signin-btn");
+    navSigninBtns.forEach(btn => {
+        if (isLoggedIn) {
+            btn.textContent = "Dashboard";
+            btn.href = "dashboard.html";
+        } else {
+            btn.textContent = "Sign In";
+            btn.href = "signin.html";
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", updateNavAuthState);
+} else {
+    updateNavAuthState();
+}
+
 
 
 

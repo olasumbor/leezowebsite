@@ -172,8 +172,10 @@ nav {
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
     color: #00A63E;
+    font-weight: 600;
 }
 
 /* RIGHT SIDE OF NAVBAR */
