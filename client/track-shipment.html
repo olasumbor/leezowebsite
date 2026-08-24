@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Shipment | Leezowebsite</title>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+
+    <link rel=stylesheet href=toast.css>
+</head>
+
+<body>
+
+
+    <!-- NAVBAR -->
+    <nav>
+
+        <a href="index.html" class="logo">
+            <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+        </a>
+
+        <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="services.html">Our Services</a></li>
+      <li><a href="pickup-delivery.html">Pick & Delivery</a></li>
+      <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="track-shipment.html">Track Shipment</a></li>
+      <li><a href="procurement.html">Procurement</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li class="mobile-signin">
+        <a href="signin.html">Sign In</a>
+      </li>
+    </ul>
+
+        <div class="nav-right">
+            <a href="signin.html" class="signin-btn">
+                Sign In
+            </a>
+        </div>
+
+        </div>
+
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </nav>
+
+
+
+
+
+
+    <!-- TRACK SHIPMENT SECTION -->
+
+    <section class="track-section">
+
+        <div class="track-container">
+
+            <h1>
+                TRACK YOUR <span>SHIPMENT</span>
+            </h1>
+
+            <p class="track-description">
+                Enter your tracking number below to get real-time updates on your cargo's journey.
+            </p>
+
+            <div class="track-form">
+
+                <input type="text" id="tracking-number" placeholder="Enter Tracking Number E.g: car8739020892">
+                <button type="button" id="track-button">
+                    Track Shipment
+                </button>
+            </div>
+
+
+
+
+
+            <!-- TRACKING RESULT -->
+
+            <div class="tracking-result">
+
+                <div class="tracking-result-header">
+
+                    <p class="tracking-result-label">
+                        SHIPMENT TRACKING
+                    </p>
+
+                    <h2>
+                        Shipment Status
+                    </h2>
+
+                    <p class="tracking-number">
+                        Tracking Number: <strong id="result-tracking-number"></strong>
+                    </p>
+
+                </div>
+
+
+                <p class="shipment-status">
+                    Shipment Status:
+                    <strong id="shipment-status">Delivery in Progress</strong>
+                </p>
+
+
+                <div class="tracking-status">
+
+                    <div class="tracking-status-item completed">
+
+                        <div class="status-icon">
+                            ✓
+                        </div>
+
+                        <div class="status-content">
+                            <h3>Shipment Picked Up</h3>
+                            <p>Your shipment has been collected successfully.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tracking-status-item completed">
+
+                        <div class="status-icon">
+                            ✓
+                        </div>
+
+                        <div class="status-content">
+                            <h3>Departed Origin</h3>
+                            <p>Your shipment has left the origin facility.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tracking-status-item current">
+
+                        <div class="status-icon">
+                            ●
+                        </div>
+
+                        <div class="status-content">
+                            <h3>In Transit</h3>
+                            <p>Your shipment is currently on its way to the destination.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tracking-status-item">
+
+                        <div class="status-icon">
+                            ○
+                        </div>
+
+                        <div class="status-content">
+                            <h3>Arrived at Destination</h3>
+                            <p>Your shipment has not yet arrived at the destination.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="tracking-status-item">
+
+                        <div class="status-icon">
+                            ○
+                        </div>
+
+                        <div class="status-content">
+                            <h3>Delivered</h3>
+                            <p>Your shipment has not yet been delivered.</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+    <!-- FOOTER SECTION -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-contact">
+
+                <h3>Get in Touch</h3>
+
+                <div class="contact-item">
+                    <img src="images/location.svg" alt="Location">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
+                        target="_blank">
+                        Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
+                    </a>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/phone.svg" alt="Phone">
+
+                    <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/Email.svg" alt="Email">
+
+                    <a
+                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+                </div>
+
+                <div class="social-icons">
+
+                    <a href="https://www.facebook.com/leezofoodng" target="_blank">
+                        <img src="images/icons-facebook.svg" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
+                        <img src="images/instagram.svg" alt="Instagram">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/twitter.svg" alt="Twitter">
+                    </a>
+
+                    <a href="https://wa.me/2348136710716">
+                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+
+                <ul class="footer-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="pickup-delivery.html">Pick & Delivery</a></li>
+                    <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
+                    <li><a href="track-shipment.html">Track Shipment</a></li>
+                    <li><a href="procurement.html">Procurement</a></li>
+                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-newsletter">
+
+                <h3>Newsletter</h3>
+
+                <p class="newsletter-text">
+                    Join our newsletter to receive important logistics updates,
+                    freight tips, company news, and exclusive promotions delivered
+                    straight to your inbox.
+                </p>
+
+                <form class="newsletter-form">
+
+                    <input type="email" placeholder="Your Email Address">
+
+                    <button type="submit">
+                        Sign Up
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+
+            <p>
+                <span>Leezofoodng.export</span>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    </footer>
+
+
+    <script src="script.js"></script>
+    <script src="tracking.js"></script>
+
+    <script src=config.js></script>
+    <script src=toast.js></script>
+</body>
+
+</html>

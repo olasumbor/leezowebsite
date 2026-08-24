@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Request a Quote | Leezowebsite</title>
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel=stylesheet href=toast.css>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <a href="index.html" class="logo">
+            <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+        </a>
+
+        <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="services.html">Our Services</a></li>
+      <li><a href="pickup-delivery.html">Pick & Delivery</a></li>
+      <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="track-shipment.html">Track Shipment</a></li>
+      <li><a href="procurement.html">Procurement</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+      <li class="mobile-signin">
+        <a href="signin.html">Sign In</a>
+      </li>
+    </ul>
+
+        <div class="nav-right">
+            <a href="signin.html" class="signin-btn">
+                Sign In
+            </a>
+        </div>
+
+        </div>
+
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+    </nav>
+
+
+
+
+
+
+    <!-- REQUEST QUOTE SECTION -->
+    <section class="quote-section">
+
+        <div class="quote-top">
+            <h1>REQUEST A QUOTE</h1>
+        </div>
+
+        <form id="quoteForm" class="quote-form">
+
+            <h2>REQUEST A QUOTE</h2>
+
+            <label for="quoteName">Name</label>
+            <input type="text" id="quoteName" name="name" placeholder="your full name" required>
+
+            <label for="quoteEmail">Email</label>
+            <input type="email" id="quoteEmail" name="email" placeholder="your Email" required>
+
+            <label for="quotePhone">Phone number</label>
+            <input type="tel" id="quotePhone" name="phone" placeholder="your Phone Number" required>
+
+            <label for="shippingType">Shipping Type</label>
+            <input type="text" id="shippingType" name="shippingType" placeholder="E.g Air freight, sea freight etc."
+                required>
+
+            <label for="originCountry">Origin Country</label>
+            <input type="text" id="originCountry" name="originCountry" placeholder="e.g Nigeria" required>
+
+            <label for="destinationCountry">Destination Country</label>
+            <input type="text" id="destinationCountry" name="destinationCountry" placeholder="e.g Canada" required>
+
+            <label for="shippingWeight">Shipping weight</label>
+            <input type="number" id="shippingWeight" name="shippingWeight" required>
+
+            <label for="shippingHeight">Shipping Height</label>
+            <input type="number" id="shippingHeight" name="shippingHeight" required>
+
+            <label for="shippingLength">Shipping Length</label>
+            <input type="number" id="shippingLength" name="shippingLength" required>
+
+            <label for="shippingWidth">Shipping Width</label>
+            <input type="number" id="shippingWidth" name="shippingWidth" required>
+
+            <label for="shippingDetails">Shipping Details</label>
+            <textarea id="shippingDetails" name="shippingDetails"
+                placeholder="you can list all the items you want to ship here" required></textarea>
+
+            <button type="submit">REQUEST A QUOTE</button>
+
+        </form>
+
+        <div id="quoteSuccess" class="quote-success">
+            <h3>Quote Request Submitted!</h3>
+            <p>
+                Thank you for your request. We'll review your shipping details
+                and get back to you shortly.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-contact">
+
+                <h3>Get in Touch</h3>
+
+                <div class="contact-item">
+                    <img src="images/location.svg" alt="Location">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
+                        target="_blank">
+                        Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
+                    </a>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/phone.svg" alt="Phone">
+
+                    <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/Email.svg" alt="Email">
+
+                    <a
+                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+                </div>
+
+                <div class="social-icons">
+
+                    <a href="https://www.facebook.com/leezofoodng" target="_blank">
+                        <img src="images/icons-facebook.svg" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
+                        <img src="images/instagram.svg" alt="Instagram">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/twitter.svg" alt="Twitter">
+                    </a>
+
+                    <a href="https://wa.me/2348136710716">
+                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+
+                <ul class="footer-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="pickup-delivery.html">Pick & Delivery</a></li>
+                    <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
+                    <li><a href="track-shipment.html">Track Shipment</a></li>
+                    <li><a href="procurement.html">Procurement</a></li>
+                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-newsletter">
+
+                <h3>Newsletter</h3>
+
+                <p class="newsletter-text">
+                    Join our newsletter to receive important logistics updates,
+                    freight tips, company news, and exclusive promotions delivered
+                    straight to your inbox.
+                </p>
+
+                <form class="newsletter-form">
+
+                    <input type="email" placeholder="Your Email Address">
+
+                    <button type="submit">
+                        Sign Up
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+
+            <p>
+                <span>Leezofoodng.export</span>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="config.js"></script>
+    <script src="toast.js"></script>
+    <script src="script.js"></script>
+    <script src="request-quote.js"></script>
+</body>
+
+</html>

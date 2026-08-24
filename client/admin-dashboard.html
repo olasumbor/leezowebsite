@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leezofood Admin Dashboard</title>
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <link rel=stylesheet href=toast.css>
+</head>
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><span class="brand-green">Leezo</span>Food <span class="badge">Admin</span></h2>
+                <button class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="overview">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" data-target="procurements">
+                    <i class="fas fa-box-open"></i>
+                    <span>Procurements</span>
+                </a>
+                <a href="#" class="nav-item" data-target="shipments">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Shipments</span>
+                </a>
+                <a href="#" class="nav-item" data-target="pickup-deliveries">
+                    <i class="fas fa-truck-loading"></i>
+                    <span>Pick & Delivery</span>
+                </a>
+                <a href="#" class="nav-item" data-target="frozen-cargos">
+                    <i class="fas fa-snowflake"></i>
+                    <span>Frozen Cargo</span>
+                </a>
+                <a href="#" class="nav-item" data-target="quotes">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Quotes</span>
+                </a>
+                <a href="#" class="nav-item" data-target="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="nav-item" data-target="messages">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="#" class="nav-item" data-target="subscribers">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Subscribers</span>
+                </a>
+                <a href="#" class="nav-item" data-target="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="index.html" class="nav-item website-link">
+                    <i class="fas fa-globe"></i>
+                    <span>View Website</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item logout" id="adminLogoutButton">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin Profile" id="adminAvatar">
+                        <div class="user-info">
+                            <span class="user-name" id="adminName">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Panels -->
+            <div class="content-wrapper">
+                
+                <!-- Overview Panel -->
+                <section id="panel-overview" class="panel active">
+                    <div class="panel-header">
+                        <h1>Dashboard Overview</h1>
+                        <p>Welcome back! Here's what's happening today.</p>
+                    </div>
+
+                    <!-- Metrics Cards -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon blue"><i class="fas fa-users"></i></div>
+                            <div class="metric-info">
+                                <h3>Total Users</h3>
+                                <p class="value" id="metric-users">--</p>
+                                <span class="trend positive"><i class="fas fa-arrow-up"></i> 12%</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon green"><i class="fas fa-box"></i></div>
+                            <div class="metric-info">
+                                <h3>Active Procurements</h3>
+                                <p class="value" id="metric-procurements">--</p>
+                                <span class="trend positive"><i class="fas fa-arrow-up"></i> 5%</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon purple"><i class="fas fa-truck"></i></div>
+                            <div class="metric-info">
+                                <h3>Active Shipments</h3>
+                                <p class="value" id="metric-shipments">--</p>
+                                <span class="trend negative"><i class="fas fa-arrow-down"></i> 2%</span>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon orange"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="metric-info">
+                                <h3>Total Revenue</h3>
+                                <p class="value" id="metric-revenue">₦---</p>
+                                <span class="trend positive"><i class="fas fa-arrow-up"></i> 18%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Section -->
+                    <div class="recent-activity">
+                        <div class="activity-header">
+                            <h2>Recent Activity</h2>
+                            <button class="btn-primary-outline">View All</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>User</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activity-tbody">
+                                    <!-- Dynamic rows will go here -->
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">Loading activity...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Procurements Panel -->
+                <section id="panel-procurements" class="panel">
+                    <div class="panel-header">
+                        <h1>Procurements Management</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-procurements-tbody">
+                                <tr><td colspan="6" style="text-align: center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Shipments Panel -->
+                <section id="panel-shipments" class="panel">
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h1>Shipments Management</h1>
+                        <button class="btn-primary" id="btnCreateShipment">Create Shipment</button>
+                    </div>
+                    
+                    <div id="createShipmentFormContainer" class="shipment-create-card" style="display: none;">
+                        <h3>Create New Shipment</h3>
+                        <form id="createShipmentForm" class="shipment-form-grid">
+                            <input type="number" id="shipUser" placeholder="User ID" required>
+                            <input type="text" id="shipService" placeholder="Service (e.g. Air Freight)" required>
+                            <input type="number" id="shipWeight" placeholder="Weight (kg)" required>
+                            <input type="number" id="shipPackages" placeholder="Packages count" required>
+                            <input type="text" id="shipRecipient" placeholder="Recipient Name" required>
+                            <input type="text" id="shipDestination" placeholder="Destination" required>
+                            <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i class="fas fa-plus"></i> Save Shipment</button>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Tracking ID</th>
+                                    <th>User</th>
+                                    <th>Destination</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-shipments-tbody">
+                                <tr><td colspan="5" style="text-align: center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Pick & Delivery Panel -->
+                <section id="panel-pickup-deliveries" class="panel">
+                    <div class="panel-header">
+                        <h1>Pick & Delivery Requests</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Req ID</th>
+                                    <th>Customer</th>
+                                    <th>Pickup Address</th>
+                                    <th>Delivery Address</th>
+                                    <th>Notes</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-pickup-tbody">
+                                <tr><td colspan="7" style="text-align: center;">Loading pickup requests...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Frozen Cargo Panel -->
+                <section id="panel-frozen-cargos" class="panel">
+                    <div class="panel-header">
+                        <h1>Frozen Cargo Requests</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Req ID</th>
+                                    <th>Customer</th>
+                                    <th>Temp Requirement</th>
+                                    <th>Route</th>
+                                    <th>Notes</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-frozen-tbody">
+                                <tr><td colspan="7" style="text-align: center;">Loading frozen cargo requests...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Users Panel -->
+                <section id="panel-users" class="panel">
+                    <div class="panel-header">
+                        <h1>User Management</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-tbody">
+                                <tr><td colspan="6" style="text-align: center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Quotes Panel -->
+                <section id="panel-quotes" class="panel">
+                    <div class="panel-header">
+                        <h1>Quote Requests Management</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Route</th>
+                                    <th>Type</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Calculated Cost (₦)</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-quotes-tbody">
+                                <tr><td colspan="8" style="text-align: center;">Loading quotes...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Messages Panel -->
+                <section id="panel-messages" class="panel">
+                    <div class="panel-header">
+                        <h1>Contact Messages</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-messages-tbody">
+                                <tr><td colspan="6" style="text-align: center;">Loading messages...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Subscribers Panel -->
+                <section id="panel-subscribers" class="panel">
+                    <div class="panel-header">
+                        <h1>Newsletter Subscribers</h1>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Subscribed At</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-subscribers-tbody">
+                                <tr><td colspan="3" style="text-align: center;">Loading subscribers...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Settings Panel -->
+                <section id="panel-settings" class="panel">
+                    <div class="panel-header">
+                        <h1>System & Admin Settings</h1>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-sliders-h" style="margin-right: 8px; color: var(--primary-color);"></i> Shipping Configurations</h3>
+                            <form id="settingsForm" style="display: grid; gap: 15px;">
+                                <label>Default Shipping Rate (₦/kg)
+                                    <input type="number" id="settingShippingRate" step="0.01" style="width: 100%; padding: 10px; margin-top: 5px;" placeholder="e.g. 5.50">
+                                </label>
+                                <button type="submit" class="btn-primary" style="align-self: start;">Save Shipping Settings</button>
+                            </form>
+                        </div>
+
+                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-lock" style="margin-right: 8px; color: #10b981;"></i> Change Administrator Password</h3>
+                            <form id="adminChangePasswordForm" style="display: grid; gap: 15px;">
+                                <div>
+                                    <label>Current Password</label>
+                                    <div style="position: relative;">
+                                        <input type="password" id="adminCurrentPassword" required placeholder="Enter current password" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                                        <button type="button" class="toggle-password-btn" data-target="adminCurrentPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>New Password</label>
+                                    <div style="position: relative;">
+                                        <input type="password" id="adminNewPassword" required minlength="8" placeholder="Minimum 8 characters" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                                        <button type="button" class="toggle-password-btn" data-target="adminNewPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label>Confirm New Password</label>
+                                    <div style="position: relative;">
+                                        <input type="password" id="adminConfirmNewPassword" required minlength="8" placeholder="Re-enter new password" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                                        <button type="button" class="toggle-password-btn" data-target="adminConfirmNewPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary" style="background: #10b981; align-self: start;">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Reset User Password Modal -->
+    <div id="resetUserPasswordModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 480px;">
+            <div class="modal-header">
+                <h2 id="resetUserPasswordTitle"><i class="fas fa-key" style="margin-right: 8px; color: #10b981;"></i> Reset User Password</h2>
+                <button class="modal-close" onclick="closeModal('resetUserPasswordModal')">&times;</button>
+            </div>
+            <form id="resetUserPasswordForm">
+                <input type="hidden" id="resetTargetUserId">
+                <p id="resetTargetUserText" style="margin-bottom: 15px; color: #4b5563; font-size: 0.95rem;"></p>
+                <div style="display: grid; gap: 15px;">
+                    <div>
+                        <label>New Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="resetTargetNewPassword" required minlength="8" placeholder="Minimum 8 characters" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                            <button type="button" class="toggle-password-btn" data-target="resetTargetNewPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Confirm New Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="resetTargetConfirmPassword" required minlength="8" placeholder="Re-enter new password" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                            <button type="button" class="toggle-password-btn" data-target="resetTargetConfirmPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions" style="margin-top: 20px;">
+                    <button type="button" class="btn-secondary" onclick="closeModal('resetUserPasswordModal')">Cancel</button>
+                    <button type="submit" class="btn-primary" style="background: #10b981;">Save New Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Procurement Details & Edit Modal -->
+    <div id="procurementModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="procurementModalTitle">Manage Procurement</h2>
+                <button class="modal-close" onclick="closeModal('procurementModal')">&times;</button>
+            </div>
+            <form id="procurementForm">
+                <input type="hidden" id="editProcurementId">
+                <div class="form-grid">
+                    <div>
+                        <label>Status</label>
+                        <select id="editProcStatus" required>
+                            <option value="pending">Pending</option>
+                            <option value="processing">In Progress / Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Supplier</label>
+                        <input type="text" id="editProcSupplier" placeholder="Assigned Supplier">
+                    </div>
+                    <div>
+                        <label>Category</label>
+                        <input type="text" id="editProcCategory" placeholder="e.g. Office Supplies">
+                    </div>
+                    <div>
+                        <label>Quantity</label>
+                        <input type="text" id="editProcQuantity" placeholder="e.g. 50 units">
+                    </div>
+                    <div>
+                        <label>Cost (₦)</label>
+                        <input type="number" step="0.01" id="editProcCost" placeholder="Total Cost">
+                    </div>
+                    <div>
+                        <label>Procurement Location</label>
+                        <input type="text" id="editProcLocation" placeholder="Origin / Warehouse">
+                    </div>
+                    <div>
+                        <label>Recipient Location</label>
+                        <input type="text" id="editProcRecipientLocation" placeholder="Delivery Address">
+                    </div>
+                    <div>
+                        <label>Expected Delivery Date</label>
+                        <input type="date" id="editProcExpectedDate">
+                    </div>
+                    <div>
+                        <label>Delivered Date</label>
+                        <input type="date" id="editProcDeliveredDate">
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label>Procurement Request Details (Customer Input)</label>
+                    <textarea id="editProcDetails" rows="3" readonly style="background: #f4f6f9; cursor: not-allowed;"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('procurementModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shipment Edit & Add Event Modal -->
+    <div id="shipmentModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="shipmentModalTitle">Manage Shipment & Tracking Events</h2>
+                <button class="modal-close" onclick="closeModal('shipmentModal')">&times;</button>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #e1e8ed;">
+                <button type="button" class="tab-btn active" id="btnTabShipmentDetails" onclick="switchShipmentModalTab('details')">Shipment Details</button>
+                <button type="button" class="tab-btn" id="btnTabShipmentEvents" onclick="switchShipmentModalTab('events')">Add Tracking Event</button>
+            </div>
+
+            <!-- Tab 1: Details & Status -->
+            <form id="shipmentForm" style="display: block;">
+                <input type="hidden" id="editShipmentId">
+                <div class="form-grid">
+                    <div>
+                        <label>Tracking ID</label>
+                        <input type="text" id="editShipTrackingId" readonly style="background: #f4f6f9;">
+                    </div>
+                    <div>
+                        <label>Status</label>
+                        <select id="editShipStatus" required>
+                            <option value="pending">Pending</option>
+                            <option value="in_transit">In Transit</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Current Location</label>
+                        <input type="text" id="editShipCurrentLocation" placeholder="e.g. Lagos Hub">
+                    </div>
+                    <div>
+                        <label>Service Type</label>
+                        <input type="text" id="editShipService" placeholder="Air / Sea Freight">
+                    </div>
+                    <div>
+                        <label>Weight (kg)</label>
+                        <input type="number" step="0.1" id="editShipWeight">
+                    </div>
+                    <div>
+                        <label>Package Count</label>
+                        <input type="number" id="editShipPackages">
+                    </div>
+                    <div>
+                        <label>Shipping Cost (₦)</label>
+                        <input type="number" step="0.01" id="editShipCost">
+                    </div>
+                    <div>
+                        <label>Recipient Name</label>
+                        <input type="text" id="editShipRecipient">
+                    </div>
+                    <div>
+                        <label>Origin</label>
+                        <input type="text" id="editShipOrigin">
+                    </div>
+                    <div>
+                        <label>Destination</label>
+                        <input type="text" id="editShipDestination">
+                    </div>
+                    <div>
+                        <label>Expected Delivery Date</label>
+                        <input type="date" id="editShipExpectedDate">
+                    </div>
+                    <div>
+                        <label>Actual Delivered Date</label>
+                        <input type="date" id="editShipDeliveredDate">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('shipmentModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Shipment</button>
+                </div>
+            </form>
+
+            <!-- Tab 2: Add Tracking Event -->
+            <form id="addEventForm" style="display: none;">
+                <input type="hidden" id="eventShipmentId">
+                <div style="display: grid; gap: 15px;">
+                    <div>
+                        <label>Current Event Location</label>
+                        <input type="text" id="eventLocation" placeholder="e.g. Customs Clearance Depot, London" required style="width: 100%; padding: 10px;">
+                    </div>
+                    <div>
+                        <label>Event Description / Status Update</label>
+                        <textarea id="eventDescription" rows="3" placeholder="e.g. Package inspected and loaded onto cargo vessel." required style="width: 100%; padding: 10px;"></textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('shipmentModal')">Cancel</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-plus"></i> Add Event</button>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h4>Event Timeline History</h4>
+                    <div id="shipmentEventsTimeline" style="max-height: 180px; overflow-y: auto; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 0.9rem;">
+                        <!-- Dynamic event items -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Set Quote Rate Modal -->
+    <div id="quoteModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Calculate & Assign Rate for Quote</h2>
+                <button class="modal-close" onclick="closeModal('quoteModal')">&times;</button>
+            </div>
+            <form id="quoteForm">
+                <input type="hidden" id="quoteId">
+                <div style="background: #f8fafc; padding: 15px; border-radius: 6px; margin-bottom: 15px;">
+                    <p><strong>Customer:</strong> <span id="quoteCustomer">--</span></p>
+                    <p><strong>Shipping Type:</strong> <span id="quoteType">--</span></p>
+                    <p><strong>Route:</strong> <span id="quoteRoute">--</span></p>
+                    <p><strong>Weight / Dimensions:</strong> <span id="quoteSpecs">--</span></p>
+                    <p><strong>Details:</strong> <span id="quoteDetails">--</span></p>
+                </div>
+                <div class="form-grid">
+                    <div>
+                        <label>Calculated Cost (₦)</label>
+                        <input type="number" step="0.01" id="quoteCost" required placeholder="e.g. 350.00">
+                    </div>
+                    <div>
+                        <label>Quote Status</label>
+                        <select id="quoteStatus">
+                            <option value="pending">Pending Review</option>
+                            <option value="quoted">Quoted / Rate Provided</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('quoteModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Quote Rate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="toast.js"></script>
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>
+

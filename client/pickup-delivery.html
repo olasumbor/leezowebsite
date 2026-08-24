@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pick up & delivery | Leezowebsite</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="pickup-delivery.css">
+    <link rel="stylesheet" href="toast.css">
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+    <!-- PICK UP & DELIVERY PAGE -->
+    <main class="pickup-delivery-page">
+
+
+        <div class="pickup-signout-container">
+            <a href="index.html" class="pickup-signout-btn">Sign Out</a>
+        </div>
+
+        <!-- PAGE TITLE -->
+        <section class="pickup-delivery-header">
+            <h1>Pick up &amp; delivery</h1>
+        </section>
+
+
+        <!-- REQUEST FORM -->
+        <section class="pickup-delivery-section">
+
+            <div class="pickup-delivery-form-container">
+
+                <form class="pickup-delivery-form" id="pickupDeliveryForm">
+
+                    <!-- NAME -->
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                    </div>
+
+
+                    <!-- PHONE NUMBER -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
+                            required>
+                    </div>
+
+
+                    <!-- PICK UP ADDRESS -->
+                    <div class="form-group">
+                        <label for="pickup_address">Pick Up Address</label>
+
+                        <textarea id="pickup_address" name="pickup_address" placeholder="Enter full address for item pickup" required rows="3"></textarea>
+                    </div>
+
+
+                    <!-- PREFERRED PICKUP DATE & TIME -->
+                    <div class="form-group">
+                        <label for="pickup_date">Preferred Pickup Date & Time</label>
+
+                        <input type="datetime-local" id="pickup_date" name="pickup_date">
+                    </div>
+
+
+                    <!-- DELIVERY ADDRESS -->
+                    <div class="form-group">
+                        <label for="delivery_address">Delivery Address</label>
+
+                        <textarea id="delivery_address" name="delivery_address"
+                            placeholder="Enter full address for item delivery" required rows="3"></textarea>
+                    </div>
+
+
+                    <!-- PACKAGE / ITEM DESCRIPTION -->
+                    <div class="form-group">
+                        <label for="item_description">Package / Item Description</label>
+
+                        <textarea id="item_description" name="item_description" placeholder="Describe the items, dimensions, or contents to be picked up" required rows="3"></textarea>
+                    </div>
+
+
+                    <!-- ESTIMATED WEIGHT -->
+                    <div class="form-group">
+                        <label for="weight">Estimated Weight (kg)</label>
+
+                        <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 15.5">
+                    </div>
+
+
+                    <!-- OTHER DETAILS / NOTES -->
+                    <div class="form-group">
+                        <label for="notes">Additional Notes & Instructions</label>
+
+                        <textarea id="notes" name="notes"
+                            placeholder="Please add any special handling requirements, gate codes, or extra instructions here" rows="4"></textarea>
+                    </div>
+
+
+                    <!-- SUBMIT BUTTON -->
+                    <button type="submit" class="send-request-btn">
+                        SEND REQUEST
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER SECTION -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-contact">
+
+                <h3>Get in Touch</h3>
+
+                <div class="contact-item">
+                    <img src="images/location.svg" alt="Location">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
+                        target="_blank">
+                        Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
+                    </a>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/phone.svg" alt="Phone">
+
+                    <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
+                </div>
+
+                <div class="contact-item">
+                    <img src="images/Email.svg" alt="Email">
+
+                    <a
+                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+                </div>
+
+                <div class="social-icons">
+
+                    <a href="https://www.facebook.com/leezofoodng" target="_blank">
+                        <img src="images/icons-facebook.svg" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
+                        <img src="images/instagram.svg" alt="Instagram">
+                    </a>
+
+                    <a href="#">
+                        <img src="images/twitter.svg" alt="Twitter">
+                    </a>
+
+                    <a href="https://wa.me/2348136710716">
+                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h3>Quick Links</h3>
+
+                <ul class="footer-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="pickup-delivery.html">Pick & Delivery</a></li>
+                    <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
+                    <li><a href="track-shipment.html">Track Shipment</a></li>
+                    <li><a href="procurement.html">Procurement</a></li>
+                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+                </ul>
+
+            </div>
+
+            <div class="footer-newsletter">
+
+                <h3>Newsletter</h3>
+
+                <p class="newsletter-text">
+                    Join our newsletter to receive important logistics updates,
+                    freight tips, company news, and exclusive promotions delivered
+                    straight to your inbox.
+                </p>
+
+                <form class="newsletter-form">
+
+                    <input type="email" placeholder="Your Email Address">
+
+                    <button type="submit">
+                        Sign Up
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+
+            <p>
+                <span>Leezofoodng.export</span>
+                All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="config.js"></script>
+    <script src="toast.js"></script>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="pickup-delivery.js"></script>
+
+
+</body>
+</html>
