@@ -74,47 +74,74 @@ if (loginForm) {
     });
 }
 
-// DASHBOARD, PICKUP & PROCUREMENT ACCESS CHECK
-if (window.location.pathname.includes("dashboard.html") || window.location.pathname.includes("pickup-delivery.html") || window.location.pathname.includes("procurement.html")) {
-    const checkAuth = async () => {
-        try {
-            const token = localStorage.getItem("auth_token");
-            if (!token) {
-                throw new Error("No token found");
-            }
-            
-            const response = await fetch(`${CONFIG.API_URL}/user`, {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-            if (!response.ok) {
-                localStorage.removeItem("loggedIn");
-                localStorage.removeItem("userEmail");
-                localStorage.removeItem("auth_token");
-                window.location.href = "signin.html";
-            } else {
-                const user = await response.json();
-                localStorage.setItem("loggedIn", "true");
-                localStorage.setItem("userEmail", user.email);
-                
-                const welcomeHeader = document.getElementById("welcomeHeader");
-                if (welcomeHeader) {
-                    welcomeHeader.textContent = `Welcome, ${user.name}!`;
-                }
+// AUTHENTICATION GUARD & PROTECTED PAGES CHECK
+const protectedPages = [
+    "procurement.html",
+    "procurement-history.html",
+    "procurement-details.html",
+    "pickup-delivery.html",
+    "pickup-delivery-history.html",
+    "pickup-delivery-details.html",
+    "frozen-cargo.html",
+    "dashboard.html",
+    "profile.html",
+    "shipment-history.html",
+    "shipment-details.html",
+    "admin-dashboard.html"
+];
 
-                // Auto-fill user details on pickup-delivery form if present
-                const nameInput = document.getElementById("name");
-                const emailInput = document.getElementById("email");
-                const phoneInput = document.getElementById("phone");
-                if (nameInput && !nameInput.value) nameInput.value = user.name || "";
-                if (emailInput && !emailInput.value) emailInput.value = user.email || "";
-                if (phoneInput && !phoneInput.value && user.phone) phoneInput.value = user.phone || "";
+const currentFilename = window.location.pathname.split("/").pop();
+
+if (protectedPages.includes(currentFilename)) {
+    const checkAuth = async () => {
+        const token = localStorage.getItem("auth_token");
+        const loggedIn = localStorage.getItem("loggedIn") === "true";
+
+        if (!token && !loggedIn) {
+            console.warn("Unauthenticated access attempt to protected page:", currentFilename);
+            if (typeof showToast !== "undefined") {
+                showToast("Please sign in to access this page.", "warning");
             }
-        } catch (error) {
             window.location.href = "signin.html";
+            return;
+        }
+
+        if (token && typeof CONFIG !== "undefined") {
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/user`, {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    localStorage.removeItem("loggedIn");
+                    localStorage.removeItem("userEmail");
+                    localStorage.removeItem("auth_token");
+                    window.location.href = "signin.html";
+                } else {
+                    const user = await response.json();
+                    localStorage.setItem("loggedIn", "true");
+                    localStorage.setItem("userEmail", user.email);
+
+                    const welcomeHeader = document.getElementById("welcomeHeader");
+                    if (welcomeHeader) {
+                        welcomeHeader.textContent = `Welcome, ${user.name}!`;
+                    }
+
+                    // Auto-fill user details on pickup-delivery form if present
+                    const nameInput = document.getElementById("name");
+                    const emailInput = document.getElementById("email");
+                    const phoneInput = document.getElementById("phone");
+                    if (nameInput && !nameInput.value) nameInput.value = user.name || "";
+                    if (emailInput && !emailInput.value) emailInput.value = user.email || "";
+                    if (phoneInput && !phoneInput.value && user.phone) phoneInput.value = user.phone || "";
+                }
+            } catch (error) {
+                console.error("Auth check error:", error);
+            }
         }
     };
     checkAuth();
