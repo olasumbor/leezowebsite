@@ -30,42 +30,25 @@
 
 <body>
 
-    <!-- NAVBAR -->
-      <nav>
-    <a href="index.html" class="logo">
-      <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
-    </a>
-
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="services.html">Our Services</a></li>
-      <li><a href="pickup-delivery.html">Pickup & Delivery</a></li>
-      <li><a href="frozen-cargo.html" class="active">Frozen Cargo</a></li>
-      <li><a href="gallery.html">Gallery</a></li>
-      <li><a href="track-shipment.html">Track Shipment</a></li>
-      <li><a href="procurement.html">Procurement</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
-      <li class="mobile-signin">
-        <a href="signin.html" class="nav-signin-link">Sign In</a>
-      </li>
-    </ul>
-
-    <div class="nav-right">
-      <a href="signin.html" class="signin-btn nav-signin-btn">
-        Sign In
+  <header class="dashboard-header">
+    <div class="dashboard-logo">
+      <a href="dashboard.html">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-
-    <div class="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </nav>
+    <button type="button" id="logoutButton" class="logout-button">
+      Sign Out
+    </button>
+  </header>
 
     <!-- FROZEN CARGO SECTION -->
     <section class="procurement-section">
+        <div class="back-dashboard" style="max-width: 900px; margin: 0 auto 20px;">
+            <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #15803d; font-weight: 600; font-size: 15px;">
+                <span class="back-arrow">←</span>
+                <span>Back to dashboard</span>
+            </a>
+        </div>
 
         <div class="procurement-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px;">
             <div>
@@ -177,10 +160,7 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="services.html">Our Services</a></li>
-                    <li><a href="pickup-delivery.html">Pickup & Delivery</a></li>
-                    <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
                     <li><a href="track-shipment.html">Track Shipment</a></li>
-                    <li><a href="procurement.html">Procurement</a></li>
                     <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
                 </ul>
             </div>

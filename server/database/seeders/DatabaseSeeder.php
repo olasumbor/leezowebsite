@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $settings = [
             ['key' => 'site_name', 'value' => 'Leezofood Logistics'],
             ['key' => 'contact_email', 'value' => 'info@leezofood.ng'],
-            ['key' => 'contact_phone', 'value' => '+234 800 000 0000'],
+            ['key' => 'contact_phone', 'value' => '+234 809 499 7264'],
             ['key' => 'default_shipping_rate', 'value' => '5000'],
         ];
 

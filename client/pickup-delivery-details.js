@@ -179,57 +179,8 @@ if (downloadInvoiceBtn) {
     });
 }
 
-// Download receipt handler
-const downloadBtn = document.getElementById("downloadPickupReceipt");
-
-if (downloadBtn) {
-    downloadBtn.addEventListener("click", function () {
-        if (typeof setButtonLoading === 'function') {
-            setButtonLoading(downloadBtn, true, "Generating Receipt...");
-        }
-
-        setTimeout(() => {
-            const pId = pickupId || "request";
-            const name = document.getElementById("pickupName")?.textContent || "";
-            const phone = document.getElementById("pickupPhone")?.textContent || "";
-            const pAddr = document.getElementById("pickupAddress")?.textContent || "";
-            const dAddr = document.getElementById("deliveryAddress")?.textContent || "";
-            const details = document.getElementById("otherDetails")?.textContent || "";
-            const status = document.getElementById("pickupStatus")?.textContent || "";
-
-            const receiptText = `
-LEEZOEXPORTS LOGISTICS
-PICK UP & DELIVERY RECEIPT
-================================
-Request ID: ${pId}
-Customer Name: ${name}
-Phone Number: ${phone}
-Pick Up Address: ${pAddr}
-Delivery Address: ${dAddr}
-Details: ${details}
-Status: ${status}
-================================
-Thank you for using Leezoexports Logistics.
-            `;
-
-            const blob = new Blob([receiptText], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = `${pId}-receipt.txt`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-
-            if (typeof setButtonLoading === 'function') {
-                setButtonLoading(downloadBtn, false);
-            }
-        }, 300);
-    });
-}
-
 // Track delivery button
+
 const trackBtn = document.getElementById("trackPickup");
 if (trackBtn) {
     trackBtn.addEventListener("click", function () {

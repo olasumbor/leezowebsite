@@ -23,7 +23,7 @@ async function loadPickupHistory() {
             if (response.ok) {
                 const apiData = await response.json();
                 pickupData = apiData.map(item => ({
-                    id: item.request_id || `PD-${item.id}`,
+                    id: item.request_id || `PKD-${item.id}`,
                     date: item.created_at ? new Date(item.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "-",
                     status: formatStatus(item.status),
                     rawItem: item
@@ -38,11 +38,11 @@ async function loadPickupHistory() {
     if (pickupData.length === 0) {
         const savedPickups = JSON.parse(localStorage.getItem("pickupRequests")) || [];
         const samplePickupData = [
-            { id: "PD8739020892", date: "Aug 08, 2026", status: "Completed" },
-            { id: "PD8739020893", date: "Aug 10, 2026", status: "Pending" },
-            { id: "PD8739020894", date: "Aug 12, 2026", status: "In Progress" },
-            { id: "PD8739020895", date: "Aug 15, 2026", status: "Cancelled" },
-            { id: "PD8739020896", date: "Aug 22, 2026", status: "Completed" }
+            { id: "PKD8739020892", date: "Aug 08, 2026", status: "Completed" },
+            { id: "PKD8739020893", date: "Aug 10, 2026", status: "Pending" },
+            { id: "PKD8739020894", date: "Aug 12, 2026", status: "In Progress" },
+            { id: "PKD8739020895", date: "Aug 15, 2026", status: "Cancelled" },
+            { id: "PKD8739020896", date: "Aug 22, 2026", status: "Completed" }
         ];
         pickupData = [...savedPickups.map(p => ({
             id: p.id || p.request_id,

@@ -48,9 +48,6 @@ function renderDynamicNavbar() {
             { href: "index.html", label: "Home" },
             { href: "about.html", label: "About Us" },
             { href: "services.html", label: "Our Services" },
-            { href: "pickup-delivery.html", label: "Pickup & Delivery" },
-            { href: "frozen-cargo.html", label: "Frozen Cargo" },
-            { href: "procurement.html", label: "Procurement" },
             { href: "gallery.html", label: "Gallery" },
             { href: "track-shipment.html", label: "Track Shipment" },
             { href: "contact.html", label: "Contact Us" }
@@ -104,12 +101,118 @@ function renderDynamicNavbar() {
             navRight.innerHTML = `<a href="signin.html" class="signin-btn nav-signin-btn">Sign In</a>`;
         }
     }
+// Dynamic User Dashboard Navbar & Mobile Navigation Drawer
+function renderDashboardNavbar() {
+    const dashHeader = document.querySelector(".dashboard-header");
+    if (!dashHeader) return;
+
+    let rawPath = window.location.pathname.toLowerCase().split('?')[0].split('#')[0].replace(/\/+$/, '') || 'dashboard.html';
+    let currentPath = rawPath.split('/').pop() || 'dashboard.html';
+    if (currentPath && !currentPath.includes('.')) {
+        currentPath += '.html';
+    }
+
+    const dashLinks = [
+        { href: "dashboard.html", label: "Dashboard", match: ["dashboard.html"] },
+        { href: "shipment-history.html", label: "My Shipments", match: ["shipment-history.html", "shipment-details.html"] },
+        { href: "procurement-history.html", label: "Procurement", match: ["procurement-history.html", "procurement.html", "procurement-details.html"] },
+        { href: "pickup-delivery-history.html", label: "Pickup & Delivery", match: ["pickup-delivery-history.html", "pickup-delivery.html", "pickup-delivery-details.html"] },
+        { href: "frozen-cargo-history.html", label: "Frozen Cargo", match: ["frozen-cargo-history.html", "frozen-cargo.html", "frozen-cargo-details.html"] },
+        { href: "profile.html", label: "Profile", match: ["profile.html"] }
+    ];
+
+    const navItemsHtml = dashLinks.map(link => {
+        const isActive = link.match.includes(currentPath) ? ' class="active"' : '';
+        return `      <li><a href="${link.href}"${isActive}>${link.label}</a></li>`;
+    }).join("\n");
+
+    dashHeader.innerHTML = `
+    <div class="dashboard-logo">
+      <a href="dashboard.html">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+      </a>
+    </div>
+
+    <ul class="dashboard-nav-links">
+${navItemsHtml}
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    `;
+
+    const logoutBtn = dashHeader.querySelector("#logoutButton");
+    const mobileLogoutBtn = dashHeader.querySelector(".mobile-logout-btn");
+
+    const handleLogout = async () => {
+        if (typeof setButtonLoading === 'function' && logoutBtn) {
+            setButtonLoading(logoutBtn, true, "Logging out...");
+        }
+        try {
+            const token = localStorage.getItem("auth_token");
+            if (token && typeof CONFIG !== "undefined") {
+                await fetch(`${CONFIG.API_URL}/logout`, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+            }
+        } catch (e) {
+            console.error("Logout error", e);
+        } finally {
+            localStorage.removeItem("loggedIn");
+            localStorage.removeItem("userEmail");
+            localStorage.removeItem("auth_token");
+            window.location.href = "signin.html";
+        }
+    };
+
+    if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+    if (mobileLogoutBtn) mobileLogoutBtn.addEventListener("click", handleLogout);
+
+    const dashHamburger = dashHeader.querySelector(".dashboard-hamburger");
+    const dashNavLinks = dashHeader.querySelector(".dashboard-nav-links");
+
+    if (dashHamburger && dashNavLinks) {
+        dashHamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dashHamburger.classList.toggle("active");
+            dashNavLinks.classList.toggle("active");
+            document.body.classList.toggle("menu-open");
+        });
+
+        const links = dashNavLinks.querySelectorAll("a");
+        links.forEach(l => {
+            l.addEventListener("click", () => {
+                dashHamburger.classList.remove("active");
+                dashNavLinks.classList.remove("active");
+                document.body.classList.remove("menu-open");
+            });
+        });
+    }
+}
+
+function initNavbars() {
+    renderDynamicNavbar();
+    renderDashboardNavbar();
 }
 
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", renderDynamicNavbar);
+    document.addEventListener("DOMContentLoaded", initNavbars);
 } else {
-    renderDynamicNavbar();
+    initNavbars();
 }
 
 

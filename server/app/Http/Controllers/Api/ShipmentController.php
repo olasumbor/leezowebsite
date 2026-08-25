@@ -162,7 +162,7 @@ class ShipmentController extends Controller
             'expected_delivery_date' => 'nullable|date',
         ]);
 
-        $trackingId = 'leez' . mt_rand(100000, 9999999);
+        $trackingId = 'LEEZO' . mt_rand(100000, 9999999);
 
         $shipment = Shipment::create([
             'tracking_id' => $trackingId,

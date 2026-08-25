@@ -37,20 +37,16 @@
 <body>
 
 
-  <!-- ==========================================
-         HEADER
-    =========================================== -->
-
-
-
-
-
-
-
-
-
-
-
+  <header class="dashboard-header">
+    <div class="dashboard-logo">
+      <a href="dashboard.html">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+      </a>
+    </div>
+    <button type="button" id="logoutButton" class="logout-button">
+      Sign Out
+    </button>
+  </header>
   <!-- ==========================================
          BACK TO DASHBOARD
     =========================================== -->
@@ -272,10 +268,7 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                     <li><a href="services.html">Our Services</a></li>
-                    <li><a href="pickup-delivery.html">Pickup & Delivery</a></li>
-                    <li><a href="frozen-cargo.html">Frozen Cargo</a></li>
                     <li><a href="track-shipment.html">Track Shipment</a></li>
-                    <li><a href="procurement.html">Procurement</a></li>
                     <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
                 </ul>
 
@@ -318,15 +311,11 @@
 
   </footer>
 
-  <!-- ==========================================
-         JAVASCRIPT
-    =========================================== -->
-
+  <script src="config.js"></script>
+  <script src="toast.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
   <script src="procurement-history.js"></script>
-
-    <script src=config.js></script>
-    <script src=toast.js></script>
-    <script src="auth.js"></script>
 </body>
 
 </html>
