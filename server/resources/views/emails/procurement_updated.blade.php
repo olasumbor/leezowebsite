@@ -14,6 +14,6 @@
     </div>
 
     <p style="text-align: center;">
-        <a href="http://localhost:5500/client/procurement-details.html?id={{ $procurement->procurement_id ?? $procurement->id }}" class="action-btn">View Procurement Details</a>
+        <a href="{{ config('app.frontend_url') }}/procurement-details.html?id={{ $procurement->procurement_id ?? $procurement->id }}" class="action-btn">View Procurement Details</a>
     </p>
 @endsection

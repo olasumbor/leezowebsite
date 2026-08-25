@@ -14,6 +14,6 @@
     </div>
 
     <p style="text-align: center;">
-        <a href="http://localhost:5500/client/contact.html" class="action-btn">Accept Quote & Proceed</a>
+        <a href="{{ config('app.frontend_url') }}/contact.html" class="action-btn">Accept Quote & Proceed</a>
     </p>
 @endsection

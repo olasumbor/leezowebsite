@@ -7,11 +7,10 @@
     
     <div class="info-box">
         <p><strong>Account Email:</strong> {{ $user->email }}</p>
-        <p><strong>Account Role:</strong> {{ ucfirst($user->role ?? 'User') }}</p>
     </div>
 
     <p style="text-align: center;">
-        <a href="http://localhost:5500/client/signin.html" class="action-btn">Log In to Your Dashboard</a>
+        <a href="{{ config('app.frontend_url') }}/signin.html" class="action-btn">Log In to Your Dashboard</a>
     </p>
     
     <p>If you have any questions or need assistance, feel free to contact our support team at <a href="mailto:info@leezofood.ng">info@leezofood.ng</a>.</p>

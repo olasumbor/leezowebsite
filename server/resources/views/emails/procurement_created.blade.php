@@ -13,6 +13,6 @@
     </div>
 
     <p style="text-align: center;">
-        <a href="http://localhost:5500/client/procurement-history.html" class="action-btn">View Procurement History</a>
+        <a href="{{ config('app.frontend_url') }}/procurement-history.html" class="action-btn">View Procurement History</a>
     </p>
 @endsection

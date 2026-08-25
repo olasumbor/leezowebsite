@@ -15,6 +15,6 @@
     </div>
 
     <p style="text-align: center;">
-        <a href="http://localhost:5500/client/admin-dashboard.html" class="action-btn">Open Admin Dashboard</a>
+        <a href="{{ config('app.frontend_url') }}/admin-dashboard.html" class="action-btn">Open Admin Dashboard</a>
     </p>
 @endsection

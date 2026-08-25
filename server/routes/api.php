@@ -30,6 +30,22 @@ Route::get('/migrate', function (Request $request) {
     }
 });
 
+// Cache Clear Helper Route
+Route::get('/clear-cache', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+        return response()->json([
+            'message' => 'View, config, route, and application caches cleared successfully!',
+            'output' => \Illuminate\Support\Facades\Artisan::output()
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error' => 'Cache clearing failed',
+            'details' => $e->getMessage()
+        ], 500);
+    }
+});
+
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\NewsletterController;

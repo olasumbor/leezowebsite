@@ -14,6 +14,6 @@
     </div>
 
     <p style="text-align: center;">
-        <a href="http://localhost:5500/client/shipment-details.html?id={{ $shipment->tracking_id }}" class="action-btn">Track Shipment Now</a>
+        <a href="{{ config('app.frontend_url') }}/shipment-details.html?id={{ $shipment->tracking_id }}" class="action-btn">Track Shipment Now</a>
     </p>
 @endsection
