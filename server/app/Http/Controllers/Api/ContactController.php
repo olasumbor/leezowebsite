@@ -29,7 +29,11 @@ class ContactController extends Controller
         try {
             Mail::to($contactMessage->email)->send(new ContactAcknowledgmentMail($contactMessage));
             $adminEmail = env('MAIL_FROM_ADDRESS', 'info@leezofood.ng');
-            Mail::to($adminEmail)->send(new ContactAdminNotificationMail($contactMessage));
+            try {
+                Mail::to($adminEmail)->send(new ContactAdminNotificationMail($contactMessage));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::error("Mail send error: " . $e->getMessage());
+            }
         } catch (\Throwable $e) {
             Log::error("Failed to send contact emails for MSG-{$contactMessage->id}: " . $e->getMessage());
         }

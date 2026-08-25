@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\WelcomeMail;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
