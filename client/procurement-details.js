@@ -37,6 +37,7 @@ async function fetchProcurementDetails() {
             
             // Map API response to frontend format
             procurement = {
+                id: data.procurement_id || data.id || procurementId,
                 status: data.status,
                 product: data.details || "—",
                 category: data.category || "Procurement Request",
@@ -70,8 +71,9 @@ async function fetchProcurementDetails() {
 function showDetails() {
     if (!procurement) return;
 
-    document.getElementById("procurementId").textContent = procurementId;
-    document.getElementById("detailProcurementId").textContent = procurementId;
+    const displayId = procurement.id || procurementId;
+    document.getElementById("procurementId").textContent = displayId;
+    document.getElementById("detailProcurementId").textContent = displayId;
 
     document.getElementById("procurementProduct").textContent = procurement.product;
     document.getElementById("procurementCategory").textContent = procurement.category;

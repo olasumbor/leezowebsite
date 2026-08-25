@@ -58,9 +58,19 @@ class ProcurementController extends Controller
     // Get single procurement details (Requires Auth)
     public function show(Request $request, $id)
     {
-        $procurement = Procurement::where('user_id', $request->user()->id)
-            ->where('procurement_id', $id)
-            ->firstOrFail();
+        $user = $request->user();
+        if ($user->role === 'admin') {
+            $procurement = $this->findProcurement($id);
+        } else {
+            $query = Procurement::where('user_id', $user->id);
+            if (is_numeric($id)) {
+                $procurement = $query->where(function ($q) use ($id) {
+                    $q->where('id', $id)->orWhere('procurement_id', (string) $id);
+                })->firstOrFail();
+            } else {
+                $procurement = $query->where('procurement_id', $id)->firstOrFail();
+            }
+        }
         return response()->json($procurement);
     }
 

@@ -2501,6 +2501,7 @@ CORE VALUES LAYOUT
     align-items: center;
     justify-content: center;
     border-radius: 9px;
+    background-color: #00a947;
     color: #ffffff;
     text-decoration: none;
     font-family: "Poppins", sans-serif;
@@ -2508,6 +2509,10 @@ CORE VALUES LAYOUT
     font-weight: 600;
     box-sizing: border-box;
     transition: 0.3s ease;
+}
+
+.dashboard-card:hover {
+    background-color: #008f3c;
 }
 
 
@@ -2518,6 +2523,15 @@ CORE VALUES LAYOUT
 
 .pickup-delivery-card:hover {
     background-color: #74368d;
+}
+
+.request-pickup-card {
+    background-color: #7c3aed;
+    width: 100%;
+}
+
+.request-pickup-card:hover {
+    background-color: #6d28d9;
 }
 
 .track-card {
@@ -2534,6 +2548,21 @@ CORE VALUES LAYOUT
 
 .procurement-card {
     background-color: #f49a32;
+    width: 100%;
+}
+
+.request-procurement-card {
+    background-color: #d97706;
+    width: 100%;
+}
+
+.frozen-cargo-card {
+    background-color: #0284c7;
+    width: 100%;
+}
+
+.request-frozen-card {
+    background-color: #0d9488;
     width: 100%;
 }
 
@@ -2554,6 +2583,18 @@ CORE VALUES LAYOUT
 
 .procurement-card:hover {
     background-color: #df8422;
+}
+
+.request-procurement-card:hover {
+    background-color: #b45309;
+}
+
+.frozen-cargo-card:hover {
+    background-color: #0369a1;
+}
+
+.request-frozen-card:hover {
+    background-color: #0f766e;
 }
 
 
