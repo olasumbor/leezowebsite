@@ -437,12 +437,17 @@
         <!-- HEADER -->
         <div class="header-section">
             <div class="brand-logo">
-                <div class="brand-icon">L</div>
+                @php
+                    $logoPath = public_path('logo-leezo.NG.png');
+                    $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : '/logo-leezo.NG.png';
+                @endphp
+                <img src="{{ $logoSrc }}" alt="Leezofood Logo" style="max-height: 48px; width: auto;">
                 <div>
                     <div class="brand-title">LEEZOFOOD</div>
                     <div class="brand-subtitle">Ng.Export & Logistics</div>
                 </div>
             </div>
+
             <div class="doc-title-block">
                 <div class="doc-title">SHIPMENT WAYBILL</div>
                 <div class="doc-id">{{ $shipment->tracking_id }}</div>

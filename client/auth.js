@@ -92,12 +92,15 @@ const protectedPages = [
     "pickup-delivery-history.html",
     "pickup-delivery-details.html",
     "frozen-cargo.html",
+    "frozen-cargo-history.html",
+    "frozen-cargo-details.html",
     "dashboard.html",
     "profile.html",
     "shipment-history.html",
     "shipment-details.html",
     "admin-dashboard.html"
 ];
+
 
 let rawAuthPath = window.location.pathname.toLowerCase().split('?')[0].split('#')[0].replace(/\/+$/, '');
 let currentFilename = rawAuthPath.split("/").pop() || '';

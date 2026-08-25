@@ -107,4 +107,41 @@ class FrozenCargoController extends Controller
             'frozen_cargo' => $frozenCargo
         ]);
     }
+
+    // Download Frozen Cargo Invoice
+    public function downloadInvoice(Request $request, $id)
+    {
+        $user = $request->user();
+        $query = FrozenCargo::with('user');
+
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        $frozenCargo = $query->where(function ($q) use ($id) {
+            $q->where('id', $id)->orWhere('request_id', (string) $id);
+        })->firstOrFail();
+
+        $cost = 75000;
+
+        $items = [
+            [
+                'name' => 'Cold-Chain / Frozen Cargo: ' . ($frozenCargo->cargo_description ?? 'Temperature controlled shipment'),
+                'amount' => $cost,
+                'subtext' => 'Temp: ' . ($frozenCargo->temperature_requirement ?? 'Frozen') . ' | ' . ($frozenCargo->origin ?? 'Origin') . ' -> ' . ($frozenCargo->destination ?? 'Destination')
+            ]
+        ];
+
+        return response()->view('invoices.invoice', [
+            'invoice_number' => 'INV-' . strtoupper(substr(md5($frozenCargo->request_id ?? $id), 0, 6)),
+            'customer_name' => $frozenCargo->name ?? ($frozenCargo->user->name ?? 'Customer'),
+            'invoice_date' => $frozenCargo->created_at ? $frozenCargo->created_at->format('d M Y') : date('d M Y'),
+            'due_date' => $frozenCargo->departure_date ? \Carbon\Carbon::parse($frozenCargo->departure_date)->format('d M Y') : date('d M Y'),
+            'items' => $items,
+            'total_amount' => $cost,
+        ], 200, [
+            'Content-Type' => 'text/html; charset=UTF-8'
+        ]);
+    }
 }
+

@@ -420,10 +420,14 @@
         <!-- GREEN TOP BANNER -->
         <div class="green-banner">
             <div class="brand-section">
-                <div class="brand-badge">LEEZOF OOD</div>
+                @php
+                    $logoPath = public_path('logo-leezo.NG.png');
+                    $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : '/logo-leezo.NG.png';
+                @endphp
+                <img src="{{ $logoSrc }}" alt="Leezofood Logo" style="max-height: 52px; width: auto; background: #ffffff; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
                 <div>
-                    <div class="brand-name">Leezofooding export</div>
-                    <div class="brand-slogan">The taste of naija to the world.</div>
+                    <div class="brand-name" style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Leezofood Exports</div>
+                    <div class="brand-slogan" style="font-size: 0.75rem; color: #dcfce7; font-style: italic;">The taste of naija to the world.</div>
                 </div>
             </div>
 
@@ -433,11 +437,12 @@
             </div>
 
             <div class="banner-company-details">
-                <div>Akowonjo Lagos</div>
-                <div>Nigeria</div>
-                <div>vanessaokpe@gmail.com</div>
+                <div>Shop 8, Kingscourt Estate</div>
+                <div>Shasha Akowonjo, Lagos, Nigeria</div>
+                <div>leezointegratedserviceslimited@gmail.com</div>
             </div>
         </div>
+
 
         <div class="invoice-body">
             <!-- TOP CUSTOMER & BALANCE DUE BAR -->

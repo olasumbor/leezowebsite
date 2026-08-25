@@ -13,267 +13,148 @@
         })();
     </script>
 
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-    <title>Pick Up & Delivery Details | Leezoexports Logistics</title>
-
+    <title>Frozen Cargo Details | Leezoexports Logistics</title>
 
     <!-- Google Fonts -->
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
-
     <!-- Global CSS -->
-
     <link rel="stylesheet" href="style.css">
-
-
-    <!-- Details CSS -->
     <link rel="stylesheet" href="pickup-delivery-details.css">
     <link rel="stylesheet" href="toast.css">
 </head>
 
-
-
 <body>
 
-
-
     <!-- BACK BUTTON -->
-
     <div class="pickup-details-back">
-
-        <a href="pickup-delivery-history.html">
-
+        <a href="frozen-cargo-history.html">
             <span class="back-arrow">←</span>
-
             <span>back</span>
-
         </a>
-
     </div>
 
-
-
     <!-- MAIN CONTENT -->
-
     <main class="pickup-details-main">
-
 
         <section class="pickup-details-card">
 
-
             <!-- TITLE -->
-
             <div class="pickup-title">
-
                 <h1>
-
-                    PICK UP & DELIVERY
-
-                    <span id="pickupId"></span>
-
+                    FROZEN CARGO
+                    <span id="frozenId"></span>
                 </h1>
-
             </div>
-
-
 
             <!-- DELIVERY PROGRESS -->
-
             <div class="pickup-progress">
-
-
-                <p id="statusRequested">
-
+                <p id="statusSubmitted">
                     ✓ Request Submitted
-
                 </p>
 
-
-                <p id="statusAssigned">
-
-                    ✓ Driver Assigned
-
+                <p id="statusConfirmed">
+                    ✓ Booking Confirmed
                 </p>
-
-
-                <p id="statusPickup">
-
-                    ✓ Pick Up Confirmed
-
-                </p>
-
 
                 <p id="statusTransit">
-
-                    ✓ In Transit
-
+                    ✓ Cold-Chain In Transit
                 </p>
-
 
                 <p id="statusDelivered">
-
                     ✓ Delivered
-
                 </p>
-
-
             </div>
-
-
 
             <!-- REQUEST INFORMATION -->
-
             <div class="pickup-information">
-
-
                 <p>
-
                     Request ID:
-
-                    <span id="detailPickupId"></span>
-
+                    <span id="detailFrozenId"></span>
                 </p>
 
-
                 <p>
-
                     Customer Name:
-
-                    <span id="pickupName"></span>
-
+                    <span id="frozenName"></span>
                 </p>
 
-
                 <p>
-
                     Phone Number:
-
-                    <span id="pickupPhone"></span>
-
+                    <span id="frozenPhone"></span>
                 </p>
-
 
                 <p>
-
-                    Pick Up Address:
-
-                    <span id="pickupAddress"></span>
-
+                    Cargo Description:
+                    <span id="frozenDescription"></span>
                 </p>
-
 
                 <p>
-
-                    Delivery Address:
-
-                    <span id="deliveryAddress"></span>
-
+                    Temperature Requirement:
+                    <span id="frozenTemperature"></span>
                 </p>
-
 
                 <p>
-
-                    Other Details:
-
-                    <span id="otherDetails"></span>
-
+                    Weight:
+                    <span id="frozenWeight"></span>
                 </p>
 
+                <p>
+                    Origin:
+                    <span id="frozenOrigin"></span>
+                </p>
+
+                <p>
+                    Destination:
+                    <span id="frozenDestination"></span>
+                </p>
 
                 <br>
 
-
                 <p>
-
-                    Request Date:
-
-                    <span id="pickupRequestDate"></span>
-
+                    Departure Date:
+                    <span id="frozenDepartureDate"></span>
                 </p>
 
-
                 <p>
-
-                    Expected Delivery:
-
-                    <span id="pickupExpectedDate"></span>
-
+                    Notes / Special Instructions:
+                    <span id="frozenNotes"></span>
                 </p>
-
-
-                <p>
-
-                    Delivered:
-
-                    <span id="pickupDeliveredDate"></span>
-
-                </p>
-
 
                 <br>
 
-
                 <p>
-
                     Status
-
                 </p>
 
-
-                <p id="pickupStatus"></p>
-
-
+                <p id="frozenStatus"></p>
             </div>
 
-
-
             <!-- ACTIONS -->
-
             <div class="pickup-actions">
-
-                <button type="button" id="downloadPickupInvoice">
+                <button type="button" id="downloadFrozenInvoice">
                     Download Invoice
                 </button>
 
-                <button type="button" id="downloadPickupReceipt">
-                    Download Receipt
+                <button type="button" id="trackFrozen">
+                    Track Request
                 </button>
-
-                <button type="button" id="trackPickup">
-                    Track Delivery
-                </button>
-
             </div>
-
-
 
         </section>
 
-
     </main>
 
-
-
     <!-- FOOTER -->
-
     <footer class="footer">
-
         <div class="footer-container">
-
             <div class="footer-contact">
-
                 <h3>Get in Touch</h3>
 
                 <div class="contact-item">
@@ -286,19 +167,15 @@
 
                 <div class="contact-item">
                     <img src="images/phone.svg" alt="Phone">
-
                     <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
                 </div>
 
                 <div class="contact-item">
                     <img src="images/Email.svg" alt="Email">
-
-                    <a
-                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+                    <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
                 </div>
 
                 <div class="social-icons">
-
                     <a href="https://www.facebook.com/leezofoodng" target="_blank">
                         <img src="images/icons-facebook.svg" alt="Facebook">
                     </a>
@@ -314,13 +191,10 @@
                     <a href="https://wa.me/2348136710716">
                         <img src="images/icons-whatsapp.svg" alt="WhatsApp">
                     </a>
-
                 </div>
-
             </div>
 
             <div class="footer-links">
-
                 <h3>Quick Links</h3>
 
                 <ul class="footer-menu">
@@ -333,11 +207,9 @@
                     <li><a href="procurement.html">Procurement</a></li>
                     <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
                 </ul>
-
             </div>
 
             <div class="footer-newsletter">
-
                 <h3>Newsletter</h3>
 
                 <p class="newsletter-text">
@@ -347,39 +219,27 @@
                 </p>
 
                 <form class="newsletter-form">
-
                     <input type="email" placeholder="Your Email Address">
-
-                    <button type="submit">
-                        Sign Up
-                    </button>
-
+                    <button type="submit">Sign Up</button>
                 </form>
-
             </div>
-
         </div>
 
         <hr class="footer-divider">
 
         <div class="footer-bottom">
-
             <p>
                 <span>Leezofoodng.export</span>
                 All Rights Reserved.
             </p>
-
         </div>
-
     </footer>
-
-
 
     <!-- JAVASCRIPT -->
     <script src="config.js"></script>
     <script src="toast.js"></script>
     <script src="auth.js"></script>
-    <script src="pickup-delivery-details.js"></script>
+    <script src="frozen-cargo-details.js"></script>
 </body>
 
 </html>

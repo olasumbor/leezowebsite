@@ -105,4 +105,41 @@ class PickupDeliveryController extends Controller
             'pickup_delivery' => $pickupDelivery
         ]);
     }
+
+    // Download Pickup & Delivery Invoice
+    public function downloadInvoice(Request $request, $id)
+    {
+        $user = $request->user();
+        $query = PickupDelivery::with('user');
+
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        $pickupDelivery = $query->where(function ($q) use ($id) {
+            $q->where('id', $id)->orWhere('request_id', (string) $id);
+        })->firstOrFail();
+
+        $cost = 25000;
+
+        $items = [
+            [
+                'name' => 'Pickup & Delivery: ' . ($pickupDelivery->item_description ?? 'Logistics Package'),
+                'amount' => $cost,
+                'subtext' => 'From: ' . ($pickupDelivery->pickup_address ?? 'Origin') . ' -> To: ' . ($pickupDelivery->delivery_address ?? 'Destination')
+            ]
+        ];
+
+        return response()->view('invoices.invoice', [
+            'invoice_number' => 'INV-' . strtoupper(substr(md5($pickupDelivery->request_id ?? $id), 0, 6)),
+            'customer_name' => $pickupDelivery->name ?? ($pickupDelivery->user->name ?? 'Customer'),
+            'invoice_date' => $pickupDelivery->created_at ? $pickupDelivery->created_at->format('d M Y') : date('d M Y'),
+            'due_date' => $pickupDelivery->pickup_date ? \Carbon\Carbon::parse($pickupDelivery->pickup_date)->format('d M Y') : date('d M Y'),
+            'items' => $items,
+            'total_amount' => $cost,
+        ], 200, [
+            'Content-Type' => 'text/html; charset=UTF-8'
+        ]);
+    }
 }
+

@@ -125,8 +125,63 @@ function updatePickupStatus(status) {
     }
 }
 
+// Download Invoice Handler
+const downloadInvoiceBtn = document.getElementById("downloadPickupInvoice");
+if (downloadInvoiceBtn) {
+    downloadInvoiceBtn.addEventListener("click", async function () {
+        if (!pickupId) {
+            if (typeof showToast !== "undefined") showToast("Request ID not found.", "warning");
+            return;
+        }
+
+        if (typeof setButtonLoading === 'function') {
+            setButtonLoading(downloadInvoiceBtn, true, "Generating Invoice...");
+        }
+
+        try {
+            const token = localStorage.getItem('auth_token');
+            const headers = {};
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            const invoiceUrl = `${CONFIG.API_URL}/pickup-deliveries/${pickupId}/invoice`;
+            const response = await fetch(invoiceUrl, {
+                method: 'GET',
+                credentials: 'include',
+                headers: headers
+            });
+
+            if (response.ok) {
+                const htmlContent = await response.text();
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const win = window.open(url, '_blank');
+                if (!win) {
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = `Pickup-Delivery-Invoice-${pickupId}.html`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            } else {
+                if (typeof showToast !== "undefined") showToast("Failed to generate invoice from backend.", "error");
+            }
+        } catch (error) {
+            console.error("Failed to download invoice:", error);
+            if (typeof showToast !== "undefined") showToast("An error occurred while generating invoice.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function') {
+                setButtonLoading(downloadInvoiceBtn, false);
+            }
+        }
+    });
+}
+
 // Download receipt handler
 const downloadBtn = document.getElementById("downloadPickupReceipt");
+
 if (downloadBtn) {
     downloadBtn.addEventListener("click", function () {
         if (typeof setButtonLoading === 'function') {
