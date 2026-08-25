@@ -35,7 +35,11 @@ function renderDynamicNavbar() {
     const loggedIn = localStorage.getItem("loggedIn") === "true";
     const isLoggedIn = !!token || loggedIn;
 
-    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    let rawPath = window.location.pathname.toLowerCase().split('?')[0].split('#')[0].replace(/\/+$/, '') || 'index.html';
+    let currentPath = rawPath.split('/').pop() || 'index.html';
+    if (currentPath && !currentPath.includes('.')) {
+        currentPath += '.html';
+    }
 
     let activeNavLinks = [];
     if (isLoggedIn) {

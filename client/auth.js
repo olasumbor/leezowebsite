@@ -90,19 +90,22 @@ const protectedPages = [
     "admin-dashboard.html"
 ];
 
-const currentFilename = window.location.pathname.split("/").pop();
+let rawAuthPath = window.location.pathname.toLowerCase().split('?')[0].split('#')[0].replace(/\/+$/, '');
+let currentFilename = rawAuthPath.split("/").pop() || '';
+if (currentFilename && !currentFilename.includes('.')) {
+    currentFilename += '.html';
+}
 
-if (protectedPages.includes(currentFilename)) {
+const isProtectedPage = protectedPages.some(p => p === currentFilename || p.replace('.html', '') === currentFilename);
+
+if (isProtectedPage) {
     const checkAuth = async () => {
         const token = localStorage.getItem("auth_token");
         const loggedIn = localStorage.getItem("loggedIn") === "true";
 
         if (!token && !loggedIn) {
             console.warn("Unauthenticated access attempt to protected page:", currentFilename);
-            if (typeof showToast !== "undefined") {
-                showToast("Please sign in to access this page.", "warning");
-            }
-            window.location.href = "signin.html";
+            window.location.replace("signin.html");
             return;
         }
 

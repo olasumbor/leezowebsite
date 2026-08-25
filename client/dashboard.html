@@ -2,6 +2,17 @@
 <html lang="en">
 
 <head>
+    <!-- Instant Auth Guard -->
+    <script>
+        (function() {
+            var token = localStorage.getItem("auth_token");
+            var loggedIn = localStorage.getItem("loggedIn") === "true";
+            if (!token && !loggedIn) {
+                window.location.replace("signin.html");
+            }
+        })();
+    </script>
+
   <meta charset="UTF-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
