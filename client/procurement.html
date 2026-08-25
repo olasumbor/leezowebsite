@@ -29,7 +29,7 @@
     <link rel=stylesheet href=toast.css>
 </head>
 
-<body>
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -37,64 +37,74 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html" class="active">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-  <section class="procurement-section">
-    <div class="back-dashboard" style="max-width: 900px; margin: 0 auto 20px;">
-      <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #15803d; font-weight: 600; font-size: 15px;">
-        <span class="back-arrow">←</span>
-        <span>Back to dashboard</span>
-      </a>
-    </div>
+  <main class="dash-page-wrapper" style="max-width: 800px;">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
+    </a>
 
-    <div class="procurement-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px;">
-
-      <h1>PROCUREMENT</h1>
-
-      <a href="procurement-history.html" style="background: #15803d; color: #ffffff; padding: 10px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; transition: background 0.2s ease;">
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Procurement Request</h1>
+        <p class="dash-header-subtitle">Submit details for items you want Leezofood to procure for you.</p>
+      </div>
+      <a href="procurement-history.html" class="dash-action-btn-outline dash-action-btn">
         <span>View Procurement History →</span>
       </a>
-
     </div>
 
+    <div class="dash-card">
+      <form class="dash-form" id="procurementForm">
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
 
-    <form class="procurement-form" id="procurementForm">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="your full name" required>
-      </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+        </div>
 
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="your Email" required>
-      </div>
+        <div class="form-group">
+          <label for="details">Procurement Item Details</label>
+          <textarea id="details" name="details" placeholder="List all the food items, products, quantity, or specific brand preferences you want us to procure..." required></textarea>
+        </div>
 
-      <div class="form-group">
-        <label for="phone">Phone number</label>
-        <input type="tel" id="phone" name="phone" placeholder="your Phone Number" required>
-      </div>
-
-      <div class="form-group">
-        <label for="details">Procurement details</label>
-        <textarea id="details" name="details" placeholder="you can list all the items you want to procure here"
-          required></textarea>
-      </div>
-
-      <button type="submit" class="procurement-button">
-        REQUEST PROCUREMENT
-      </button>
-
-
-
-
-
-    </form>
-
-  </section>
+        <button type="submit" class="dash-action-btn" style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
+          Submit Procurement Request
+        </button>
+      </form>
+    </div>
+  </main>
 
 
 

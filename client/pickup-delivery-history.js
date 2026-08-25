@@ -34,21 +34,13 @@ async function loadPickupHistory() {
         console.error("Error fetching pickup history from API:", err);
     }
 
-    // Fallback or combine with saved local pickups if API returned empty
     if (pickupData.length === 0) {
         const savedPickups = JSON.parse(localStorage.getItem("pickupRequests")) || [];
-        const samplePickupData = [
-            { id: "PKD8739020892", date: "Aug 08, 2026", status: "Completed" },
-            { id: "PKD8739020893", date: "Aug 10, 2026", status: "Pending" },
-            { id: "PKD8739020894", date: "Aug 12, 2026", status: "In Progress" },
-            { id: "PKD8739020895", date: "Aug 15, 2026", status: "Cancelled" },
-            { id: "PKD8739020896", date: "Aug 22, 2026", status: "Completed" }
-        ];
-        pickupData = [...savedPickups.map(p => ({
+        pickupData = savedPickups.map(p => ({
             id: p.id || p.request_id,
             date: p.date || p.created_at || "-",
             status: formatStatus(p.status || "Pending")
-        })), ...samplePickupData];
+        }));
     }
 
     displayPickups(pickupData);

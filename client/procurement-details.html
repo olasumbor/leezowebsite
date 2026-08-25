@@ -34,8 +34,7 @@
 </head>
 
 
-<body>
-
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -43,195 +42,125 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html" class="active">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-
-
-  <!-- ==========================================
-         BACK BUTTON
-    =========================================== -->
-
-  <div class="procurement-details-back">
-
-    <a href="procurement-history.html">
-
-      <span class="back-arrow">←</span>
-
-      <span>back</span>
-
+  <main class="dash-page-wrapper">
+    <a href="procurement-history.html" class="dash-back-link">
+      <span>← Back to Procurement History</span>
     </a>
 
-  </div>
-
-
-  <!-- ==========================================
-         MAIN CONTENT
-    =========================================== -->
-
-  <main class="procurement-details-main">
-
-    <section class="procurement-details-card">
-
-
-      <!-- ==================================
-                 PROCUREMENT TITLE
-            =================================== -->
-
-      <div class="procurement-title">
-
-        <h1>
-          PROCUREMENT
-          <span id="procurementId"></span>
-        </h1>
-
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Procurement <span id="procurementId"></span></h1>
+        <p class="dash-header-subtitle">Detailed information and status of your procurement request.</p>
       </div>
-
-
-      <!-- ==================================
-                 PROCUREMENT STATUS
-            =================================== -->
-
-      <div class="procurement-progress">
-
-        <p id="statusSubmitted">
-          ✓ Request Submitted
-        </p>
-
-        <p id="statusApproved">
-          ✓ Request Approved
-        </p>
-
-        <p id="statusSupplier">
-          ✓ Supplier Confirmed
-        </p>
-
-        <p id="statusProcured">
-          ✓ Items Procured
-        </p>
-
-        <p id="statusDelivered">
-          ✓ Delivered
-        </p>
-
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadReceipt">Download Receipt</button>
+        <button type="button" class="dash-action-btn" id="trackProcurement">Track Procurement</button>
       </div>
+    </div>
 
-
-      <!-- ==================================
-                 PROCUREMENT INFORMATION
-            =================================== -->
-
-      <div class="procurement-information">
-
-
-        <p>
-          Procurement ID:
-          <span id="detailProcurementId"></span>
-        </p>
-
-
-        <p>
-          Product:
-          <span id="procurementProduct"></span>
-        </p>
-
-
-        <p>
-          Category:
-          <span id="procurementCategory"></span>
-        </p>
-
-
-        <p>
-          Quantity:
-          <span id="procurementQuantity"></span>
-        </p>
-
-
-        <p>
-          Supplier:
-          <span id="procurementSupplier"></span>
-        </p>
-
-
-        <p>
-          Delivery Location:
-          <span id="procurementLocation"></span>
-        </p>
-
-
-        <br>
-
-
-        <p>
-          Request Date:
-          <span id="procurementRequestDate"></span>
-        </p>
-
-
-        <p>
-          Expected Delivery:
-          <span id="procurementExpectedDate"></span>
-        </p>
-
-
-        <p>
-          Delivered:
-          <span id="procurementDeliveredDate"></span>
-        </p>
-
-
-        <br>
-
-
-        <!-- RECIPIENT -->
-
-        <p>
-          Recipient
-        </p>
-
-        <p id="procurementRecipient"></p>
-
-        <p id="procurementRecipientLocation"></p>
-
-
-        <br>
-
-
-        <!-- COST -->
-
-        <p>
-          Procurement Cost
-        </p>
-
-        <p id="procurementCost"></p>
-
-
+    <!-- TIMELINE STEPPER -->
+    <div class="dash-card">
+      <div class="dash-timeline">
+        <div class="dash-timeline-step" id="statusSubmitted">
+          <div class="dash-step-icon">1</div>
+          <div class="dash-step-label">Submitted</div>
+        </div>
+        <div class="dash-timeline-step" id="statusApproved">
+          <div class="dash-step-icon">2</div>
+          <div class="dash-step-label">Approved</div>
+        </div>
+        <div class="dash-timeline-step" id="statusSupplier">
+          <div class="dash-step-icon">3</div>
+          <div class="dash-step-label">Supplier</div>
+        </div>
+        <div class="dash-timeline-step" id="statusProcured">
+          <div class="dash-step-icon">4</div>
+          <div class="dash-step-label">Procured</div>
+        </div>
+        <div class="dash-timeline-step" id="statusDelivered">
+          <div class="dash-step-icon">5</div>
+          <div class="dash-step-label">Delivered</div>
+        </div>
       </div>
+    </div>
 
+    <div class="dash-card">
+      <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-weight: 700; font-size: 1.1rem;">Procurement Specification & Logistics</h3>
 
-      <!-- ==================================
-                 ACTIONS
-            =================================== -->
-
-      <div class="procurement-actions">
-
-        <button type="button" id="downloadReceipt">
-          Download Receipt
-        </button>
-
-
-        <button type="button" id="trackProcurement">
-          Track Procurement
-        </button>
-
+      <div class="dash-details-grid">
+        <div class="dash-detail-item">
+          <label>Procurement ID</label>
+          <p id="detailProcurementId">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Category</label>
+          <p id="procurementCategory">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Product / Item Description</label>
+          <p id="procurementProduct">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Quantity</label>
+          <p id="procurementQuantity">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Supplier</label>
+          <p id="procurementSupplier">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Request Date</label>
+          <p id="procurementRequestDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Expected Delivery</label>
+          <p id="procurementExpectedDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Delivered Date</label>
+          <p id="procurementDeliveredDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Delivery Address</label>
+          <p id="procurementLocation">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Recipient</label>
+          <p id="procurementRecipient">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Recipient Location</label>
+          <p id="procurementRecipientLocation">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Procurement Cost</label>
+          <p id="procurementCost" style="font-size: 1.3rem; color: var(--dash-primary); font-weight: 700;">—</p>
+        </div>
       </div>
-
-
-    </section>
-
+    </div>
   </main>
 
 

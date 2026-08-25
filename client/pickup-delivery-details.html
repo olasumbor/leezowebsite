@@ -51,222 +51,122 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html" class="active">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- BACK BUTTON -->
+  <main class="dash-page-wrapper">
+    <a href="pickup-delivery-history.html" class="dash-back-link">
+      <span>← Back to Pickup & Delivery History</span>
+    </a>
 
-    <div class="pickup-details-back">
-
-        <a href="pickup-delivery-history.html">
-
-            <span class="back-arrow">←</span>
-
-            <span>back</span>
-
-        </a>
-
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Pickup & Delivery <span id="pickupId"></span></h1>
+        <p class="dash-header-subtitle">Detailed breakdown and live tracking status for your request.</p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadReceipt">Download Receipt</button>
+        <button type="button" class="dash-action-btn" id="trackPickup">Track Request</button>
+      </div>
     </div>
 
-
-
-    <!-- MAIN CONTENT -->
-
-    <main class="pickup-details-main">
-
-
-        <section class="pickup-details-card">
-
-
-            <!-- TITLE -->
-
-            <div class="pickup-title">
-
-                <h1>
-
-                    PICK UP & DELIVERY
-
-                    <span id="pickupId"></span>
-
-                </h1>
-
-            </div>
-
-
-
-            <!-- DELIVERY PROGRESS -->
-
-            <div class="pickup-progress">
-
-
-                <p id="statusRequested">
-
-                    ✓ Request Submitted
-
-                </p>
-
-
-                <p id="statusAssigned">
-
-                    ✓ Driver Assigned
-
-                </p>
-
-
-                <p id="statusPickup">
-
-                    ✓ Pick Up Confirmed
-
-                </p>
-
-
-                <p id="statusTransit">
-
-                    ✓ In Transit
-
-                </p>
-
-
-                <p id="statusDelivered">
-
-                    ✓ Delivered
-
-                </p>
-
-
-            </div>
-
-
-
-            <!-- REQUEST INFORMATION -->
-
-            <div class="pickup-information">
-
-
-                <p>
-
-                    Request ID:
-
-                    <span id="detailPickupId"></span>
-
-                </p>
-
-
-                <p>
-
-                    Customer Name:
-
-                    <span id="pickupName"></span>
-
-                </p>
-
-
-                <p>
-
-                    Phone Number:
-
-                    <span id="pickupPhone"></span>
-
-                </p>
-
-
-                <p>
-
-                    Pick Up Address:
-
-                    <span id="pickupAddress"></span>
-
-                </p>
-
-
-                <p>
-
-                    Delivery Address:
-
-                    <span id="deliveryAddress"></span>
-
-                </p>
-
-
-                <p>
-
-                    Other Details:
-
-                    <span id="otherDetails"></span>
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    Request Date:
-
-                    <span id="pickupRequestDate"></span>
-
-                </p>
-
-
-                <p>
-
-                    Expected Delivery:
-
-                    <span id="pickupExpectedDate"></span>
-
-                </p>
-
-
-                <p>
-
-                    Delivered:
-
-                    <span id="pickupDeliveredDate"></span>
-
-                </p>
-
-
-                <br>
-
-
-                <p>
-
-                    Status
-
-                </p>
-
-
-                <p id="pickupStatus"></p>
-
-
-            </div>
-
-
-
-            <!-- ACTIONS -->
-
-            <div class="pickup-actions">
-
-                <button type="button" id="downloadPickupInvoice">
-                    Download Invoice
-                </button>
-
-                <button type="button" id="trackPickup">
-                    Track Delivery
-                </button>
-
-            </div>
-
-
-
-
-        </section>
-
-
-    </main>
+    <!-- TIMELINE STEPPER -->
+    <div class="dash-card">
+      <div class="dash-timeline">
+        <div class="dash-timeline-step" id="statusRequested">
+          <div class="dash-step-icon">1</div>
+          <div class="dash-step-label">Requested</div>
+        </div>
+        <div class="dash-timeline-step" id="statusAssigned">
+          <div class="dash-step-icon">2</div>
+          <div class="dash-step-label">Assigned</div>
+        </div>
+        <div class="dash-timeline-step" id="statusPickup">
+          <div class="dash-step-icon">3</div>
+          <div class="dash-step-label">Picked Up</div>
+        </div>
+        <div class="dash-timeline-step" id="statusTransit">
+          <div class="dash-step-icon">4</div>
+          <div class="dash-step-label">In Transit</div>
+        </div>
+        <div class="dash-timeline-step" id="statusDelivered">
+          <div class="dash-step-icon">5</div>
+          <div class="dash-step-label">Delivered</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-weight: 700; font-size: 1.1rem;">Request Details & Addresses</h3>
+
+      <div class="dash-details-grid">
+        <div class="dash-detail-item">
+          <label>Request ID</label>
+          <p id="detailPickupId">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Customer Name</label>
+          <p id="pickupName">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Phone Number</label>
+          <p id="pickupPhone">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Status</label>
+          <p id="pickupStatus">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Pick Up Address</label>
+          <p id="pickupAddress">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Delivery Address</label>
+          <p id="deliveryAddress">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Other Details / Notes</label>
+          <p id="otherDetails">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Request Date</label>
+          <p id="pickupRequestDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Expected Delivery</label>
+          <p id="pickupExpectedDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Delivered Date</label>
+          <p id="pickupDeliveredDate">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Service Cost</label>
+          <p id="pickupCost" style="font-size: 1.3rem; color: var(--dash-primary); font-weight: 700;">—</p>
+        </div>
+      </div>
+    </div>
+  </main>
 
 
 

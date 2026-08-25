@@ -32,11 +32,7 @@
 </head>
 
 
-<body>
-
-    <!-- =================================
-         SHIPMENT HISTORY HEADER
-    ================================== -->
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -44,196 +40,88 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html" class="active">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-
-    <!-- =================================
-         MAIN CONTENT
-    ================================== -->
-
-    <main class="shipment-history-main">
-
-
-        <!-- BACK TO DASHBOARD -->
-
-        <div class="back-dashboard">
-
-            <a href="dashboard.html">
-
-                <span class="back-arrow">←</span>
-
-                <span>Back to dashboard</span>
-
-            </a>
-
-        </div>
-
-
-
-        <!-- =================================
-             SHIPMENT HISTORY CARD
-        ================================== -->
-
-        <section class="shipment-history-card">
-
-
-            <!-- TITLE -->
-
-            <div class="shipment-history-intro" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-
-                <div>
-                    <h1>
-                        My shipment history
-                    </h1>
-
-                    <p>
-                        Track and review all your previous shipments.
-                    </p>
-                </div>
-
-                <a href="request-quote.html" style="background-color: #15803d; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: background 0.2s ease;">
-                    <span>+ Request Quote</span>
-                </a>
-
-            </div>
-
-
-
-
-            <!-- =================================
-                 SHIPMENT STATISTICS
-            ================================== -->
-
-            <div class="shipment-statistics">
-
-                <div class="shipment-stat">
-
-                    <h3>
-                        Total shipments
-                    </h3>
-
-                    <p>
-                        24
-                    </p>
-
-                </div>
-
-
-                <div class="shipment-stat">
-
-                    <h3>
-                        Delivered
-                    </h3>
-
-                    <p>
-                        24
-                    </p>
-
-                </div>
-
-
-                <div class="shipment-stat">
-
-                    <h3>
-                        In Transit
-                    </h3>
-
-                    <p>
-                        4
-                    </p>
-
-                </div>
-
-
-                <div class="shipment-stat">
-
-                    <h3>
-                        Pending
-                    </h3>
-
-                    <p>
-                        10
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =================================
-                 SEARCH
-            ================================== -->
-
-            <div class="shipment-search-area">
-
-                <div class="shipment-search">
-
-                    <input type="text" id="shipmentSearch" placeholder="enter Shipment id">
-
-                    <button type="button" id="shipmentSearchButton" aria-label="Search shipment">
-                        🔍
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =================================
-                 SHIPMENT TABLE
-            ================================== -->
-
-            <div class="shipment-table-wrapper">
-
-                <table class="shipment-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Shipment ID
-                            </th>
-
-                            <th>
-                                Route
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Details
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="shipmentTableBody">
-
-
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-    </main>
+  <main class="dash-page-wrapper">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
+    </a>
+
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">My Shipments</h1>
+        <p class="dash-header-subtitle">Track and review all your previous shipments.</p>
+      </div>
+      <a href="request-quote.html" class="dash-action-btn">
+        <span>+ Request Quote</span>
+      </a>
+    </div>
+
+    <!-- STATISTICS -->
+    <div class="dash-stats-grid">
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Total Shipments</h3>
+        <p class="dash-stat-value" id="totalShipments">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Delivered</h3>
+        <p class="dash-stat-value" id="deliveredShipments">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">In Transit</h3>
+        <p class="dash-stat-value" id="inTransitShipments">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Pending</h3>
+        <p class="dash-stat-value" id="pendingShipments">0</p>
+      </div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="dash-card">
+      <div class="dash-search-bar">
+        <input type="text" id="shipmentSearch" placeholder="Enter Shipment ID...">
+        <button type="button" id="shipmentSearchButton" aria-label="Search shipment">🔍</button>
+      </div>
+
+      <div class="dash-table-wrapper">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Shipment ID</th>
+              <th>Route</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="shipmentTableBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 
 
 

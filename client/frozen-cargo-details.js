@@ -47,16 +47,7 @@ async function loadFrozenDetails() {
         }
     }
 
-    // Fallback sample data
-    if (!frozenItem) {
-        const sampleDetails = {
-            "RQST7829102": { status: "Completed", name: "Vanessa Attah", phone: "+234 813 671 0716", description: "Frozen Snails & Pap", temperature: "Deep Freeze (-18°C)", weight: "45 kg", origin: "Lagos, Nigeria", destination: "London, UK", departureDate: "Aug 12, 2026", notes: "Strict temperature control required." },
-            "RQST7829103": { status: "In Progress", name: "David Johnson", phone: "+234 703 989 0112", description: "Frozen Vegetables & Fish", temperature: "Chilled (0°C to 4°C)", weight: "80 kg", origin: "Lagos, Nigeria", destination: "Atlanta, US", departureDate: "Aug 15, 2026", notes: "Keep sealed in cold storage container." },
-            "RQST7829104": { status: "Pending", name: "Blessing Okafor", phone: "+234 812 000 0000", description: "Cold Storage Sea Foods", temperature: "Deep Freeze (-18°C)", weight: "120 kg", origin: "Lagos, Nigeria", destination: "Toronto, CA", departureDate: "Aug 18, 2026", notes: "Express cold-chain shipment." },
-            "RQST7829105": { status: "Pending", name: "Michael James", phone: "+234 810 000 0000", description: "Frozen Goat Meat", temperature: "Deep Freeze (-18°C)", weight: "60 kg", origin: "Lagos, Nigeria", destination: "Houston, US", departureDate: "Aug 20, 2026", notes: "Perishable items." }
-        };
-        frozenItem = sampleDetails[frozenId];
-    }
+
 
     if (frozenItem) {
         renderDetails(frozenItem);

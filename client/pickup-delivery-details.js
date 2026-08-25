@@ -47,16 +47,22 @@ async function loadPickupDetails() {
         }
     }
 
-    // Fallback sample/local data
     if (!pickup) {
-        const sampleDetails = {
-            "PD8739020892": { status: "Completed", name: "John Adewale", phone: "+234 813 671 0716", pickupAddress: "Ikeja, Lagos, Nigeria", deliveryAddress: "Lekki, Lagos, Nigeria", otherDetails: "Handle package with care.", requestDate: "Aug 02, 2026", expectedDate: "Aug 08, 2026", deliveredDate: "Aug 08, 2026" },
-            "PD8739020893": { status: "Pending", name: "Sarah Johnson", phone: "+234 703 989 0112", pickupAddress: "Surulere, Lagos, Nigeria", deliveryAddress: "Victoria Island, Lagos, Nigeria", otherDetails: "Please contact customer before arrival.", requestDate: "Aug 05, 2026", expectedDate: "Aug 12, 2026", deliveredDate: "—" },
-            "PD8739020894": { status: "In Progress", name: "Michael Okafor", phone: "+234 812 000 0000", pickupAddress: "Yaba, Lagos, Nigeria", deliveryAddress: "Ajah, Lagos, Nigeria", otherDetails: "Fragile package.", requestDate: "Aug 08, 2026", expectedDate: "Aug 15, 2026", deliveredDate: "—" },
-            "PD8739020895": { status: "Cancelled", name: "David James", phone: "+234 810 000 0000", pickupAddress: "Maryland, Lagos, Nigeria", deliveryAddress: "Ikoyi, Lagos, Nigeria", otherDetails: "Request cancelled by customer.", requestDate: "Aug 10, 2026", expectedDate: "Aug 18, 2026", deliveredDate: "—" },
-            "PD8739020896": { status: "Completed", name: "Blessing Peters", phone: "+234 809 000 0000", pickupAddress: "Magodo, Lagos, Nigeria", deliveryAddress: "Festac, Lagos, Nigeria", otherDetails: "Documents and small parcel.", requestDate: "Aug 15, 2026", expectedDate: "Aug 22, 2026", deliveredDate: "Aug 22, 2026" }
-        };
-        pickup = sampleDetails[pickupId];
+        const savedPickups = JSON.parse(localStorage.getItem("pickupRequests")) || [];
+        const matched = savedPickups.find(p => (p.id || p.request_id) === pickupId);
+        if (matched) {
+            pickup = {
+                status: formatStatus(matched.status || "Pending"),
+                name: matched.name || "N/A",
+                phone: matched.phone || "N/A",
+                pickupAddress: matched.pickup_address || "N/A",
+                deliveryAddress: matched.delivery_address || "N/A",
+                otherDetails: matched.notes || matched.item_description || "N/A",
+                requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
+                expectedDate: matched.pickup_date ? new Date(matched.pickup_date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
+                deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—"
+            };
+        }
     }
 
     if (pickup) {

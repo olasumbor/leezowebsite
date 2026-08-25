@@ -121,41 +121,56 @@ function renderDashboardNavbar() {
         { href: "profile.html", label: "Profile", match: ["profile.html"] }
     ];
 
-    const navItemsHtml = dashLinks.map(link => {
-        const isActive = link.match.includes(currentPath) ? ' class="active"' : '';
-        return `      <li><a href="${link.href}"${isActive}>${link.label}</a></li>`;
-    }).join("\n");
+    if (!dashHeader.querySelector(".dashboard-nav-links")) {
+        const navItemsHtml = dashLinks.map(link => {
+            const isActive = link.match.includes(currentPath) ? ' class="active"' : '';
+            return `      <li><a href="${link.href}"${isActive}>${link.label}</a></li>`;
+        }).join("\n");
 
-    dashHeader.innerHTML = `
-    <div class="dashboard-logo">
-      <a href="dashboard.html">
-        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
-      </a>
-    </div>
+        dashHeader.innerHTML = `
+        <div class="dashboard-logo">
+          <a href="dashboard.html">
+            <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+          </a>
+        </div>
 
-    <ul class="dashboard-nav-links">
-${navItemsHtml}
-      <li class="dashboard-mobile-logout">
-        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
-      </li>
-    </ul>
+        <ul class="dashboard-nav-links">
+    ${navItemsHtml}
+          <li class="dashboard-mobile-logout">
+            <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+          </li>
+        </ul>
 
-    <div class="dashboard-right">
-      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
-      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-    `;
+        <div class="dashboard-right">
+          <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+          <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        `;
+    } else {
+        // Highlight active link
+        const links = dashHeader.querySelectorAll(".dashboard-nav-links a");
+        links.forEach(a => {
+            const href = a.getAttribute("href");
+            const matchedObj = dashLinks.find(dl => dl.href === href);
+            if (matchedObj && matchedObj.match.includes(currentPath)) {
+                a.classList.add("active");
+            } else {
+                a.classList.remove("active");
+            }
+        });
+    }
 
     const logoutBtn = dashHeader.querySelector("#logoutButton");
     const mobileLogoutBtn = dashHeader.querySelector(".mobile-logout-btn");
 
     const handleLogout = async () => {
-        if (typeof setButtonLoading === 'function' && logoutBtn) {
-            setButtonLoading(logoutBtn, true, "Logging out...");
+        const btnToAnimate = logoutBtn || mobileLogoutBtn;
+        if (typeof setButtonLoading === 'function' && btnToAnimate) {
+            setButtonLoading(btnToAnimate, true, "Logging out...");
         }
         try {
             const token = localStorage.getItem("auth_token");
@@ -179,13 +194,20 @@ ${navItemsHtml}
         }
     };
 
-    if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
-    if (mobileLogoutBtn) mobileLogoutBtn.addEventListener("click", handleLogout);
+    if (logoutBtn && !logoutBtn.dataset.bound) {
+        logoutBtn.dataset.bound = "true";
+        logoutBtn.addEventListener("click", handleLogout);
+    }
+    if (mobileLogoutBtn && !mobileLogoutBtn.dataset.bound) {
+        mobileLogoutBtn.dataset.bound = "true";
+        mobileLogoutBtn.addEventListener("click", handleLogout);
+    }
 
     const dashHamburger = dashHeader.querySelector(".dashboard-hamburger");
     const dashNavLinks = dashHeader.querySelector(".dashboard-nav-links");
 
-    if (dashHamburger && dashNavLinks) {
+    if (dashHamburger && dashNavLinks && !dashHamburger.dataset.bound) {
+        dashHamburger.dataset.bound = "true";
         dashHamburger.addEventListener("click", (e) => {
             e.stopPropagation();
             dashHamburger.classList.toggle("active");
@@ -267,3 +289,4 @@ newsletterForms.forEach(form => {
         }
     });
 });
+}

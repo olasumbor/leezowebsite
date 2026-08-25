@@ -5238,20 +5238,6 @@ CORE VALUES LAYOUT
 
 @media (max-width: 992px) {
 
-    .dashboard-header {
-        padding: 40px 5%;
-    }
-
-    .dashboard-logo img {
-        width: 210px;
-    }
-
-    .logout-button {
-        width: 180px;
-        height: 55px;
-        font-size: 15px;
-    }
-
     .dashboard-section {
         min-height: 550px;
         padding: 60px 5% 80px;
@@ -5280,20 +5266,6 @@ CORE VALUES LAYOUT
 
 @media (max-width: 768px) {
 
-    .dashboard-header {
-        padding: 35px 5%;
-    }
-
-    .dashboard-logo img {
-        width: 190px;
-    }
-
-    .logout-button {
-        width: 160px;
-        height: 52px;
-        font-size: 14px;
-    }
-
     .dashboard-section {
         min-height: 520px;
         padding: 55px 5% 70px;
@@ -5321,20 +5293,6 @@ CORE VALUES LAYOUT
 ========================================= */
 
 @media (max-width: 576px) {
-
-    .dashboard-header {
-        padding: 30px 5%;
-    }
-
-    .dashboard-logo img {
-        width: 160px;
-    }
-
-    .logout-button {
-        width: 125px;
-        height: 48px;
-        font-size: 13px;
-    }
 
     .dashboard-section {
         min-height: auto;
@@ -5896,4 +5854,449 @@ button:disabled,
     cursor: not-allowed !important;
     opacity: 0.65 !important;
     box-shadow: none !important;
+}
+
+/* =====================================================
+   UNIFIED USER DASHBOARD DESIGN SYSTEM
+===================================================== */
+
+:root {
+    --dash-bg: #f8fafc;
+    --dash-card-bg: #ffffff;
+    --dash-card-border: #e2e8f0;
+    --dash-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --dash-primary: #15803d;
+    --dash-primary-hover: #166534;
+    --dash-navy: #0b1a53;
+    --dash-text-dark: #1e293b;
+    --dash-text-muted: #64748b;
+    --dash-radius: 12px;
+}
+
+body.dash-body {
+    background-color: var(--dash-bg);
+    color: var(--dash-text-dark);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Page Container */
+.dash-page-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    margin: 30px auto 60px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* Back Link */
+.dash-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--dash-primary);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 16px;
+    transition: color 0.2s ease;
+}
+
+.dash-back-link:hover {
+    color: var(--dash-primary-hover);
+}
+
+/* Page Header Block */
+.dash-header-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.dash-header-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--dash-navy);
+    letter-spacing: -0.3px;
+}
+
+.dash-header-subtitle {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--dash-text-muted);
+}
+
+.dash-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--dash-primary);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.dash-action-btn:hover {
+    background-color: var(--dash-primary-hover);
+}
+
+.dash-action-btn-outline {
+    background-color: transparent;
+    color: var(--dash-primary);
+    border: 1.5px solid var(--dash-primary);
+}
+
+.dash-action-btn-outline:hover {
+    background-color: rgba(21, 128, 61, 0.08);
+}
+
+/* Main Card Container */
+.dash-card {
+    background-color: var(--dash-card-bg);
+    border-radius: var(--dash-radius);
+    border: 1px solid var(--dash-card-border);
+    box-shadow: var(--dash-card-shadow);
+    padding: 28px;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+}
+
+/* Statistics Grid */
+.dash-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.dash-stat-card {
+    background-color: var(--dash-card-bg);
+    border-radius: var(--dash-radius);
+    border: 1px solid var(--dash-card-border);
+    box-shadow: var(--dash-card-shadow);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.dash-stat-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dash-text-muted);
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dash-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dash-navy);
+    margin: 0;
+}
+
+/* Search Bar */
+.dash-search-bar {
+    display: flex;
+    align-items: center;
+    max-width: 420px;
+    background-color: #ffffff;
+    border: 1px solid var(--dash-card-border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.dash-search-bar input {
+    flex: 1;
+    height: 44px;
+    padding: 0 16px;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--dash-text-dark);
+}
+
+.dash-search-bar button {
+    height: 44px;
+    padding: 0 16px;
+    background: transparent;
+    border: none;
+    color: var(--dash-text-muted);
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.dash-search-bar button:hover {
+    color: var(--dash-primary);
+}
+
+/* Tables */
+.dash-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid var(--dash-card-border);
+}
+
+.dash-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+}
+
+.dash-table thead {
+    background-color: #f8fafc;
+    border-bottom: 1px solid var(--dash-card-border);
+}
+
+.dash-table th {
+    padding: 14px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dash-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.dash-table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--dash-text-dark);
+    font-weight: 400;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.dash-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dash-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+    line-height: 1;
+}
+
+.status-badge.completed, .status-badge.delivered {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.status-badge.in-progress, .status-badge.in_transit, .status-badge.confirmed {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.status-badge.pending, .status-badge.processing {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.status-badge.cancelled {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Forms */
+.dash-form .form-group {
+    margin-bottom: 20px;
+}
+
+.dash-form label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dash-navy);
+    margin-bottom: 8px;
+}
+
+.dash-form input[type="text"],
+.dash-form input[type="email"],
+.dash-form input[type="tel"],
+.dash-form input[type="number"],
+.dash-form input[type="date"],
+.dash-form select,
+.dash-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: var(--dash-text-dark);
+    background-color: #ffffff;
+    border: 1px solid var(--dash-card-border);
+    border-radius: 8px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dash-form input:focus,
+.dash-form select:focus,
+.dash-form textarea:focus {
+    border-color: var(--dash-primary);
+    box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+}
+
+.dash-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.dash-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Stepper / Timeline */
+.dash-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+    position: relative;
+}
+
+.dash-timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.dash-step-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.dash-step-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    text-align: center;
+}
+
+.dash-timeline-step.completed .dash-step-icon {
+    background-color: var(--dash-primary);
+    color: #ffffff;
+}
+
+.dash-timeline-step.completed .dash-step-label {
+    color: var(--dash-navy);
+    font-weight: 600;
+}
+
+.dash-timeline-step.current .dash-step-icon {
+    background-color: #0369a1;
+    color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(3, 105, 161, 0.2);
+}
+
+/* Details 2-Column Info Grid */
+.dash-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 30px;
+    margin-bottom: 24px;
+}
+
+.dash-detail-item label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dash-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.dash-detail-item p {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--dash-navy);
+    margin: 0;
+}
+
+/* Media Queries for Unified Dashboard */
+@media (max-width: 992px) {
+    .dash-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dash-page-wrapper {
+        margin: 20px auto 40px;
+        padding: 0 16px;
+    }
+
+    .dash-header-title {
+        font-size: 22px;
+    }
+
+    .dash-card {
+        padding: 20px;
+    }
+
+    .dash-form-grid, .dash-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dash-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .dash-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dash-stat-card {
+        padding: 14px;
+    }
+
+    .dash-stat-value {
+        font-size: 20px;
+    }
 }

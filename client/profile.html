@@ -32,66 +32,91 @@
     <link rel="stylesheet" href="toast.css">
 </head>
 
+<body class="dash-body">
+
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html" class="active">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <main class="profile-page">
+    <main class="dash-page-wrapper" style="max-width: 750px;">
 
         <!-- BACK BUTTON -->
-        <div class="profile-back">
-            <a href="dashboard.html">
-                <span class="profile-back-arrow">←</span>
-                <span>back to dashboard</span>
-            </a>
+        <a href="dashboard.html" class="dash-back-link">
+            <span>← Back to Dashboard</span>
+        </a>
+
+        <!-- HEADER BLOCK -->
+        <div class="dash-header-block">
+            <div>
+                <h1 class="dash-header-title">My Profile</h1>
+                <p class="dash-header-subtitle">Manage your personal information and account security settings</p>
+            </div>
         </div>
 
         <!-- PROFILE FORM SECTION -->
-        <section class="profile-section" style="max-width: 650px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px;">
+        <div style="display: flex; flex-direction: column; gap: 24px;">
             
             <!-- Account Information -->
-            <div style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <h3 style="margin-bottom: 20px; color: #0b1a53; font-size: 1.3rem;">Account Information</h3>
+            <div class="dash-card">
+                <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-size: 1.2rem; font-weight: 700;">Account Information</h3>
                 <p id="profileMessage" style="text-align: center; margin-bottom: 15px; font-weight: 500;"></p>
-                <form id="profileForm" class="profile-form">
+                <form id="profileForm" class="dash-form">
 
-                    <div class="profile-field">
+                    <div class="form-group">
                         <label for="profileName">Full Name</label>
                         <input type="text" id="profileName" required placeholder="Enter full name">
                     </div>
 
-                    <div class="profile-field">
+                    <div class="form-group">
                         <label for="profileEmail">Email Address</label>
                         <input type="email" id="profileEmail" required placeholder="youremail@example.com">
                     </div>
 
-                    <div class="profile-field">
+                    <div class="form-group">
                         <label for="profilePhone">Phone Number</label>
                         <input type="tel" id="profilePhone" placeholder="08000087753">
                     </div>
 
-                    <button type="submit" class="update-profile-button" style="margin-top: 15px;">
-                        Update Profile
+                    <button type="submit" class="dash-action-btn" style="margin-top: 10px; width: 100%; justify-content: center;">
+                        Save Profile Changes
                     </button>
                 </form>
             </div>
 
             <!-- Change Password -->
-            <div style="background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <h3 style="margin-bottom: 20px; color: #0b1a53; font-size: 1.3rem;">
+            <div class="dash-card">
+                <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-size: 1.2rem; font-weight: 700;">
                     <i class="fas fa-lock" style="margin-right: 8px; color: #10b981;"></i> Change Password
                 </h3>
                 <p id="changePasswordMessage" style="text-align: center; margin-bottom: 15px; font-weight: 500;"></p>
-                <form id="changePasswordForm" class="profile-form">
+                <form id="changePasswordForm" class="dash-form">
 
-                    <div class="profile-field">
+                    <div class="form-group">
                         <label for="currentPassword">Current Password</label>
                         <div style="position: relative; width: 100%;">
                             <input type="password" id="currentPassword" required placeholder="Enter current password" style="width: 100%; padding-right: 40px;">
@@ -101,7 +126,7 @@
                         </div>
                     </div>
 
-                    <div class="profile-field">
+                    <div class="form-group">
                         <label for="newPassword">New Password</label>
                         <div style="position: relative; width: 100%;">
                             <input type="password" id="newPassword" required minlength="8" placeholder="Minimum 8 characters" style="width: 100%; padding-right: 40px;">
@@ -111,7 +136,7 @@
                         </div>
                     </div>
 
-                    <div class="profile-field">
+                    <div class="form-group">
                         <label for="confirmNewPassword">Confirm New Password</label>
                         <div style="position: relative; width: 100%;">
                             <input type="password" id="confirmNewPassword" required minlength="8" placeholder="Re-enter new password" style="width: 100%; padding-right: 40px;">
@@ -121,13 +146,13 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="update-profile-button" style="background: #10b981; margin-top: 15px;">
-                        Change Password
+                    <button type="submit" class="dash-action-btn" style="margin-top: 10px; width: 100%; justify-content: center;">
+                        Update Password
                     </button>
                 </form>
             </div>
 
-        </section>
+        </div>
 
     </main>
 

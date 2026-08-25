@@ -44,16 +44,8 @@ class QuoteController extends Controller
             'length' => $request->shippingLength,
             'shipping_details' => $request->shippingDetails,
             'status' => 'pending',
+            'calculated_cost' => null,
         ]);
-
-        $volumetricWeight = ($request->shippingLength * $request->shippingWidth * $request->shippingHeight) / 5000;
-        $chargeableWeight = max($request->shippingWeight, $volumetricWeight);
-
-        $defaultRate = Setting::where('key', 'default_shipping_rate')->first();
-        if ($defaultRate && is_numeric($defaultRate->value)) {
-            $quote->calculated_cost = round($chargeableWeight * (float)$defaultRate->value, 2);
-            $quote->save();
-        }
 
         try {
             Mail::to($quote->email)->send(new QuoteSubmittedMail($quote));
@@ -66,9 +58,6 @@ class QuoteController extends Controller
         return response()->json([
             'message' => 'Quote submitted successfully. Admin will review and provide a rate.',
             'request_id' => $requestId,
-            'chargeable_weight' => round($chargeableWeight, 2),
-            'volumetric_weight' => round($volumetricWeight, 2),
-            'actual_weight' => $request->shippingWeight,
             'quote_id' => $quote->id
         ], 201);
     }

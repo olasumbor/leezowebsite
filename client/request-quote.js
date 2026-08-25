@@ -39,8 +39,12 @@ if (quoteForm) {
             if (response.ok) {
                 const data = await response.json();
                 
-                calculatedCostEl.textContent = "Pending Admin Review";
-                chargeableWeightInfoEl.textContent = `Chargeable Weight: ${data.chargeable_weight} kg (Volumetric: ${data.volumetric_weight} kg, Actual: ${data.actual_weight} kg)`;
+                if (calculatedCostEl) {
+                    calculatedCostEl.textContent = "Status: Pending Admin Review";
+                }
+                if (chargeableWeightInfoEl) {
+                    chargeableWeightInfoEl.textContent = "Our pricing team will review your shipping details and send your custom quote rate directly to your email.";
+                }
                 
                 quoteSuccess.style.display = "block";
                 

@@ -33,170 +33,96 @@
     <link rel=stylesheet href=toast.css>
 </head>
 
+<body class="dash-body">
+
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html" class="active">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- ========================================
-         BACK BUTTON
-    ========================================= -->
+  <main class="dash-page-wrapper">
+    <a href="shipment-history.html" class="dash-back-link" id="backButton">
+      <span>← Back to My Shipments</span>
+    </a>
 
-    <div class="shipment-details-top">
-
-        <button class="back-button" id="backButton">
-
-            <span class="back-arrow">←</span>
-
-            <span>Back</span>
-
-        </button>
-
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title" id="shipmentTitle">Shipment Details</h1>
+        <p class="dash-header-subtitle"><span id="shipmentOrigin">—</span> &rarr; <span id="shipmentDestination">—</span></p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadReceipt">Download Receipt</button>
+        <button type="button" class="dash-action-btn" id="trackShipment">Track Shipment</button>
+      </div>
     </div>
 
-
-    <!-- ========================================
-         SHIPMENT DETAILS
-    ========================================= -->
-
-    <main class="shipment-details-main">
-
-        <section class="shipment-details-card">
-
-            <!-- Shipment heading -->
-
-            <h1 id="shipmentTitle">
-                SHIPMENT
-            </h1>
-
-
-            <!-- Route -->
-
-            <div class="shipment-route">
-
-                <span id="shipmentOrigin">
-                    Lagos, Nigeria
-                </span>
-
-                <span class="route-line">
-                    ─────────────────→
-                </span>
-
-                <span id="shipmentDestination">
-                    London, UK
-                </span>
-
-            </div>
-
-
-            <!-- Shipment Progress -->
-
-            <div class="shipment-progress">
-
-                <p>✓ Shipment Created</p>
-
-                <p>✓ Picked Up</p>
-
-                <p>✓ In Transit</p>
-
-                <p>✓ Arrived at Destination</p>
-
-                <p>✓ Delivered</p>
-
-            </div>
-
-
-            <!-- Shipment Information -->
-
-            <div class="shipment-information">
-
-                <p>
-                    Tracking Number:
-                    <span id="trackingNumber"></span>
-                </p>
-
-                <p>
-                    Service:
-                    <span id="shipmentService"></span>
-                </p>
-
-                <p>
-                    Weight:
-                    <span id="shipmentWeight"></span>
-                </p>
-
-                <p>
-                    Packages:
-                    <span id="shipmentPackages"></span>
-                </p>
-
-            </div>
-
-
-            <!-- Dates -->
-
-            <div class="shipment-dates">
-
-                <p>
-                    Shipped:
-                    <span id="shipmentDate"></span>
-                </p>
-
-                <p>
-                    Delivered:
-                    <span id="deliveryDate"></span>
-                </p>
-
-            </div>
-
-
-            <!-- Recipient -->
-
-            <div class="shipment-recipient">
-
-                <p>Recipient</p>
-
-                <p id="recipientName"></p>
-
-                <p id="recipientLocation"></p>
-
-            </div>
-
-
-            <!-- Shipping Cost -->
-
-            <div class="shipment-cost">
-
-                <p>Shipping Cost</p>
-
-                <p id="shippingCost"></p>
-
-            </div>
-
-
-            <!-- Actions -->
-
-            <div class="shipment-actions">
-
-                <button id="downloadReceipt">
-                    Download Receipt
-                </button>
-
-                <button id="trackShipment">
-                    Track Shipment
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
+    <div class="dash-card">
+      <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-weight: 700; font-size: 1.1rem;">Overview & Routing</h3>
+      
+      <div class="dash-details-grid">
+        <div class="dash-detail-item">
+          <label>Tracking Number</label>
+          <p id="trackingNumber">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Service Type</label>
+          <p id="shipmentService">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Weight</label>
+          <p id="shipmentWeight">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Total Packages</label>
+          <p id="shipmentPackages">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Shipped Date</label>
+          <p id="shipmentDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Delivered Date</label>
+          <p id="deliveryDate">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Recipient Name</label>
+          <p id="recipientName">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Recipient Destination</label>
+          <p id="recipientLocation">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Total Shipping Cost</label>
+          <p id="shippingCost" style="font-size: 1.3rem; color: var(--dash-primary); font-weight: 700;">—</p>
+        </div>
+      </div>
+    </div>
+  </main>
 
 
     <!-- ========================================

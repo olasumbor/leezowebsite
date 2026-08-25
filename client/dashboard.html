@@ -31,20 +31,37 @@
     <link rel=stylesheet href=toast.css>
 </head>
 
-<body>
+<body class="dash-body">
 
   <!-- DASHBOARD HEADER -->
 
   <header class="dashboard-header">
-
     <div class="dashboard-logo">
-      <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+      <a href="dashboard.html">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+      </a>
     </div>
 
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html" class="active">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
 
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
 

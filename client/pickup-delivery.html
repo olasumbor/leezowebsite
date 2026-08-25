@@ -38,7 +38,7 @@
 
 
 
-<body>
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -46,126 +46,103 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html" class="active">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- PICK UP & DELIVERY PAGE -->
-    <main class="pickup-delivery-page">
-        <div class="back-dashboard" style="max-width: 900px; margin: 20px auto 10px; padding: 0 15px;">
-            <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #15803d; font-weight: 600; font-size: 15px;">
-                <span class="back-arrow">←</span>
-                <span>Back to dashboard</span>
-            </a>
+  <main class="dash-page-wrapper" style="max-width: 850px;">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
+    </a>
+
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Pickup & Delivery Request</h1>
+        <p class="dash-header-subtitle">Schedule item pickup and doorstep delivery across Nigeria.</p>
+      </div>
+      <a href="pickup-delivery-history.html" class="dash-action-btn-outline dash-action-btn">
+        <span>View History →</span>
+      </a>
+    </div>
+
+    <div class="dash-card">
+      <form class="dash-form" id="pickupDeliveryForm">
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required>
+          </div>
         </div>
 
-        
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+          </div>
 
-        <!-- PAGE TITLE -->
-        <section class="pickup-delivery-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px; padding: 0 15px;">
-            <h1>Pick up &amp; delivery</h1>
-            <a href="pickup-delivery-history.html" style="background: #15803d; color: #ffffff; padding: 10px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; transition: background 0.2s ease;">
-                <span>View Pickup & Delivery History →</span>
-            </a>
-        </section>
+          <div class="form-group">
+            <label for="pickup_date">Preferred Pickup Date & Time</label>
+            <input type="datetime-local" id="pickup_date" name="pickup_date">
+          </div>
+        </div>
 
+        <div class="form-group">
+          <label for="pickup_address">Pick Up Address</label>
+          <textarea id="pickup_address" name="pickup_address" placeholder="Enter full address for item pickup" required rows="2"></textarea>
+        </div>
 
+        <div class="form-group">
+          <label for="delivery_address">Delivery Address</label>
+          <textarea id="delivery_address" name="delivery_address" placeholder="Enter full address for item delivery" required rows="2"></textarea>
+        </div>
 
-        <!-- REQUEST FORM -->
-        <section class="pickup-delivery-section">
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="item_description">Package / Item Description</label>
+            <textarea id="item_description" name="item_description" placeholder="Describe items or contents" required rows="2"></textarea>
+          </div>
 
-            <div class="pickup-delivery-form-container">
+          <div class="form-group">
+            <label for="weight">Estimated Weight (kg)</label>
+            <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 15.5">
+          </div>
+        </div>
 
-                <form class="pickup-delivery-form" id="pickupDeliveryForm">
+        <div class="form-group">
+          <label for="notes">Additional Notes & Instructions</label>
+          <textarea id="notes" name="notes" placeholder="Special handling requirements or extra instructions" rows="3"></textarea>
+        </div>
 
-                    <!-- NAME -->
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-
-                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-                    </div>
-
-
-                    <!-- EMAIL -->
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-
-                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-                    </div>
-
-
-                    <!-- PHONE NUMBER -->
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-
-                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
-                            required>
-                    </div>
-
-
-                    <!-- PICK UP ADDRESS -->
-                    <div class="form-group">
-                        <label for="pickup_address">Pick Up Address</label>
-
-                        <textarea id="pickup_address" name="pickup_address" placeholder="Enter full address for item pickup" required rows="3"></textarea>
-                    </div>
-
-
-                    <!-- PREFERRED PICKUP DATE & TIME -->
-                    <div class="form-group">
-                        <label for="pickup_date">Preferred Pickup Date & Time</label>
-
-                        <input type="datetime-local" id="pickup_date" name="pickup_date">
-                    </div>
-
-
-                    <!-- DELIVERY ADDRESS -->
-                    <div class="form-group">
-                        <label for="delivery_address">Delivery Address</label>
-
-                        <textarea id="delivery_address" name="delivery_address"
-                            placeholder="Enter full address for item delivery" required rows="3"></textarea>
-                    </div>
-
-
-                    <!-- PACKAGE / ITEM DESCRIPTION -->
-                    <div class="form-group">
-                        <label for="item_description">Package / Item Description</label>
-
-                        <textarea id="item_description" name="item_description" placeholder="Describe the items, dimensions, or contents to be picked up" required rows="3"></textarea>
-                    </div>
-
-
-                    <!-- ESTIMATED WEIGHT -->
-                    <div class="form-group">
-                        <label for="weight">Estimated Weight (kg)</label>
-
-                        <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 15.5">
-                    </div>
-
-
-                    <!-- OTHER DETAILS / NOTES -->
-                    <div class="form-group">
-                        <label for="notes">Additional Notes & Instructions</label>
-
-                        <textarea id="notes" name="notes"
-                            placeholder="Please add any special handling requirements, gate codes, or extra instructions here" rows="4"></textarea>
-                    </div>
-
-
-                    <!-- SUBMIT BUTTON -->
-                    <button type="submit" class="send-request-btn">
-                        SEND REQUEST
-                    </button>
-
-                </form>
-
-            </div>
-
-        </section>
-
-    </main>
+        <button type="submit" class="dash-action-btn" style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
+          Submit Pickup & Delivery Request
+        </button>
+      </form>
+    </div>
+  </main>
 
     <!-- FOOTER SECTION -->
     <footer class="footer">

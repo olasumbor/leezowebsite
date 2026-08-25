@@ -31,134 +31,130 @@
     <link rel="stylesheet" href="toast.css">
 </head>
 
+<body class="dash-body">
+
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html" class="active">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- BACK BUTTON -->
-    <div class="pickup-details-back">
-        <a href="frozen-cargo-history.html">
-            <span class="back-arrow">←</span>
-            <span>back</span>
-        </a>
+  <main class="dash-page-wrapper">
+    <a href="frozen-cargo-history.html" class="dash-back-link">
+      <span>← Back to Frozen Cargo History</span>
+    </a>
+
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Frozen Cargo <span id="frozenId"></span></h1>
+        <p class="dash-header-subtitle">Temperature-controlled tracking and booking overview.</p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadFrozenInvoice">Download Invoice</button>
+        <button type="button" class="dash-action-btn" id="trackFrozen">Track Request</button>
+      </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="pickup-details-main">
+    <!-- TIMELINE STEPPER -->
+    <div class="dash-card">
+      <div class="dash-timeline">
+        <div class="dash-timeline-step" id="statusSubmitted">
+          <div class="dash-step-icon">1</div>
+          <div class="dash-step-label">Submitted</div>
+        </div>
+        <div class="dash-timeline-step" id="statusConfirmed">
+          <div class="dash-step-icon">2</div>
+          <div class="dash-step-label">Confirmed</div>
+        </div>
+        <div class="dash-timeline-step" id="statusTransit">
+          <div class="dash-step-icon">3</div>
+          <div class="dash-step-label">In Transit</div>
+        </div>
+        <div class="dash-timeline-step" id="statusDelivered">
+          <div class="dash-step-icon">4</div>
+          <div class="dash-step-label">Delivered</div>
+        </div>
+      </div>
+    </div>
 
-        <section class="pickup-details-card">
+    <div class="dash-card">
+      <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-weight: 700; font-size: 1.1rem;">Cargo Specification & Cold-Chain Info</h3>
 
-            <!-- TITLE -->
-            <div class="pickup-title">
-                <h1>
-                    FROZEN CARGO
-                    <span id="frozenId"></span>
-                </h1>
-            </div>
-
-            <!-- DELIVERY PROGRESS -->
-            <div class="pickup-progress">
-                <p id="statusSubmitted">
-                    ✓ Request Submitted
-                </p>
-
-                <p id="statusConfirmed">
-                    ✓ Booking Confirmed
-                </p>
-
-                <p id="statusTransit">
-                    ✓ Cold-Chain In Transit
-                </p>
-
-                <p id="statusDelivered">
-                    ✓ Delivered
-                </p>
-            </div>
-
-            <!-- REQUEST INFORMATION -->
-            <div class="pickup-information">
-                <p>
-                    Request ID:
-                    <span id="detailFrozenId"></span>
-                </p>
-
-                <p>
-                    Customer Name:
-                    <span id="frozenName"></span>
-                </p>
-
-                <p>
-                    Phone Number:
-                    <span id="frozenPhone"></span>
-                </p>
-
-                <p>
-                    Cargo Description:
-                    <span id="frozenDescription"></span>
-                </p>
-
-                <p>
-                    Temperature Requirement:
-                    <span id="frozenTemperature"></span>
-                </p>
-
-                <p>
-                    Weight:
-                    <span id="frozenWeight"></span>
-                </p>
-
-                <p>
-                    Origin:
-                    <span id="frozenOrigin"></span>
-                </p>
-
-                <p>
-                    Destination:
-                    <span id="frozenDestination"></span>
-                </p>
-
-                <br>
-
-                <p>
-                    Departure Date:
-                    <span id="frozenDepartureDate"></span>
-                </p>
-
-                <p>
-                    Notes / Special Instructions:
-                    <span id="frozenNotes"></span>
-                </p>
-
-                <br>
-
-                <p>
-                    Status
-                </p>
-
-                <p id="frozenStatus"></p>
-            </div>
-
-            <!-- ACTIONS -->
-            <div class="pickup-actions">
-                <button type="button" id="downloadFrozenInvoice">
-                    Download Invoice
-                </button>
-
-                <button type="button" id="trackFrozen">
-                    Track Request
-                </button>
-            </div>
-
-        </section>
-
-    </main>
+      <div class="dash-details-grid">
+        <div class="dash-detail-item">
+          <label>Request ID</label>
+          <p id="detailFrozenId">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Customer Name</label>
+          <p id="frozenName">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Phone Number</label>
+          <p id="frozenPhone">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Status</label>
+          <p id="frozenStatus">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Cargo / Goods Description</label>
+          <p id="frozenDescription">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Temperature Requirement</label>
+          <p id="frozenTemperature" style="color: #0284c7; font-weight: 600;">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Cargo Weight</label>
+          <p id="frozenWeight">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Origin</label>
+          <p id="frozenOrigin">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Destination</label>
+          <p id="frozenDestination">—</p>
+        </div>
+        <div class="dash-detail-item">
+          <label>Departure Date</label>
+          <p id="frozenDepartureDate">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Notes / Special Instructions</label>
+          <p id="frozenNotes">—</p>
+        </div>
+        <div class="dash-detail-item" style="grid-column: 1 / -1;">
+          <label>Service Cost</label>
+          <p id="frozenCost" style="font-size: 1.3rem; color: var(--dash-primary); font-weight: 700;">—</p>
+        </div>
+      </div>
+    </div>
+  </main>
 
     <!-- FOOTER -->
     <footer class="footer">

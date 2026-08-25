@@ -34,8 +34,7 @@
 </head>
 
 
-<body>
-
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -43,166 +42,86 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html" class="active">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
-  <!-- ==========================================
-         BACK TO DASHBOARD
-    =========================================== -->
 
-  <div class="procurement-back">
-
-    <a href="dashboard.html">
-
-      <span class="back-arrow">←</span>
-
-      <span>back to dashboard</span>
-
+  <main class="dash-page-wrapper">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
     </a>
 
-  </div>
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Procurement History</h1>
+        <p class="dash-header-subtitle">Track and review all your previous procurement requests.</p>
+      </div>
+      <a href="procurement.html" class="dash-action-btn">
+        <span>+ Request Procurement</span>
+      </a>
+    </div>
 
+    <!-- STATISTICS -->
+    <div class="dash-stats-grid">
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Total Procurements</h3>
+        <p class="dash-stat-value" id="totalProcurements">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Completed</h3>
+        <p class="dash-stat-value" id="completedProcurements">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">In Progress</h3>
+        <p class="dash-stat-value" id="inProgressProcurements">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Pending</h3>
+        <p class="dash-stat-value" id="pendingProcurements">0</p>
+      </div>
+    </div>
 
-  <!-- ==========================================
-         MAIN CONTENT
-    =========================================== -->
-
-  <main class="procurement-history-main">
-
-
-    <section class="procurement-history-card">
-
-
-      <!-- ==================================
-                 PAGE INTRO
-            =================================== -->
-
-      <div class="procurement-history-intro" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-
-        <div>
-          <h1>My procurements</h1>
-
-          <p>
-            Track and review all your previous procurements
-          </p>
-        </div>
-
-        <a href="procurement.html" style="background-color: #15803d; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: background 0.2s ease;">
-          <span>+ Create Procurement</span>
-        </a>
-
+    <!-- MAIN CARD -->
+    <div class="dash-card">
+      <div class="dash-search-bar">
+        <input type="text" id="procurementSearch" placeholder="Enter Procurement ID...">
+        <button type="button" id="procurementSearchButton" aria-label="Search procurement">🔍</button>
       </div>
 
-
-
-      <!-- ==================================
-                 STATISTICS
-            =================================== -->
-
-      <div class="procurement-statistics">
-
-
-        <div class="procurement-stat">
-
-          <h3>Total procurements</h3>
-
-          <p id="totalProcurements">0</p>
-
-        </div>
-
-
-        <div class="procurement-stat">
-
-          <h3>Completed</h3>
-
-          <p id="completedProcurements">0</p>
-
-        </div>
-
-
-        <div class="procurement-stat">
-
-          <h3>In Progress</h3>
-
-          <p id="inProgressProcurements">0</p>
-
-        </div>
-
-
-        <div class="procurement-stat">
-
-          <h3>Pending</h3>
-
-          <p id="pendingProcurements">0</p>
-
-        </div>
-
-
-      </div>
-
-
-      <!-- ==================================
-                 SEARCH
-            =================================== -->
-
-      <div class="procurement-search-area">
-
-        <div class="procurement-search">
-
-          <input type="text" id="procurementSearch" placeholder="enter procurement i.d">
-
-          <button type="button" id="procurementSearchButton" aria-label="Search procurement">
-            🔍
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- ==================================
-                 PROCUREMENT TABLE
-            =================================== -->
-
-      <div class="procurement-table-wrapper">
-
-        <table class="procurement-table">
-
-
+      <div class="dash-table-wrapper">
+        <table class="dash-table">
           <thead>
-
             <tr>
-
               <th>Procurement ID</th>
-
               <th>Date</th>
-
               <th>Status</th>
-
               <th>Action</th>
-
             </tr>
-
           </thead>
-
-
           <tbody id="procurementTableBody">
-
-            <!-- Procurement records
-                             will be inserted by JavaScript -->
-
           </tbody>
-
-
         </table>
-
       </div>
-
-
-    </section>
-
-
+    </div>
   </main>
 
 

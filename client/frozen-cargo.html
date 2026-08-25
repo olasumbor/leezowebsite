@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="toast.css">
 </head>
 
-<body>
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -36,98 +36,118 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html" class="active">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- FROZEN CARGO SECTION -->
-    <section class="procurement-section">
-        <div class="back-dashboard" style="max-width: 900px; margin: 0 auto 20px;">
-            <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #15803d; font-weight: 600; font-size: 15px;">
-                <span class="back-arrow">←</span>
-                <span>Back to dashboard</span>
-            </a>
+  <main class="dash-page-wrapper" style="max-width: 850px;">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
+    </a>
+
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Frozen Cargo Cold-Chain Booking</h1>
+        <p class="dash-header-subtitle">Temperature-controlled transportation & cold storage solutions for perishable foods.</p>
+      </div>
+      <a href="frozen-cargo-history.html" class="dash-action-btn-outline dash-action-btn">
+        <span>View History →</span>
+      </a>
+    </div>
+
+    <div class="dash-card">
+      <form class="dash-form" id="frozenCargoForm">
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter full name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required>
+          </div>
         </div>
 
-        <div class="procurement-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; max-width: 900px; margin: 0 auto 20px;">
-            <div>
-                <h1>FROZEN CARGO COLD CHAIN LOGISTICS</h1>
-                <p style="color: #666; margin-top: 10px; max-width: 650px;">
-                    Specialized temperature-controlled transportation and cold storage solutions for perishable foodstuffs and frozen goods.
-                </p>
-            </div>
-            <a href="frozen-cargo-history.html" style="background: #15803d; color: #ffffff; padding: 10px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; transition: background 0.2s ease;">
-                <span>View Frozen Cargo History →</span>
-            </a>
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+          </div>
+
+          <div class="form-group">
+            <label for="departure_date">Desired Shipping / Departure Date</label>
+            <input type="date" id="departure_date" name="departure_date">
+          </div>
         </div>
 
+        <div class="form-group">
+          <label for="cargo_description">Cargo / Goods Description</label>
+          <textarea id="cargo_description" name="cargo_description" placeholder="Specify food items, perishables, packaging type, etc." required rows="2"></textarea>
+        </div>
 
-        <form class="procurement-form" id="frozenCargoForm">
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="temperature_requirement">Temperature Requirement</label>
+            <select id="temperature_requirement" name="temperature_requirement" required>
+              <option value="">-- Select Temperature Range --</option>
+              <option value="Chilled (0°C to 4°C)">Chilled (0°C to 4°C) - Fresh foods, dairy, beverages</option>
+              <option value="Frozen (-18°C)">Frozen (-18°C) - Frozen meat, poultry, seafood</option>
+              <option value="Deep Freeze (-25°C or lower)">Deep Freeze (-25°C or lower) - Ice cream, specialized frozen products</option>
+              <option value="Ambient / Controlled (+15°C to +25°C)">Ambient / Controlled (+15°C to +25°C)</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-            </div>
+          <div class="form-group">
+            <label for="weight">Estimated Cargo Weight (kg)</label>
+            <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 500">
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
-            </div>
+        <div class="dash-form-grid">
+          <div class="form-group">
+            <label for="origin">Origin / Departure City/Country</label>
+            <input type="text" id="origin" name="origin" placeholder="e.g. Lagos, Nigeria" required>
+          </div>
 
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-            </div>
+          <div class="form-group">
+            <label for="destination">Destination City/Country</label>
+            <input type="text" id="destination" name="destination" placeholder="e.g. London, UK" required>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label for="cargo_description">Cargo / Goods Description</label>
-                <textarea id="cargo_description" name="cargo_description" placeholder="Specify food items, perishables, packaging type, etc." required rows="3"></textarea>
-            </div>
+        <div class="form-group">
+          <label for="notes">Additional Notes & Instructions</label>
+          <textarea id="notes" name="notes" placeholder="Cold chain monitoring, inspection certificates, or special notes" rows="3"></textarea>
+        </div>
 
-            <div class="form-group">
-                <label for="temperature_requirement">Temperature Requirement</label>
-                <select id="temperature_requirement" name="temperature_requirement" style="width: 100%; padding: 14px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 15px;" required>
-                    <option value="">-- Select Temperature Range --</option>
-                    <option value="Chilled (0°C to 4°C)">Chilled (0°C to 4°C) - Fresh foods, dairy, beverages</option>
-                    <option value="Frozen (-18°C)">Frozen (-18°C) - Frozen meat, poultry, seafood</option>
-                    <option value="Deep Freeze (-25°C or lower)">Deep Freeze (-25°C or lower) - Ice cream, specialized frozen products</option>
-                    <option value="Ambient / Controlled (+15°C to +25°C)">Ambient / Controlled (+15°C to +25°C)</option>
-                </select>
-            </div>
+        <button type="submit" class="dash-action-btn" style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
+          Submit Frozen Cargo Booking
+        </button>
+      </form>
+    </div>
+  </main>
 
-            <div class="form-group">
-                <label for="weight">Estimated Cargo Weight (kg)</label>
-                <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 500">
-            </div>
 
-            <div class="form-group">
-                <label for="origin">Origin / Departure City/Country</label>
-                <input type="text" id="origin" name="origin" placeholder="e.g. Lagos, Nigeria" required>
-            </div>
-
-            <div class="form-group">
-                <label for="destination">Destination City/Country</label>
-                <input type="text" id="destination" name="destination" placeholder="e.g. London, UK" required>
-            </div>
-
-            <div class="form-group">
-                <label for="departure_date">Desired Shipping / Departure Date</label>
-                <input type="date" id="departure_date" name="departure_date">
-            </div>
-
-            <div class="form-group">
-                <label for="notes">Additional Notes & Specific Instructions</label>
-                <textarea id="notes" name="notes" placeholder="Provide extra details on cold chain monitoring, custom clearance, inspection certificates, or special notes..." rows="4"></textarea>
-            </div>
-
-            <button type="submit" class="procurement-button">
-                REQUEST FROZEN CARGO LOGISTICS
-            </button>
-
-        </form>
-
-    </section>
 
     <!-- FOOTER SECTION -->
     <footer class="footer">

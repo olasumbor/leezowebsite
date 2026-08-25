@@ -33,96 +33,96 @@
     <link rel="stylesheet" href="toast.css">
 </head>
 
+<body class="dash-body">
+
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html" class="active">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- BACK TO DASHBOARD -->
-    <div class="pickup-history-back">
-        <a href="dashboard.html">
-            <span class="back-arrow">←</span>
-            <span>back to dashboard</span>
-        </a>
+  <main class="dash-page-wrapper">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
+    </a>
+
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Frozen Cargo Requests</h1>
+        <p class="dash-header-subtitle">Track and review all your cold-chain & frozen cargo bookings.</p>
+      </div>
+      <a href="frozen-cargo.html" class="dash-action-btn">
+        <span>+ Book Frozen Cargo</span>
+      </a>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="pickup-history-main">
+    <!-- STATISTICS -->
+    <div class="dash-stats-grid">
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Total Requests</h3>
+        <p class="dash-stat-value" id="totalFrozen">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Completed</h3>
+        <p class="dash-stat-value" id="completedFrozen">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">In Progress</h3>
+        <p class="dash-stat-value" id="inProgressFrozen">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Pending</h3>
+        <p class="dash-stat-value" id="pendingFrozen">0</p>
+      </div>
+    </div>
 
-        <section class="pickup-history-card">
+    <!-- MAIN CARD -->
+    <div class="dash-card">
+      <div class="dash-search-bar">
+        <input type="text" id="frozenSearch" placeholder="Enter Request ID...">
+        <button type="button" id="frozenSearchButton" aria-label="Search request">🔍</button>
+      </div>
 
-            <!-- PAGE INTRO -->
-            <div class="pickup-history-intro" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <div>
-                    <h1>My frozen cargo requests</h1>
-                    <p>Track and review all your previous cold-chain & frozen cargo requests</p>
-                </div>
-                <a href="frozen-cargo.html" style="background-color: #15803d; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: background 0.2s ease;">
-                    <span>+ Book Frozen Cargo</span>
-                </a>
-            </div>
-
-            <!-- STATISTICS -->
-            <div class="pickup-statistics">
-                <div class="pickup-stat">
-                    <h3>Total Requests</h3>
-                    <p id="totalFrozen">0</p>
-                </div>
-
-                <div class="pickup-stat">
-                    <h3>Completed</h3>
-                    <p id="completedFrozen">0</p>
-                </div>
-
-                <div class="pickup-stat">
-                    <h3>In Progress</h3>
-                    <p id="inProgressFrozen">0</p>
-                </div>
-
-                <div class="pickup-stat">
-                    <h3>Pending</h3>
-                    <p id="pendingFrozen">0</p>
-                </div>
-            </div>
-
-            <!-- SEARCH -->
-            <div class="pickup-search-area">
-                <div class="pickup-search">
-                    <input type="text" id="frozenSearch" placeholder="enter request i.d">
-                    <button type="button" id="frozenSearchButton" aria-label="Search request">
-                        🔍
-                    </button>
-                </div>
-            </div>
-
-            <!-- TABLE -->
-            <div class="pickup-table-wrapper">
-                <table class="pickup-table">
-                    <thead>
-                        <tr>
-                            <th>Request ID</th>
-                            <th>Cargo / Route</th>
-                            <th>Departure Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="frozenTableBody">
-                        <!-- Requests will be inserted by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-
-        </section>
-
-    </main>
+      <div class="dash-table-wrapper">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Cargo / Route</th>
+              <th>Departure Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="frozenTableBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 
     <!-- FOOTER -->
     <footer class="footer">

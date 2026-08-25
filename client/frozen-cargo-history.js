@@ -35,16 +35,7 @@ async function loadFrozenHistory() {
         console.error("Error fetching frozen cargo history from API:", err);
     }
 
-    // Fallback sample data if API returned empty
-    if (frozenData.length === 0) {
-        const sampleData = [
-            { id: "RQST7829102", route: "Frozen Snails & Pap (Lagos → London, UK)", date: "Aug 12, 2026", status: "Completed" },
-            { id: "RQST7829103", route: "Frozen Vegetables & Fish (Lagos → Atlanta, US)", date: "Aug 15, 2026", status: "In Progress" },
-            { id: "RQST7829104", route: "Cold Storage Sea Foods (Lagos → Toronto, CA)", date: "Aug 18, 2026", status: "Pending" },
-            { id: "RQST7829105", route: "Frozen Goat Meat (Lagos → Houston, US)", date: "Aug 20, 2026", status: "Pending" }
-        ];
-        frozenData = sampleData;
-    }
+
 
     displayFrozenRequests(frozenData);
     updateStatistics();

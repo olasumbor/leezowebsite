@@ -38,8 +38,7 @@
     <!-- Pick Up & Delivery History CSS -->
     <link rel="stylesheet" href="pickup-delivery-history.css">
     <link rel="stylesheet" href="toast.css">
-</head>
-
+<body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
@@ -47,162 +46,87 @@
         <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
       </a>
     </div>
-    <button type="button" id="logoutButton" class="logout-button">
-      Sign Out
-    </button>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html" class="active">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
   </header>
 
-    <!-- BACK TO DASHBOARD -->
+  <main class="dash-page-wrapper">
+    <a href="dashboard.html" class="dash-back-link">
+      <span>← Back to Dashboard</span>
+    </a>
 
-    <div class="pickup-history-back">
-
-        <a href="dashboard.html">
-
-            <span class="back-arrow">←</span>
-
-            <span>back to dashboard</span>
-
-        </a>
-
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title">Pickup & Delivery History</h1>
+        <p class="dash-header-subtitle">Track and review all your previous pickup and delivery requests.</p>
+      </div>
+      <a href="pickup-delivery.html" class="dash-action-btn">
+        <span>+ New Pickup & Delivery</span>
+      </a>
     </div>
 
-
-
-    <!-- MAIN CONTENT -->
-
-    <main class="pickup-history-main">
-
-
-        <section class="pickup-history-card">
-
-
-            <!-- PAGE INTRO -->
-
-            <div class="pickup-history-intro" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-
-                <div>
-                    <h1>My pick ups & deliveries</h1>
-
-                    <p>
-                        Track and review all your previous pick up and delivery requests
-                    </p>
-                </div>
-
-                <a href="pickup-delivery.html" style="background-color: #15803d; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; transition: background 0.2s ease;">
-                    <span>+ New Pickup & Delivery</span>
-                </a>
-
-            </div>
-
-
-
-
-            <!-- STATISTICS -->
-
-            <div class="pickup-statistics">
-
-
-                <div class="pickup-stat">
-
-                    <h3>Total Requests</h3>
-
-                    <p id="totalPickups">0</p>
-
-                </div>
-
-
-                <div class="pickup-stat">
-
-                    <h3>Completed</h3>
-
-                    <p id="completedPickups">0</p>
-
-                </div>
-
-
-                <div class="pickup-stat">
-
-                    <h3>In Progress</h3>
-
-                    <p id="inProgressPickups">0</p>
-
-                </div>
-
-
-                <div class="pickup-stat">
-
-                    <h3>Pending</h3>
-
-                    <p id="pendingPickups">0</p>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- SEARCH -->
-
-            <div class="pickup-search-area">
-
-                <div class="pickup-search">
-
-                    <input type="text" id="pickupSearch" placeholder="enter request i.d">
-
-                    <button type="button" id="pickupSearchButton" aria-label="Search request">
-                        🔍
-                    </button>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- PICK UP & DELIVERY TABLE -->
-
-            <div class="pickup-table-wrapper">
-
-
-                <table class="pickup-table">
-
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Request ID</th>
-
-                            <th>Date</th>
-
-                            <th>Status</th>
-
-                            <th>Action</th>
-
-                        </tr>
-
-                    </thead>
-
-
-
-                    <tbody id="pickupTableBody">
-
-                        <!-- Requests will be inserted by JavaScript -->
-
-                    </tbody>
-
-
-                </table>
-
-
-            </div>
-
-
-        </section>
-
-
-    </main>
+    <!-- STATISTICS -->
+    <div class="dash-stats-grid">
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Total Requests</h3>
+        <p class="dash-stat-value" id="totalPickups">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Completed</h3>
+        <p class="dash-stat-value" id="completedPickups">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">In Progress</h3>
+        <p class="dash-stat-value" id="inProgressPickups">0</p>
+      </div>
+      <div class="dash-stat-card">
+        <h3 class="dash-stat-title">Pending</h3>
+        <p class="dash-stat-value" id="pendingPickups">0</p>
+      </div>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="dash-card">
+      <div class="dash-search-bar">
+        <input type="text" id="pickupSearch" placeholder="Enter Request ID...">
+        <button type="button" id="pickupSearchButton" aria-label="Search request">🔍</button>
+      </div>
+
+      <div class="dash-table-wrapper">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="pickupTableBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 
 
 
