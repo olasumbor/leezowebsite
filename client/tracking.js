@@ -12,6 +12,10 @@ if (trackButton) {
             return;
         }
 
+        if (typeof setButtonLoading === 'function') {
+            setButtonLoading(trackButton, true, "Searching...");
+        }
+
         try {
             const response = await fetch(`${CONFIG.API_URL}/track/${trackingNumber}`, {
                 method: 'GET',
@@ -47,6 +51,10 @@ if (trackButton) {
         } catch (error) {
             console.error("Error fetching tracking details:", error);
             showToast("An error occurred while tracking the shipment.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function') {
+                setButtonLoading(trackButton, false);
+            }
         }
 
     });

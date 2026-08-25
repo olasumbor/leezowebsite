@@ -160,6 +160,43 @@
     // Export globally
     window.showToast = showToast;
 
+    /**
+     * Button Loading State Controller
+     * @param {HTMLElement|string} button - Button element or selector
+     * @param {boolean} isLoading - Loading state true/false
+     * @param {string} loadingText - Text to show next to spinner
+     */
+    function setButtonLoading(button, isLoading, loadingText = 'Loading...') {
+        const btnElement = typeof button === 'string' ? document.querySelector(button) : button;
+        if (!btnElement) return;
+
+        if (isLoading) {
+            if (btnElement.dataset.originalContent === undefined) {
+                btnElement.dataset.originalContent = btnElement.innerHTML;
+            }
+            
+            // Maintain geometry to prevent button layout jitter
+            const currentWidth = btnElement.offsetWidth;
+            if (currentWidth && !btnElement.style.minWidth) {
+                btnElement.style.minWidth = `${currentWidth}px`;
+            }
+
+            btnElement.disabled = true;
+            btnElement.classList.add('btn-loading');
+            btnElement.innerHTML = `<span class="btn-spinner"></span><span>${loadingText}</span>`;
+        } else {
+            if (btnElement.dataset.originalContent !== undefined) {
+                btnElement.innerHTML = btnElement.dataset.originalContent;
+                delete btnElement.dataset.originalContent;
+            }
+            btnElement.disabled = false;
+            btnElement.classList.remove('btn-loading');
+            btnElement.style.minWidth = '';
+        }
+    }
+
+    window.setButtonLoading = setButtonLoading;
+
     // Replace native browser alert with non-blocking modern toast notification fallback
     window.alert = function (message) {
         if (!message) return;

@@ -88,10 +88,10 @@ if (pickupDeliveryForm) {
         const weight = document.getElementById("weight").value ? parseFloat(document.getElementById("weight").value) : null;
         const notes = document.getElementById("notes").value.trim();
 
-        const submitBtn = pickupDeliveryForm.querySelector("button[type='submit']");
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = "SUBMITTING...";
+        const submitBtn = pickupDeliveryForm.querySelector("button[type='submit']") || pickupDeliveryForm.querySelector("button");
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Booking Pickup...");
+        }
 
         try {
             const token = localStorage.getItem("auth_token");
@@ -135,8 +135,9 @@ if (pickupDeliveryForm) {
             console.error("Pickup & Delivery submission error", error);
             showToast("An error occurred during submission. Please try again.", "error");
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }

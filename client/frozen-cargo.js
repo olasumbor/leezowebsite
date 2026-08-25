@@ -19,10 +19,10 @@ if (frozenCargoForm) {
         const departure_date = document.getElementById("departure_date").value || null;
         const notes = document.getElementById("notes").value.trim();
 
-        const submitBtn = frozenCargoForm.querySelector("button[type='submit']");
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = "SUBMITTING...";
+        const submitBtn = frozenCargoForm.querySelector("button[type='submit']") || frozenCargoForm.querySelector("button");
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Submitting Request...");
+        }
 
         try {
             const token = localStorage.getItem("auth_token");
@@ -65,8 +65,9 @@ if (frozenCargoForm) {
             console.error("Frozen cargo submission error", error);
             showToast("An error occurred during submission. Please try again.", "error");
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }

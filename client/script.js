@@ -127,9 +127,14 @@ newsletterForms.forEach(form => {
         event.preventDefault();
 
         const emailInput = form.querySelector('input[type="email"]');
-        const email = emailInput.value.trim();
+        const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector('button');
+        const email = emailInput ? emailInput.value.trim() : "";
 
         if (!email) return;
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, 'Subscribing...');
+        }
 
         try {
             const response = await fetch(`${CONFIG.API_URL}/newsletter/subscribe`, {
@@ -152,6 +157,10 @@ newsletterForms.forEach(form => {
         } catch (error) {
             console.error("Newsletter error", error);
             showToast("An error occurred while subscribing.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 });

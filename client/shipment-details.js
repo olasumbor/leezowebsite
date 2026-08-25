@@ -147,6 +147,10 @@ if (downloadShipmentInvoiceButton) {
             return;
         }
 
+        if (typeof setButtonLoading === 'function') {
+            setButtonLoading(downloadShipmentInvoiceButton, true, "Generating Invoice...");
+        }
+
         try {
             const token = localStorage.getItem('auth_token');
             const headers = {};
@@ -180,6 +184,10 @@ if (downloadShipmentInvoiceButton) {
         } catch (error) {
             console.error("Failed to download shipment invoice:", error);
             showToast("An error occurred while generating shipment invoice.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function') {
+                setButtonLoading(downloadShipmentInvoiceButton, false);
+            }
         }
 
     });

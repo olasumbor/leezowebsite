@@ -6,6 +6,7 @@ const chargeableWeightInfoEl = document.getElementById("chargeableWeightInfo");
 if (quoteForm) {
     quoteForm.addEventListener("submit", async function (event) {
         event.preventDefault();
+        const submitBtn = quoteForm.querySelector("button[type='submit']") || quoteForm.querySelector("button");
 
         const formData = {
             name: document.getElementById("quoteName").value.trim(),
@@ -20,6 +21,10 @@ if (quoteForm) {
             shippingLength: document.getElementById("shippingLength").value,
             shippingDetails: document.getElementById("shippingDetails").value.trim(),
         };
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Calculating Quote...");
+        }
 
         try {
             const response = await fetch(`${CONFIG.API_URL}/quotes/calculate`, {
@@ -53,6 +58,10 @@ if (quoteForm) {
         } catch (error) {
             console.error("Calculation error", error);
             showToast("An error occurred while calculating the quote.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }

@@ -38,8 +38,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Update user profile
     profileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const submitBtn = profileForm.querySelector("button[type='submit']") || profileForm.querySelector("button");
+
         messageEl.textContent = 'Updating...';
         messageEl.style.color = '#0b1a53';
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Saving Profile...");
+        }
 
         try {
             const token = localStorage.getItem("auth_token");
@@ -74,6 +80,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error updating profile:', error);
             messageEl.textContent = 'An error occurred while updating profile.';
             messageEl.style.color = '#ef3340';
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 
@@ -102,6 +112,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (changePasswordForm) {
         changePasswordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = changePasswordForm.querySelector("button[type='submit']") || changePasswordForm.querySelector("button");
+
             const currentPassword = document.getElementById('currentPassword').value;
             const newPassword = document.getElementById('newPassword').value;
             const confirmNewPassword = document.getElementById('confirmNewPassword').value;
@@ -109,6 +121,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (newPassword !== confirmNewPassword) {
                 showToast("New passwords do not match.", "error");
                 return;
+            }
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, "Updating Password...");
             }
 
             try {
@@ -139,6 +155,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             } catch (error) {
                 console.error("Change password error:", error);
                 showToast("An error occurred while changing password.", "error");
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }

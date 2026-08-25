@@ -3,6 +3,7 @@ const contactForm = document.getElementById("contactForm");
 if (contactForm) {
     contactForm.addEventListener("submit", async function(event) {
         event.preventDefault();
+        const submitBtn = contactForm.querySelector("button[type='submit']") || contactForm.querySelector("button");
 
         const formData = {
             name: document.getElementById("contactName").value.trim(),
@@ -11,6 +12,10 @@ if (contactForm) {
             subject: document.getElementById("contactSubject").value.trim(),
             message: document.getElementById("contactMessage").value.trim()
         };
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Sending Message...");
+        }
 
         try {
             const response = await fetch(`${CONFIG.API_URL}/contact`, {
@@ -33,6 +38,10 @@ if (contactForm) {
         } catch (error) {
             console.error("Contact error", error);
             showToast("An error occurred while sending the message.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }

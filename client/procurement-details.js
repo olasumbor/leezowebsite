@@ -229,6 +229,10 @@ if (downloadInvoiceButton) {
             return;
         }
 
+        if (typeof setButtonLoading === 'function') {
+            setButtonLoading(downloadInvoiceButton, true, "Generating Invoice...");
+        }
+
         try {
             const token = localStorage.getItem('auth_token');
             const headers = {};
@@ -262,6 +266,10 @@ if (downloadInvoiceButton) {
         } catch (error) {
             console.error("Failed to download procurement invoice:", error);
             showToast("An error occurred while generating invoice.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function') {
+                setButtonLoading(downloadInvoiceButton, false);
+            }
         }
 
     });

@@ -5702,3 +5702,71 @@ CORE VALUES LAYOUT
 body.menu-open {
     overflow: hidden;
 }
+
+/* =====================================================
+   INTERACTIVE BUTTON LOADING & MICRO-INTERACTION STYLES
+   ===================================================== */
+
+@keyframes btnSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.btn-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: text-bottom;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: btnSpin 0.75s linear infinite;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+button.btn-loading,
+.btn-loading {
+    position: relative !important;
+    pointer-events: none !important;
+    opacity: 0.82 !important;
+    cursor: wait !important;
+    user-select: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Tactile Active Click Press Micro-Interaction site-wide */
+button:not(:disabled):active,
+.btn-primary:not(:disabled):active,
+.login-button:not(:disabled):active,
+.signup-button:not(:disabled):active,
+.quote-button:not(:disabled):active,
+.procurement-button:not(:disabled):active,
+.hero-button:not(:disabled):active,
+.logout-button:not(:disabled):active,
+.track-form button:not(:disabled):active,
+.signin-btn:not(:disabled):active,
+.dashboard-card:active {
+    transform: scale(0.97) !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+    transition: transform 0.08s ease, box-shadow 0.08s ease !important;
+}
+
+/* Disabled button state */
+button:disabled,
+.btn-primary:disabled,
+.login-button:disabled,
+.signup-button:disabled,
+.quote-button:disabled,
+.procurement-button:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.65 !important;
+    box-shadow: none !important;
+}

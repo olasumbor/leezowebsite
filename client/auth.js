@@ -3,6 +3,9 @@ const logoutButton = document.getElementById("logoutButton");
 
 if (logoutButton) {
     logoutButton.addEventListener("click", async function () {
+        if (typeof setButtonLoading === 'function') {
+            setButtonLoading(logoutButton, true, "Logging out...");
+        }
         try {
             const token = localStorage.getItem("auth_token");
             if (token) {
@@ -21,6 +24,9 @@ if (logoutButton) {
             window.location.href = "signin.html";
         } catch (error) {
             console.error("Logout failed", error);
+            if (typeof setButtonLoading === 'function') {
+                setButtonLoading(logoutButton, false);
+            }
         }
     });
 }
@@ -31,14 +37,16 @@ const loginForm = document.getElementById("loginForm");
 if (loginForm) {
     loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
-        console.log("Form submitted!");
+        const submitBtn = loginForm.querySelector("button[type='submit']") || loginForm.querySelector(".login-button");
 
         const email = document.getElementById("loginEmail").value;
         const password = document.getElementById("loginPassword").value;
-        console.log("Email:", email, "Password length:", password.length);
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Signing in...");
+        }
 
         try {
-            console.log("Sending login request...");
             const response = await fetch(`${CONFIG.API_URL}/login`, {
                 method: "POST",
                 headers: {
@@ -48,15 +56,12 @@ if (loginForm) {
                 body: JSON.stringify({ email, password })
             });
 
-            console.log("Login response received, status:", response.status);
-
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem("loggedIn", "true");
                 localStorage.setItem("userEmail", data.user.email);
                 localStorage.setItem("auth_token", data.token);
                 
-                console.log("Sign In successful", data);
                 if (data.user.role === 'admin') {
                     window.location.href = "admin-dashboard.html";
                 } else {
@@ -69,7 +74,11 @@ if (loginForm) {
             }
         } catch (error) {
             console.error("Login error caught in try/catch:", error);
-            showToast("An error occurred during login. Check console for details: " + error.message, "error");
+            showToast("An error occurred during login: " + error.message, "error");
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }
@@ -156,12 +165,17 @@ const signupForm = document.getElementById("signupForm");
 if (signupForm) {
     signupForm.addEventListener("submit", async function (event) {
         event.preventDefault();
+        const submitBtn = signupForm.querySelector("button[type='submit']") || signupForm.querySelector(".signup-button");
 
         const name = document.getElementById("signupName").value;
         const email = document.getElementById("signupEmail").value;
         const phone = document.getElementById("signupPhone").value;
         const password = document.getElementById("signupPassword").value;
         
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Creating Account...");
+        }
+
         try {
             const response = await fetch(`${CONFIG.API_URL}/register`, {
                 method: "POST",
@@ -194,6 +208,10 @@ if (signupForm) {
         } catch (error) {
             console.error("Signup error", error);
             showToast("An error occurred during registration.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }
@@ -203,9 +221,14 @@ const forgotPasswordForm = document.getElementById("forgotPasswordForm");
 if (forgotPasswordForm) {
     forgotPasswordForm.addEventListener("submit", async function (event) {
         event.preventDefault();
+        const submitBtn = forgotPasswordForm.querySelector("button[type='submit']") || forgotPasswordForm.querySelector("button");
         
         const email = document.getElementById("forgotEmail").value.trim();
         const message = document.getElementById("forgotPasswordMessage");
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Sending Link...");
+        }
         
         try {
             const response = await fetch(`${CONFIG.API_URL}/forgot-password`, {
@@ -221,7 +244,7 @@ if (forgotPasswordForm) {
             const data = await response.json();
             
             if (response.ok) {
-                message.textContent = data.message || "Password reset link sent! Check your logs (local dev).";
+                message.textContent = data.message || "Password reset link sent! Check your email.";
                 message.style.color = "#00a94f";
             } else {
                 message.textContent = data.message || "No account found with this email.";
@@ -231,6 +254,10 @@ if (forgotPasswordForm) {
             console.error("Forgot password error", error);
             message.textContent = "An error occurred.";
             message.style.color = "#ef3340";
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }
@@ -245,6 +272,7 @@ if (resetPasswordForm) {
     
     resetPasswordForm.addEventListener("submit", async function (event) {
         event.preventDefault();
+        const submitBtn = resetPasswordForm.querySelector("button[type='submit']") || resetPasswordForm.querySelector("button");
         
         const newPassword = document.getElementById("newPassword").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
@@ -260,6 +288,10 @@ if (resetPasswordForm) {
             message.textContent = "Invalid password reset link.";
             message.style.color = "#ef3340";
             return;
+        }
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Updating Password...");
         }
         
         try {
@@ -295,6 +327,10 @@ if (resetPasswordForm) {
             console.error("Reset password error", error);
             message.textContent = "An error occurred.";
             message.style.color = "#ef3340";
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
     });
 }

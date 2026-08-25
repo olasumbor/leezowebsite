@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (procurementForm) {
         procurementForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = procurementForm.querySelector("button[type='submit']") || procurementForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
             const id = document.getElementById('editProcurementId').value;
 
@@ -185,6 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 expected_date: document.getElementById('editProcExpectedDate').value || null,
                 delivered_date: document.getElementById('editProcDeliveredDate').value || null,
             };
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Saving...');
+            }
 
             try {
                 const res = await fetch(`${CONFIG.API_URL}/admin/procurements/${id}`, {
@@ -204,6 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error(error);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }
@@ -295,6 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (shipmentForm) {
         shipmentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = shipmentForm.querySelector("button[type='submit']") || shipmentForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
             const id = document.getElementById('editShipmentId').value;
 
@@ -312,6 +322,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 delivered_date: document.getElementById('editShipDeliveredDate').value || null,
             };
 
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Updating...');
+            }
+
             try {
                 const res = await fetch(`${CONFIG.API_URL}/admin/shipments/${id}`, {
                     method: 'PUT',
@@ -327,6 +341,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error(err);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }
@@ -335,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addEventForm) {
         addEventForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = addEventForm.querySelector("button[type='submit']") || addEventForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
             const id = document.getElementById('eventShipmentId').value;
 
@@ -342,6 +361,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 location: document.getElementById('eventLocation').value,
                 description: document.getElementById('eventDescription').value,
             };
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Adding Event...');
+            }
 
             try {
                 const res = await fetch(`${CONFIG.API_URL}/admin/shipments/${id}/events`, {
@@ -358,6 +381,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error(err);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }
@@ -419,6 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (quoteForm) {
         quoteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = quoteForm.querySelector("button[type='submit']") || quoteForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
             const id = document.getElementById('quoteId').value;
 
@@ -426,6 +454,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 calculated_cost: document.getElementById('quoteCost').value,
                 status: document.getElementById('quoteStatus').value,
             };
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Saving Rate...');
+            }
 
             try {
                 const res = await fetch(`${CONFIG.API_URL}/admin/quotes/${id}/cost`, {
@@ -442,6 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error(err);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }
@@ -554,6 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetUserPasswordForm) {
         resetUserPasswordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = resetUserPasswordForm.querySelector("button[type='submit']") || resetUserPasswordForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
             const id = document.getElementById('resetTargetUserId').value;
             const newPassword = document.getElementById('resetTargetNewPassword').value;
@@ -562,6 +599,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newPassword !== confirmPassword) {
                 showToast('Passwords do not match.', 'error');
                 return;
+            }
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Resetting...');
             }
 
             try {
@@ -591,6 +632,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error("User password reset error:", err);
                 showToast('An error occurred while resetting password.', 'error');
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }
@@ -617,8 +662,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (settingsForm) {
         settingsForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = settingsForm.querySelector("button[type='submit']") || settingsForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
             const shippingRate = document.getElementById('settingShippingRate').value;
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Saving...');
+            }
 
             try {
                 const response = await fetch(`${CONFIG.API_URL}/admin/settings`, {
@@ -644,6 +694,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error("Error saving settings:", error);
                 showToast('An error occurred while saving settings.', 'error');
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     };
@@ -661,7 +715,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (createShipmentForm) {
         createShipmentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = createShipmentForm.querySelector("button[type='submit']") || createShipmentForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Creating...');
+            }
+
             try {
                 const response = await fetch(`${CONFIG.API_URL}/admin/shipments`, {
                     method: 'POST',
@@ -687,6 +747,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error(error);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }
@@ -896,6 +960,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (adminChangePasswordForm) {
         adminChangePasswordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = adminChangePasswordForm.querySelector("button[type='submit']") || adminChangePasswordForm.querySelector("button");
+
             const currentPassword = document.getElementById('adminCurrentPassword').value;
             const newPassword = document.getElementById('adminNewPassword').value;
             const confirmNewPassword = document.getElementById('adminConfirmNewPassword').value;
@@ -903,6 +969,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newPassword !== confirmNewPassword) {
                 showToast('New passwords do not match.', 'error');
                 return;
+            }
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Updating Password...');
             }
 
             try {
@@ -933,6 +1003,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error("Change password error", err);
                 showToast('An error occurred while updating password.', 'error');
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
         });
     }

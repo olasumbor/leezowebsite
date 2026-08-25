@@ -11,6 +11,7 @@ if (procurementForm) {
     procurementForm.addEventListener("submit", async function (event) {
 
         event.preventDefault();
+        const submitBtn = procurementForm.querySelector("button[type='submit']") || procurementForm.querySelector(".procurement-button");
 
 
         // ======================================
@@ -29,6 +30,10 @@ if (procurementForm) {
         const details =
             document.getElementById("details").value.trim();
 
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, "Submitting Procurement...");
+        }
 
         try {
             const token = localStorage.getItem("auth_token");
@@ -77,6 +82,10 @@ if (procurementForm) {
         } catch (error) {
             console.error("Procurement submission error", error);
             showToast("An error occurred during submission.", "error");
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
         }
 
     });
