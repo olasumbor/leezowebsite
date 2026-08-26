@@ -38,9 +38,10 @@ if (quoteForm) {
 
             if (response.ok) {
                 const data = await response.json();
+                const trackingId = data.tracking_id || data.request_id;
                 
                 if (calculatedCostEl) {
-                    calculatedCostEl.textContent = "Status: Pending Admin Review";
+                    calculatedCostEl.textContent = `Tracking ID: ${trackingId} (Status: Pending Admin Review)`;
                 }
                 if (chargeableWeightInfoEl) {
                     chargeableWeightInfoEl.textContent = "Our pricing team will review your shipping details and send your custom quote rate directly to your email.";
@@ -49,7 +50,7 @@ if (quoteForm) {
                 quoteSuccess.style.display = "block";
                 
                 // Show success message
-                showToast(`${data.message} Request ID: ${data.request_id}`, "success");
+                showToast(`${data.message} Tracking ID: ${trackingId}`, "success");
                 
                 quoteSuccess.scrollIntoView({
                     behavior: "smooth",

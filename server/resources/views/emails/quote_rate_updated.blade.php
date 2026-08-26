@@ -6,6 +6,9 @@
     <p>Great news! Our pricing team has calculated the freight rate for your quote request <strong>Q-{{ $quote->id }}</strong>.</p>
     
     <div class="info-box" style="border-left-color: #00a63e;">
+        @if(!empty($trackingId))
+        <p><strong>Tracking ID:</strong> <span style="font-size: 16px; color: #00a63e; font-weight: 700;">{{ $trackingId }}</span></p>
+        @endif
         <p><strong>Quote Reference:</strong> Q-{{ $quote->id }}</p>
         <p><strong>Route:</strong> {{ $quote->origin_country }} &rarr; {{ $quote->destination_country }}</p>
         <p><strong>Weight:</strong> {{ $quote->weight }}kg</p>

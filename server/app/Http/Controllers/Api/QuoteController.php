@@ -47,17 +47,40 @@ class QuoteController extends Controller
             'calculated_cost' => null,
         ]);
 
+        $trackingId = 'LEEZO' . mt_rand(1000000, 9999999);
+
+        // Find or associate user if authenticated or matching email
+        $user = $request->user() ?? \App\Models\User::where('email', $request->email)->first() ?? \App\Models\User::first();
+        if ($user) {
+            $shipment = \App\Models\Shipment::create([
+                'tracking_id' => $trackingId,
+                'user_id' => $user->id,
+                'origin' => $request->originCountry,
+                'destination' => $request->destinationCountry,
+                'service' => $request->shippingType,
+                'weight' => $request->shippingWeight . ' kg',
+                'packages' => 1,
+                'recipient_name' => $request->name,
+                'recipient_location' => $request->destinationCountry,
+                'status' => 'pending',
+            ]);
+
+            $shipment->events()->create([
+                'location' => $request->originCountry,
+                'description' => 'Shipment created from request quote form. Tracking ID: ' . $trackingId,
+            ]);
+        }
+
         try {
-            Mail::to($quote->email)->send(new QuoteSubmittedMail($quote));
+            Mail::to($quote->email)->send(new QuoteSubmittedMail($quote, $trackingId));
         } catch (\Throwable $e) {
             Log::error("Failed to send QuoteSubmittedMail to {$quote->email}: " . $e->getMessage());
         }
 
-        $requestId = 'RQST' . mt_rand(1000000, 9999999);
-
         return response()->json([
             'message' => 'Quote submitted successfully. Admin will review and provide a rate.',
-            'request_id' => $requestId,
+            'request_id' => $trackingId,
+            'tracking_id' => $trackingId,
             'quote_id' => $quote->id
         ], 201);
     }
@@ -84,8 +107,15 @@ class QuoteController extends Controller
         }
         $quote->save();
 
+        $matchingShipment = \App\Models\Shipment::where('recipient_name', $quote->name)
+            ->where('origin', $quote->origin_country)
+            ->where('destination', $quote->destination_country)
+            ->latest()
+            ->first();
+        $trackingId = $matchingShipment ? $matchingShipment->tracking_id : null;
+
         try {
-            Mail::to($quote->email)->send(new QuoteRateUpdatedMail($quote));
+            Mail::to($quote->email)->send(new QuoteRateUpdatedMail($quote, $trackingId));
         } catch (\Throwable $e) {
             Log::error("Failed to send QuoteRateUpdatedMail to {$quote->email}: " . $e->getMessage());
         }
