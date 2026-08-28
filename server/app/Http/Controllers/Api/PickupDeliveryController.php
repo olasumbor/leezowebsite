@@ -29,7 +29,15 @@ class PickupDeliveryController extends Controller
         ]);
 
         $requestId = 'PKD' . mt_rand(10000000, 99999999);
-        $userId = $request->user() ? $request->user()->id : null;
+        $user = $request->user('sanctum') ?? $request->user();
+        $userId = $user ? $user->id : null;
+
+        if (!$userId && $request->email) {
+            $existingUser = \App\Models\User::where('email', $request->email)->first();
+            if ($existingUser) {
+                $userId = $existingUser->id;
+            }
+        }
 
         $pickupDelivery = PickupDelivery::create([
             'request_id' => $requestId,
@@ -61,7 +69,18 @@ class PickupDeliveryController extends Controller
     // Get user's pickup & delivery requests (Requires Auth)
     public function index(Request $request)
     {
-        $requests = PickupDelivery::where('user_id', $request->user()->id)->latest()->get();
+        $user = $request->user();
+
+        // Auto-link any previous unlinked requests that match this user's email
+        PickupDelivery::whereNull('user_id')
+            ->where('email', $user->email)
+            ->update(['user_id' => $user->id]);
+
+        $requests = PickupDelivery::where(function ($q) use ($user) {
+            $q->where('user_id', $user->id)
+              ->orWhere('email', $user->email);
+        })->latest()->get();
+
         return response()->json($requests);
     }
 
@@ -72,7 +91,10 @@ class PickupDeliveryController extends Controller
         $query = PickupDelivery::query();
 
         if ($user->role !== 'admin') {
-            $query->where('user_id', $user->id);
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
         }
 
         $pickupDelivery = $query->where(function($q) use ($id) {
@@ -113,7 +135,10 @@ class PickupDeliveryController extends Controller
         $query = PickupDelivery::with('user');
 
         if ($user->role !== 'admin') {
-            $query->where('user_id', $user->id);
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
         }
 
         $pickupDelivery = $query->where(function ($q) use ($id) {

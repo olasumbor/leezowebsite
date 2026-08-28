@@ -51,7 +51,18 @@ class ProcurementController extends Controller
     // Get user's procurements (Requires Auth)
     public function index(Request $request)
     {
-        $procurements = Procurement::where('user_id', $request->user()->id)->get();
+        $user = $request->user();
+
+        // Auto-link any unlinked procurements that match this user's email
+        Procurement::whereNull('user_id')
+            ->where('email', $user->email)
+            ->update(['user_id' => $user->id]);
+
+        $procurements = Procurement::where(function ($q) use ($user) {
+            $q->where('user_id', $user->id)
+              ->orWhere('email', $user->email);
+        })->latest()->get();
+
         return response()->json($procurements);
     }
 
@@ -62,7 +73,10 @@ class ProcurementController extends Controller
         if ($user->role === 'admin') {
             $procurement = $this->findProcurement($id);
         } else {
-            $query = Procurement::where('user_id', $user->id);
+            $query = Procurement::where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
             if (is_numeric($id)) {
                 $procurement = $query->where(function ($q) use ($id) {
                     $q->where('id', $id)->orWhere('procurement_id', (string) $id);
@@ -82,7 +96,10 @@ class ProcurementController extends Controller
         if ($user->role === 'admin') {
             $procurement = $this->findProcurement($id);
         } else {
-            $query = Procurement::with('user')->where('user_id', $user->id);
+            $query = Procurement::with('user')->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
             if (is_numeric($id)) {
                 $procurement = $query->where(function ($q) use ($id) {
                     $q->where('id', $id)->orWhere('procurement_id', (string) $id);
@@ -107,7 +124,10 @@ class ProcurementController extends Controller
         if ($user->role === 'admin') {
             $procurement = $this->findProcurement($id);
         } else {
-            $query = Procurement::with('user')->where('user_id', $user->id);
+            $query = Procurement::with('user')->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
             if (is_numeric($id)) {
                 $procurement = $query->where(function ($q) use ($id) {
                     $q->where('id', $id)->orWhere('procurement_id', (string) $id);

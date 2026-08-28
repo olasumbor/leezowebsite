@@ -30,7 +30,15 @@ class FrozenCargoController extends Controller
         ]);
 
         $requestId = 'RQST' . mt_rand(1000000, 9999999);
-        $userId = $request->user() ? $request->user()->id : null;
+        $user = $request->user('sanctum') ?? $request->user();
+        $userId = $user ? $user->id : null;
+
+        if (!$userId && $request->email) {
+            $existingUser = \App\Models\User::where('email', $request->email)->first();
+            if ($existingUser) {
+                $userId = $existingUser->id;
+            }
+        }
 
         $frozenCargo = FrozenCargo::create([
             'request_id' => $requestId,
@@ -63,7 +71,18 @@ class FrozenCargoController extends Controller
     // Get user's frozen cargo requests (Requires Auth)
     public function index(Request $request)
     {
-        $requests = FrozenCargo::where('user_id', $request->user()->id)->latest()->get();
+        $user = $request->user();
+
+        // Auto-link any previous unlinked requests that match this user's email
+        FrozenCargo::whereNull('user_id')
+            ->where('email', $user->email)
+            ->update(['user_id' => $user->id]);
+
+        $requests = FrozenCargo::where(function ($q) use ($user) {
+            $q->where('user_id', $user->id)
+              ->orWhere('email', $user->email);
+        })->latest()->get();
+
         return response()->json($requests);
     }
 
@@ -74,7 +93,10 @@ class FrozenCargoController extends Controller
         $query = FrozenCargo::query();
 
         if ($user->role !== 'admin') {
-            $query->where('user_id', $user->id);
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
         }
 
         $frozenCargo = $query->where(function($q) use ($id) {
@@ -115,7 +137,10 @@ class FrozenCargoController extends Controller
         $query = FrozenCargo::with('user');
 
         if ($user->role !== 'admin') {
-            $query->where('user_id', $user->id);
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)
+                  ->orWhere('email', $user->email);
+            });
         }
 
         $frozenCargo = $query->where(function ($q) use ($id) {
