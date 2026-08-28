@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\FrozenCargoCreatedMail;
+use App\Mail\FrozenCargoStatusUpdatedMail;
 
 class FrozenCargoController extends Controller
 {
@@ -120,9 +121,21 @@ class FrozenCargoController extends Controller
             'status' => 'required|string'
         ]);
 
-        $frozenCargo = FrozenCargo::where('id', $id)->orWhere('request_id', $id)->firstOrFail();
+        $frozenCargo = FrozenCargo::with('user')->where(function($q) use ($id) {
+            $q->where('id', $id)->orWhere('request_id', $id);
+        })->firstOrFail();
+
         $frozenCargo->status = $request->status;
         $frozenCargo->save();
+
+        $recipientEmail = $frozenCargo->email ?? ($frozenCargo->user->email ?? null);
+        if ($recipientEmail) {
+            try {
+                Mail::to($recipientEmail)->send(new FrozenCargoStatusUpdatedMail($frozenCargo));
+            } catch (\Throwable $e) {
+                Log::error("Failed to send FrozenCargoStatusUpdatedMail to {$recipientEmail}: " . $e->getMessage());
+            }
+        }
 
         return response()->json([
             'message' => 'Frozen cargo request status updated',

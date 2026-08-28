@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\PickupDeliveryCreatedMail;
+use App\Mail\PickupDeliveryStatusUpdatedMail;
 
 class PickupDeliveryController extends Controller
 {
@@ -118,9 +119,21 @@ class PickupDeliveryController extends Controller
             'status' => 'required|string'
         ]);
 
-        $pickupDelivery = PickupDelivery::where('id', $id)->orWhere('request_id', $id)->firstOrFail();
+        $pickupDelivery = PickupDelivery::with('user')->where(function($q) use ($id) {
+            $q->where('id', $id)->orWhere('request_id', $id);
+        })->firstOrFail();
+
         $pickupDelivery->status = $request->status;
         $pickupDelivery->save();
+
+        $recipientEmail = $pickupDelivery->email ?? ($pickupDelivery->user->email ?? null);
+        if ($recipientEmail) {
+            try {
+                Mail::to($recipientEmail)->send(new PickupDeliveryStatusUpdatedMail($pickupDelivery));
+            } catch (\Throwable $e) {
+                Log::error("Failed to send PickupDeliveryStatusUpdatedMail to {$recipientEmail}: " . $e->getMessage());
+            }
+        }
 
         return response()->json([
             'message' => 'Pickup & delivery request status updated',

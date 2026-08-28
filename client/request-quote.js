@@ -3,6 +3,47 @@ const quoteSuccess = document.getElementById("quoteSuccess");
 const calculatedCostEl = document.getElementById("calculatedCost");
 const chargeableWeightInfoEl = document.getElementById("chargeableWeightInfo");
 
+// Auto-fill form details if user is logged in
+async function prefillLoggedInUser() {
+    const token = localStorage.getItem("auth_token");
+    if (!token || typeof CONFIG === "undefined") return;
+
+    try {
+        const response = await fetch(`${CONFIG.API_URL}/user`, {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            const quoteName = document.getElementById("quoteName");
+            const quoteEmail = document.getElementById("quoteEmail");
+            const quotePhone = document.getElementById("quotePhone");
+
+            if (quoteName && user.name && !quoteName.value) {
+                quoteName.value = user.name;
+            }
+            if (quoteEmail && user.email && !quoteEmail.value) {
+                quoteEmail.value = user.email;
+            }
+            if (quotePhone && user.phone && !quotePhone.value) {
+                quotePhone.value = user.phone;
+            }
+        }
+    } catch (error) {
+        console.error("Error auto-filling user details:", error);
+    }
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", prefillLoggedInUser);
+} else {
+    prefillLoggedInUser();
+}
+
 if (quoteForm) {
     quoteForm.addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -27,12 +68,19 @@ if (quoteForm) {
         }
 
         try {
+            const headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            };
+
+            const token = localStorage.getItem("auth_token");
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`;
+            }
+
             const response = await fetch(`${CONFIG.API_URL}/quotes/calculate`, {
                 method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
+                headers: headers,
                 body: JSON.stringify(formData)
             });
 
@@ -41,7 +89,11 @@ if (quoteForm) {
                 const trackingId = data.tracking_id || data.request_id;
                 
                 if (calculatedCostEl) {
-                    calculatedCostEl.textContent = `Tracking ID: ${trackingId} (Status: Pending Admin Review)`;
+                    if (token) {
+                        calculatedCostEl.innerHTML = `Tracking ID: <strong>${trackingId}</strong> (Status: Pending Admin Review) &bull; <a href="shipment-history.html" style="color: #0284c7; text-decoration: underline;">View My Shipments</a>`;
+                    } else {
+                        calculatedCostEl.innerHTML = `Tracking ID: <strong>${trackingId}</strong> (Status: Pending Admin Review) &bull; <a href="track-shipment.html?tracking_id=${trackingId}" style="color: #0284c7; text-decoration: underline;">Track Shipment</a>`;
+                    }
                 }
                 if (chargeableWeightInfoEl) {
                     chargeableWeightInfoEl.textContent = "Our pricing team will review your shipping details and send your custom quote rate directly to your email.";

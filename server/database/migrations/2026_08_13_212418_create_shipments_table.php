@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->string('tracking_id')->unique();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('origin')->nullable();
             $table->string('destination')->nullable();
             $table->string('status')->default('pending');

@@ -30,7 +30,14 @@ class ShipmentController extends Controller
     // Get user's shipments (Requires Auth)
     public function index(Request $request)
     {
-        $shipments = Shipment::where('user_id', $request->user()->id)->get();
+        $user = $request->user();
+        if ($user && $user->name) {
+            Shipment::whereNull('user_id')
+                ->where('recipient_name', $user->name)
+                ->update(['user_id' => $user->id]);
+        }
+
+        $shipments = Shipment::where('user_id', $user->id)->get();
         return response()->json($shipments);
     }
 
@@ -224,11 +231,12 @@ class ShipmentController extends Controller
 
         $shipment->update($data);
 
-        if ($shipment->user && $shipment->user->email) {
+        $recipientEmail = ($shipment->user ? $shipment->user->email : null) ?? ($shipment->email ?? null);
+        if ($recipientEmail) {
             try {
-                Mail::to($shipment->user->email)->send(new ShipmentStatusUpdatedMail($shipment));
+                Mail::to($recipientEmail)->send(new ShipmentStatusUpdatedMail($shipment));
             } catch (\Throwable $e) {
-                Log::error("Failed to send ShipmentStatusUpdatedMail to {$shipment->user->email}: " . $e->getMessage());
+                Log::error("Failed to send ShipmentStatusUpdatedMail to {$recipientEmail}: " . $e->getMessage());
             }
         }
 
@@ -249,11 +257,12 @@ class ShipmentController extends Controller
         $shipment->status = $request->status;
         $shipment->save();
 
-        if ($shipment->user && $shipment->user->email) {
+        $recipientEmail = ($shipment->user ? $shipment->user->email : null) ?? ($shipment->email ?? null);
+        if ($recipientEmail) {
             try {
-                Mail::to($shipment->user->email)->send(new ShipmentStatusUpdatedMail($shipment));
+                Mail::to($recipientEmail)->send(new ShipmentStatusUpdatedMail($shipment));
             } catch (\Throwable $e) {
-                Log::error("Failed to send ShipmentStatusUpdatedMail to {$shipment->user->email}: " . $e->getMessage());
+                Log::error("Failed to send ShipmentStatusUpdatedMail to {$recipientEmail}: " . $e->getMessage());
             }
         }
 
@@ -277,11 +286,12 @@ class ShipmentController extends Controller
             'description' => $request->description,
         ]);
 
-        if ($shipment->user && $shipment->user->email) {
+        $recipientEmail = ($shipment->user ? $shipment->user->email : null) ?? ($shipment->email ?? null);
+        if ($recipientEmail) {
             try {
-                Mail::to($shipment->user->email)->send(new ShipmentStatusUpdatedMail($shipment, $event));
+                Mail::to($recipientEmail)->send(new ShipmentStatusUpdatedMail($shipment, $event));
             } catch (\Throwable $e) {
-                Log::error("Failed to send ShipmentStatusUpdatedMail to {$shipment->user->email}: " . $e->getMessage());
+                Log::error("Failed to send ShipmentStatusUpdatedMail to {$recipientEmail}: " . $e->getMessage());
             }
         }
 

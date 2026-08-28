@@ -50,26 +50,25 @@ class QuoteController extends Controller
         $trackingId = 'LEEZO' . mt_rand(1000000, 9999999);
 
         // Find or associate user if authenticated or matching email
-        $user = $request->user() ?? \App\Models\User::where('email', $request->email)->first() ?? \App\Models\User::first();
-        if ($user) {
-            $shipment = \App\Models\Shipment::create([
-                'tracking_id' => $trackingId,
-                'user_id' => $user->id,
-                'origin' => $request->originCountry,
-                'destination' => $request->destinationCountry,
-                'service' => $request->shippingType,
-                'weight' => $request->shippingWeight . ' kg',
-                'packages' => 1,
-                'recipient_name' => $request->name,
-                'recipient_location' => $request->destinationCountry,
-                'status' => 'pending',
-            ]);
+        $user = $request->user('sanctum') ?? $request->user() ?? \App\Models\User::where('email', $request->email)->first();
+        
+        $shipment = \App\Models\Shipment::create([
+            'tracking_id' => $trackingId,
+            'user_id' => $user ? $user->id : null,
+            'origin' => $request->originCountry,
+            'destination' => $request->destinationCountry,
+            'service' => $request->shippingType,
+            'weight' => $request->shippingWeight . ' kg',
+            'packages' => 1,
+            'recipient_name' => $request->name,
+            'recipient_location' => $request->destinationCountry,
+            'status' => 'pending',
+        ]);
 
-            $shipment->events()->create([
-                'location' => $request->originCountry,
-                'description' => 'Shipment created from request quote form. Tracking ID: ' . $trackingId,
-            ]);
-        }
+        $shipment->events()->create([
+            'location' => $request->originCountry,
+            'description' => 'Shipment created from request quote form. Tracking ID: ' . $trackingId,
+        ]);
 
         try {
             Mail::to($quote->email)->send(new QuoteSubmittedMail($quote, $trackingId));
