@@ -25,17 +25,17 @@ async function fetchUserPickupRequests() {
             const requests = await response.json();
             renderPickupRequests(requests);
         } else {
-            pickupRequestsTableBody.innerHTML = `<tr><td colspan="6" style="padding: 20px; text-align: center; color: #667085;">No pickup requests found.</td></tr>`;
+            pickupRequestsTableBody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #667085;">No pickup requests found.</td></tr>`;
         }
     } catch (error) {
         console.error("Error fetching pickup requests:", error);
-        pickupRequestsTableBody.innerHTML = `<tr><td colspan="6" style="padding: 20px; text-align: center; color: #d92d20;">Failed to load requests.</td></tr>`;
+        pickupRequestsTableBody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #d92d20;">Failed to load requests.</td></tr>`;
     }
 }
 
 function renderPickupRequests(requests) {
     if (!requests || requests.length === 0) {
-        pickupRequestsTableBody.innerHTML = `<tr><td colspan="6" style="padding: 20px; text-align: center; color: #667085;">No pickup & delivery requests submitted yet.</td></tr>`;
+        pickupRequestsTableBody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #667085;">No pickup & delivery requests submitted yet.</td></tr>`;
         return;
     }
 
@@ -52,7 +52,6 @@ function renderPickupRequests(requests) {
         return `
             <tr style="border-bottom: 1px solid #eaecf0;">
                 <td style="padding: 12px 16px;"><strong>${r.request_id}</strong></td>
-                <td style="padding: 12px 16px;">${escapeHtml(r.item_description || '')}</td>
                 <td style="padding: 12px 16px;">${escapeHtml(r.pickup_address || '')}</td>
                 <td style="padding: 12px 16px;">${escapeHtml(r.delivery_address || '')}</td>
                 <td style="padding: 12px 16px;">${formattedDate}</td>
@@ -81,12 +80,9 @@ if (pickupDeliveryForm) {
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const phone = document.getElementById("phone").value.trim();
+        const delivery_phone = document.getElementById("delivery_phone") ? document.getElementById("delivery_phone").value.trim() : "";
         const pickup_address = document.getElementById("pickup_address").value.trim();
-        const pickup_date = document.getElementById("pickup_date").value || null;
         const delivery_address = document.getElementById("delivery_address").value.trim();
-        const item_description = document.getElementById("item_description").value.trim();
-        const weight = document.getElementById("weight").value ? parseFloat(document.getElementById("weight").value) : null;
-        const notes = document.getElementById("notes").value.trim();
 
         const submitBtn = pickupDeliveryForm.querySelector("button[type='submit']") || pickupDeliveryForm.querySelector("button");
         if (typeof setButtonLoading === 'function' && submitBtn) {
@@ -112,12 +108,9 @@ if (pickupDeliveryForm) {
                     name,
                     email,
                     phone,
+                    delivery_phone,
                     pickup_address,
-                    pickup_date,
-                    delivery_address,
-                    item_description,
-                    weight,
-                    notes
+                    delivery_address
                 })
             });
 

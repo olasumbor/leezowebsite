@@ -12,7 +12,7 @@
         <p><strong>Quote Reference:</strong> Q-{{ $quote->id }}</p>
         <p><strong>Shipping Type:</strong> {{ ucfirst($quote->shipping_type ?? 'Standard') }}</p>
         <p><strong>Route:</strong> {{ $quote->origin_country }} &rarr; {{ $quote->destination_country }}</p>
-        <p><strong>Weight / Dimensions:</strong> {{ $quote->weight }}kg ({{ $quote->length }}x{{ $quote->width }}x{{ $quote->height }}cm)</p>
+        <p><strong>Weight / Dimensions:</strong> {{ $quote->weight }}kg ({{ $quote->length }}x{{ $quote->width }}{{ $quote->height ? 'x'.$quote->height : '' }}cm)</p>
         <p><strong>Status:</strong> <span class="status-badge pending">{{ strtoupper($quote->status ?? 'PENDING') }}</span></p>
     </div>
 

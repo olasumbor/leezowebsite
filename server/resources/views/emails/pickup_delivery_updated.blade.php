@@ -10,8 +10,7 @@
         <p><strong>Current Status:</strong> <span class="status-badge {{ strtolower($pickupDelivery->status) === 'completed' ? 'completed' : 'pending' }}">{{ strtoupper($pickupDelivery->status ?? 'PENDING') }}</span></p>
         <p><strong>Pickup Address:</strong> {{ $pickupDelivery->pickup_address }}</p>
         <p><strong>Delivery Address:</strong> {{ $pickupDelivery->delivery_address }}</p>
-        @if($pickupDelivery->item_description) <p><strong>Item Description:</strong> {{ $pickupDelivery->item_description }}</p> @endif
-        @if($pickupDelivery->notes) <p><strong>Notes:</strong> {{ $pickupDelivery->notes }}</p> @endif
+        @if($pickupDelivery->delivery_phone) <p><strong>Delivery Phone:</strong> {{ $pickupDelivery->delivery_phone }}</p> @endif
     </div>
 
     <p style="text-align: center;">

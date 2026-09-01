@@ -113,7 +113,6 @@ class EmailSystemTest extends TestCase
             'originCountry' => 'Nigeria',
             'destinationCountry' => 'USA',
             'shippingWeight' => 10,
-            'shippingHeight' => 20,
             'shippingWidth' => 20,
             'shippingLength' => 20,
             'shippingDetails' => 'Frozen fish boxes',

@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('quoteCustomer').textContent = `${q.name} (${q.email}, ${q.phone})`;
         document.getElementById('quoteType').textContent = q.shipping_type || 'Standard';
         document.getElementById('quoteRoute').textContent = `${q.origin_country} -> ${q.destination_country}`;
-        document.getElementById('quoteSpecs').textContent = `${q.weight}kg (${q.length||0}x${q.width||0}x${q.height||0}cm)`;
+        document.getElementById('quoteSpecs').textContent = `${q.weight}kg (${q.length||0}x${q.width||0}${q.height ? 'x'+q.height : ''}cm)`;
         document.getElementById('quoteDetails').textContent = q.shipping_details || 'N/A';
         document.getElementById('quoteCost').value = q.calculated_cost || '';
         document.getElementById('quoteStatus').value = q.status || 'pending';
@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 const requests = await response.json();
                 if (requests.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">No pickup & delivery requests found.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No pickup & delivery requests found.</td></tr>`;
                     return;
                 }
                 tbody.innerHTML = requests.map(r => `
@@ -940,8 +940,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td><strong>${r.request_id}</strong></td>
                         <td>${r.user ? r.user.name : r.name}<br><small style="color: #6b7280;">${r.email} (${r.phone})</small></td>
                         <td>${r.pickup_address}</td>
-                        <td>${r.delivery_address}</td>
-                        <td>${r.notes ? (r.notes.length > 30 ? r.notes.substring(0, 30)+'...' : r.notes) : '<em>None</em>'}</td>
+                        <td>${r.delivery_address}${r.delivery_phone ? `<br><small style="color: #6b7280;"><i class="fas fa-phone"></i> ${r.delivery_phone}</small>` : ''}</td>
                         <td><span class="status-badge ${r.status}">${r.status ? r.status.toUpperCase() : 'PENDING'}</span></td>
                         <td>
                             <select onchange="updatePickupStatus('${r.id}', this.value)" style="padding: 6px; border-radius: 6px;">

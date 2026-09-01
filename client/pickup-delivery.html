@@ -100,13 +100,13 @@
 
         <div class="dash-form-grid">
           <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+            <label for="phone">Sender Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter sender phone number" required>
           </div>
 
           <div class="form-group">
-            <label for="pickup_date">Preferred Pickup Date & Time</label>
-            <input type="datetime-local" id="pickup_date" name="pickup_date">
+            <label for="delivery_phone">Delivery Phone Number</label>
+            <input type="tel" id="delivery_phone" name="delivery_phone" placeholder="Enter recipient phone number" required>
           </div>
         </div>
 
@@ -118,23 +118,6 @@
         <div class="form-group">
           <label for="delivery_address">Delivery Address</label>
           <textarea id="delivery_address" name="delivery_address" placeholder="Enter full address for item delivery" required rows="2"></textarea>
-        </div>
-
-        <div class="dash-form-grid">
-          <div class="form-group">
-            <label for="item_description">Package / Item Description</label>
-            <textarea id="item_description" name="item_description" placeholder="Describe items or contents" required rows="2"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="weight">Estimated Weight (kg)</label>
-            <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 15.5">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="notes">Additional Notes & Instructions</label>
-          <textarea id="notes" name="notes" placeholder="Special handling requirements or extra instructions" rows="3"></textarea>
         </div>
 
         <button type="submit" class="dash-action-btn" style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">

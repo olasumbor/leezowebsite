@@ -9,7 +9,7 @@
         <p><strong>Request ID:</strong> {{ $requestItem->request_id }}</p>
         <p><strong>Pickup Address:</strong> {{ $requestItem->pickup_address }}</p>
         <p><strong>Delivery Address:</strong> {{ $requestItem->delivery_address }}</p>
-        @if($requestItem->notes) <p><strong>Notes:</strong> {{ $requestItem->notes }}</p> @endif
+        @if($requestItem->delivery_phone) <p><strong>Delivery Phone:</strong> {{ $requestItem->delivery_phone }}</p> @endif
         <p><strong>Status:</strong> <span class="status-badge pending">{{ strtoupper($requestItem->status ?? 'PENDING') }}</span></p>
     </div>
 

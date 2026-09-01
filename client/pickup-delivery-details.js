@@ -33,11 +33,10 @@ async function loadPickupDetails() {
                         status: formatStatus(matched.status),
                         name: matched.name || "N/A",
                         phone: matched.phone || "N/A",
+                        deliveryPhone: matched.delivery_phone || "N/A",
                         pickupAddress: matched.pickup_address || "N/A",
                         deliveryAddress: matched.delivery_address || "N/A",
-                        otherDetails: matched.notes || matched.item_description || "N/A",
                         requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
-                        expectedDate: matched.pickup_date ? new Date(matched.pickup_date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
                         deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—"
                     };
                 }
@@ -55,11 +54,10 @@ async function loadPickupDetails() {
                 status: formatStatus(matched.status || "Pending"),
                 name: matched.name || "N/A",
                 phone: matched.phone || "N/A",
+                deliveryPhone: matched.delivery_phone || "N/A",
                 pickupAddress: matched.pickup_address || "N/A",
                 deliveryAddress: matched.delivery_address || "N/A",
-                otherDetails: matched.notes || matched.item_description || "N/A",
                 requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
-                expectedDate: matched.pickup_date ? new Date(matched.pickup_date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
                 deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—"
             };
         }
@@ -86,11 +84,10 @@ function renderDetails(pickup) {
     if (document.getElementById("detailPickupId")) document.getElementById("detailPickupId").textContent = pickupId;
     if (document.getElementById("pickupName")) document.getElementById("pickupName").textContent = pickup.name;
     if (document.getElementById("pickupPhone")) document.getElementById("pickupPhone").textContent = pickup.phone;
+    if (document.getElementById("deliveryPhone")) document.getElementById("deliveryPhone").textContent = pickup.deliveryPhone;
     if (document.getElementById("pickupAddress")) document.getElementById("pickupAddress").textContent = pickup.pickupAddress;
     if (document.getElementById("deliveryAddress")) document.getElementById("deliveryAddress").textContent = pickup.deliveryAddress;
-    if (document.getElementById("otherDetails")) document.getElementById("otherDetails").textContent = pickup.otherDetails;
     if (document.getElementById("pickupRequestDate")) document.getElementById("pickupRequestDate").textContent = pickup.requestDate;
-    if (document.getElementById("pickupExpectedDate")) document.getElementById("pickupExpectedDate").textContent = pickup.expectedDate;
     if (document.getElementById("pickupDeliveredDate")) document.getElementById("pickupDeliveredDate").textContent = pickup.deliveredDate;
     if (document.getElementById("pickupStatus")) document.getElementById("pickupStatus").textContent = pickup.status;
 

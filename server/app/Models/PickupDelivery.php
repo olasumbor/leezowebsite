@@ -16,11 +16,8 @@ class PickupDelivery extends Model
         'email',
         'phone',
         'pickup_address',
-        'pickup_date',
         'delivery_address',
-        'item_description',
-        'weight',
-        'notes',
+        'delivery_phone',
         'status',
         'invoice_generated',
     ];

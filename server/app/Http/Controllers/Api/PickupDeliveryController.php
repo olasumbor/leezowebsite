@@ -22,11 +22,8 @@ class PickupDeliveryController extends Controller
             'email' => 'required|email',
             'phone' => 'required|string',
             'pickup_address' => 'required|string',
-            'pickup_date' => 'nullable|date',
             'delivery_address' => 'required|string',
-            'item_description' => 'required|string',
-            'weight' => 'nullable|numeric',
-            'notes' => 'nullable|string',
+            'delivery_phone' => 'nullable|string',
         ]);
 
         $requestId = 'PKD' . mt_rand(10000000, 99999999);
@@ -47,11 +44,8 @@ class PickupDeliveryController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'pickup_address' => $request->pickup_address,
-            'pickup_date' => $request->pickup_date,
             'delivery_address' => $request->delivery_address,
-            'item_description' => $request->item_description,
-            'weight' => $request->weight,
-            'notes' => $request->notes,
+            'delivery_phone' => $request->delivery_phone,
             'status' => 'pending',
         ]);
 
@@ -166,7 +160,7 @@ class PickupDeliveryController extends Controller
 
         $items = [
             [
-                'name' => 'Pickup & Delivery: ' . ($pickupDelivery->item_description ?? 'Logistics Package'),
+                'name' => 'Pickup & Delivery Logistics Package',
                 'amount' => $cost,
                 'subtext' => 'From: ' . ($pickupDelivery->pickup_address ?? 'Origin') . ' -> To: ' . ($pickupDelivery->delivery_address ?? 'Destination')
             ]
@@ -176,7 +170,7 @@ class PickupDeliveryController extends Controller
             'invoice_number' => 'INV-' . strtoupper(substr(md5($pickupDelivery->request_id ?? $id), 0, 6)),
             'customer_name' => $pickupDelivery->name ?? ($pickupDelivery->user->name ?? 'Customer'),
             'invoice_date' => $pickupDelivery->created_at ? $pickupDelivery->created_at->format('d M Y') : date('d M Y'),
-            'due_date' => $pickupDelivery->pickup_date ? \Carbon\Carbon::parse($pickupDelivery->pickup_date)->format('d M Y') : date('d M Y'),
+            'due_date' => $pickupDelivery->created_at ? $pickupDelivery->created_at->format('d M Y') : date('d M Y'),
             'items' => $items,
             'total_amount' => $cost,
             'bank_account_number' => \App\Models\Setting::get('bank_account_number', '0900779403'),

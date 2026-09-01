@@ -57,7 +57,6 @@ if (quoteForm) {
             originCountry: document.getElementById("originCountry").value.trim(),
             destinationCountry: document.getElementById("destinationCountry").value.trim(),
             shippingWeight: document.getElementById("shippingWeight").value,
-            shippingHeight: document.getElementById("shippingHeight").value,
             shippingWidth: document.getElementById("shippingWidth").value,
             shippingLength: document.getElementById("shippingLength").value,
             shippingDetails: document.getElementById("shippingDetails").value.trim(),
