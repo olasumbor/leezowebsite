@@ -272,6 +272,14 @@ if (resetPasswordForm) {
     const urlParams = new URLSearchParams(window.location.search);
     const urlEmail = urlParams.get('email');
     const urlToken = urlParams.get('token');
+    const initMessage = document.getElementById("resetPasswordMessage");
+    
+    if (!urlEmail || !urlToken) {
+        if (initMessage) {
+            initMessage.textContent = "Invalid or missing password reset link. Please request a new link from the Forgot Password page.";
+            initMessage.style.color = "#ef3340";
+        }
+    }
     
     resetPasswordForm.addEventListener("submit", async function (event) {
         event.preventDefault();
