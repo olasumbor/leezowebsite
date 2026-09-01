@@ -742,12 +742,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({
                         user_id: document.getElementById('shipUser').value,
+                        origin: document.getElementById('shipOrigin').value || 'Lagos, Nigeria',
+                        destination: document.getElementById('shipDestination').value,
                         service: document.getElementById('shipService').value,
                         weight: document.getElementById('shipWeight').value,
                         packages: document.getElementById('shipPackages').value,
                         recipient: document.getElementById('shipRecipient').value,
-                        destination: document.getElementById('shipDestination').value,
-                        origin: 'Lagos, Nigeria'
                     })
                 });
                 if (response.ok) {

@@ -36,7 +36,7 @@ async function fetchShipmentDetails() {
             const data = await response.json();
             
             shipment = {
-                origin: data.origin || "—",
+                origin: data.origin || "Lagos, Nigeria",
                 destination: data.destination || "—",
                 trackingNumber: data.tracking_id || data.tracking_number || shipmentId,
                 service: data.service || "Standard Shipping",
