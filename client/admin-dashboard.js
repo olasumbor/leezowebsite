@@ -544,8 +544,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const populateUserDropdown = (users) => {
         const select = document.getElementById('shipUser');
         if (!select) return;
+        const regularUsers = users.filter(u => (u.role || '').toLowerCase() !== 'admin');
         select.innerHTML = '<option value="" disabled selected>Select User</option>' +
-            users.map(u => `<option value="${u.id}">${u.name} (${u.email})</option>`).join('');
+            regularUsers.map(u => `<option value="${u.id}">${u.name} (${u.email})</option>`).join('');
     };
 
     const loadUsers = async () => {

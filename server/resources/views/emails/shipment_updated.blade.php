@@ -14,6 +14,6 @@
     </div>
 
     <p style="text-align: center;">
-        <a href="{{ config('app.frontend_url') }}/shipment-details.html?id={{ $shipment->tracking_id }}" class="action-btn">View Shipment Timeline</a>
+        <a href="{{ config('app.frontend_url') }}/track-shipment.html?tracking_id={{ $shipment->tracking_id }}" class="action-btn">View Shipment Timeline</a>
     </p>
 @endsection

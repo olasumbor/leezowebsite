@@ -61,10 +61,27 @@ class ShipmentController extends Controller
     // Get single shipment details (Requires Auth)
     public function show(Request $request, $id)
     {
-        $shipment = Shipment::with('events')
-            ->where('user_id', $request->user()->id)
-            ->where('tracking_id', $id)
-            ->firstOrFail();
+        $user = $request->user();
+
+        if ($user) {
+            Shipment::whereNull('user_id')
+                ->where(function ($q) use ($user) {
+                    if ($user->name) $q->where('recipient_name', $user->name);
+                    if ($user->email) $q->orWhere('recipient_name', $user->email);
+                })
+                ->update(['user_id' => $user->id]);
+        }
+
+        $query = Shipment::with('events');
+
+        if ($user && $user->role !== 'admin') {
+            $query->where('user_id', $user->id);
+        }
+
+        $shipment = $query->where(function ($q) use ($id) {
+            $q->where('tracking_id', (string)$id)
+              ->orWhere('id', $id);
+        })->firstOrFail();
 
         return response()->json($shipment);
     }
@@ -77,14 +94,18 @@ class ShipmentController extends Controller
         if ($user->role === 'admin') {
             $shipment = $this->findShipment($id);
         } else {
-            $query = Shipment::with(['user', 'events'])->where('user_id', $user->id);
-            if (is_numeric($id)) {
-                $shipment = $query->where(function ($q) use ($id) {
-                    $q->where('id', $id)->orWhere('tracking_id', (string) $id);
-                })->firstOrFail();
-            } else {
-                $shipment = $query->where('tracking_id', $id)->firstOrFail();
+            if ($user->name || $user->email) {
+                Shipment::whereNull('user_id')
+                    ->where(function ($q) use ($user) {
+                        if ($user->name) $q->where('recipient_name', $user->name);
+                        if ($user->email) $q->orWhere('recipient_name', $user->email);
+                    })
+                    ->update(['user_id' => $user->id]);
             }
+            $query = Shipment::with(['user', 'events'])->where('user_id', $user->id);
+            $shipment = $query->where(function ($q) use ($id) {
+                $q->where('id', $id)->orWhere('tracking_id', (string) $id);
+            })->firstOrFail();
         }
 
         return response()->view('receipts.shipment-receipt', [
@@ -102,14 +123,18 @@ class ShipmentController extends Controller
         if ($user->role === 'admin') {
             $shipment = $this->findShipment($id);
         } else {
-            $query = Shipment::with(['user', 'events'])->where('user_id', $user->id);
-            if (is_numeric($id)) {
-                $shipment = $query->where(function ($q) use ($id) {
-                    $q->where('id', $id)->orWhere('tracking_id', (string) $id);
-                })->firstOrFail();
-            } else {
-                $shipment = $query->where('tracking_id', $id)->firstOrFail();
+            if ($user->name || $user->email) {
+                Shipment::whereNull('user_id')
+                    ->where(function ($q) use ($user) {
+                        if ($user->name) $q->where('recipient_name', $user->name);
+                        if ($user->email) $q->orWhere('recipient_name', $user->email);
+                    })
+                    ->update(['user_id' => $user->id]);
             }
+            $query = Shipment::with(['user', 'events'])->where('user_id', $user->id);
+            $shipment = $query->where(function ($q) use ($id) {
+                $q->where('id', $id)->orWhere('tracking_id', (string) $id);
+            })->firstOrFail();
         }
 
         $cost = is_numeric($shipment->shipping_cost) ? (float)$shipment->shipping_cost : 450000;
@@ -136,13 +161,10 @@ class ShipmentController extends Controller
 
     private function findShipment($id)
     {
-        $query = Shipment::with(['user', 'events']);
-        if (is_numeric($id)) {
-            return $query->where(function ($q) use ($id) {
+        return Shipment::with(['user', 'events'])
+            ->where(function ($q) use ($id) {
                 $q->where('id', $id)->orWhere('tracking_id', (string) $id);
             })->firstOrFail();
-        }
-        return $query->where('tracking_id', $id)->firstOrFail();
     }
 
     // Admin: List all shipments
