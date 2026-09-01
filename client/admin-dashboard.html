@@ -403,6 +403,8 @@
                     <div class="panel-header">
                         <h1>System & Admin Settings</h1>
                     </div>
+
+                    <!-- General & Business Settings Section -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
                         <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                             <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-sliders-h" style="margin-right: 8px; color: var(--primary-color);"></i> Shipping Configurations</h3>
@@ -434,36 +436,6 @@
                         </div>
 
                         <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
-                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-broom" style="margin-right: 8px; color: #f59e0b;"></i> System Maintenance & Cache</h3>
-                            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
-                                Flush compiled views, route tables, application settings, and configuration caches using <code>artisan optimize:clear</code>.
-                            </p>
-                            <button type="button" id="btnClearSystemCache" class="btn-primary" style="background: #f59e0b; border: none; align-self: start;">
-                                <i class="fas fa-sync-alt" style="margin-right: 6px;"></i> Clear System Cache (artisan optimize:clear)
-                            </button>
-                            <div id="cacheOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
-                        </div>
-
-                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
-                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-database" style="margin-right: 8px; color: #6366f1;"></i> Database Migrations (artisan migrate)</h3>
-                            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
-                                Execute pending database schema migrations or seeders using Laravel Artisan.
-                            </p>
-                            <form id="migrationForm" style="display: grid; gap: 12px;">
-                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                                    <input type="checkbox" id="chkMigrateSeed"> Run Database Seeders (<code>--seed</code>)
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: #ef4444;">
-                                    <input type="checkbox" id="chkMigrateFresh"> Fresh Migration (<code>migrate:fresh</code> - Drops all tables!)
-                                </label>
-                                <button type="submit" id="btnRunMigrations" class="btn-primary" style="background: #6366f1; border: none; align-self: start; margin-top: 5px;">
-                                    <i class="fas fa-cogs" style="margin-right: 6px;"></i> Run Database Migrations
-                                </button>
-                            </form>
-                            <div id="migrationOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
-                        </div>
-
-                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                             <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-lock" style="margin-right: 8px; color: #10b981;"></i> Change Administrator Password</h3>
                             <form id="adminChangePasswordForm" style="display: grid; gap: 15px;">
                                 <div>
@@ -478,7 +450,7 @@
                                 <div>
                                     <label>New Password</label>
                                     <div style="position: relative;">
-                                        <input type="password" id="adminNewPassword" required minlength="8" placeholder="Minimum 8 characters" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                                        <input type="password" id="adminNewPassword" required placeholder="Enter new password" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
                                         <button type="button" class="toggle-password-btn" data-target="adminNewPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
                                             <i class="fas fa-eye"></i>
                                         </button>
@@ -487,14 +459,52 @@
                                 <div>
                                     <label>Confirm New Password</label>
                                     <div style="position: relative;">
-                                        <input type="password" id="adminConfirmNewPassword" required minlength="8" placeholder="Re-enter new password" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
+                                        <input type="password" id="adminConfirmNewPassword" required placeholder="Confirm new password" style="width: 100%; padding: 10px; padding-right: 40px; margin-top: 5px;">
                                         <button type="button" class="toggle-password-btn" data-target="adminConfirmNewPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn-primary" style="background: #10b981; align-self: start;">Update Password</button>
+                                <button type="submit" class="btn-primary" style="align-self: start;">Update Password</button>
                             </form>
+                        </div>
+                    </div>
+
+                    <!-- Developer & Maintenance Options Section -->
+                    <div style="margin-top: 36px; padding-top: 24px; border-top: 2px dashed #e2e8f0;">
+                        <h2 style="font-size: 1.25rem; font-weight: 600; color: #1e293b; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-code" style="color: #6366f1;"></i> Developer Options & System Maintenance
+                        </h2>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+                            <div style="background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: var(--shadow-sm);">
+                                <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-broom" style="margin-right: 8px; color: #f59e0b;"></i> System Maintenance & Cache</h3>
+                                <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
+                                    Flush compiled views, route tables, application settings, and configuration caches using <code>artisan optimize:clear</code>.
+                                </p>
+                                <button type="button" id="btnClearSystemCache" class="btn-primary" style="background: #f59e0b; border: none; align-self: start;">
+                                    <i class="fas fa-sync-alt" style="margin-right: 6px;"></i> Clear System Cache (artisan optimize:clear)
+                                </button>
+                                <div id="cacheOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
+                            </div>
+
+                            <div style="background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: var(--shadow-sm);">
+                                <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-database" style="margin-right: 8px; color: #6366f1;"></i> Database Migrations (artisan migrate)</h3>
+                                <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
+                                    Execute pending database schema migrations or seeders using Laravel Artisan.
+                                </p>
+                                <form id="migrationForm" style="display: grid; gap: 12px;">
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                                        <input type="checkbox" id="chkMigrateSeed"> Run Database Seeders (<code>--seed</code>)
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: #ef4444;">
+                                        <input type="checkbox" id="chkMigrateFresh"> Fresh Migration (<code>migrate:fresh</code> - Drops all tables!)
+                                    </label>
+                                    <button type="submit" id="btnRunMigrations" class="btn-primary" style="background: #6366f1; border: none; align-self: start; margin-top: 5px;">
+                                        <i class="fas fa-cogs" style="margin-right: 6px;"></i> Run Database Migrations
+                                    </button>
+                                </form>
+                                <div id="migrationOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -502,7 +512,6 @@
         </main>
     </div>
 
-    <!-- MODALS -->
 
     <!-- Reset User Password Modal -->
     <div id="resetUserPasswordModal" class="modal-overlay" style="display: none;">

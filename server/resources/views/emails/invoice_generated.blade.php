@@ -11,7 +11,6 @@
         @if(isset($order->shipping_cost) || isset($order->cost))
         <p><strong>Total Amount:</strong> NGN {{ number_format($order->shipping_cost ?? $order->cost ?? 0, 2) }}</p>
         @endif
-        <p><strong>Status:</strong> <span class="status-badge completed">INVOICE GENERATED</span></p>
     </div>
 
     <p style="text-align: center; margin-top: 25px;">

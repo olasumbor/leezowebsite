@@ -509,14 +509,18 @@
             @endphp
             <div class="bottom-financials">
                 <div>
-                    <div class="bank-details-block">
-                        {{ $bankAccountNumber }}<br>
-                        {{ $bankAccountName }}<br>
-                        {{ $bankName }}
-                    </div>
-                    <div class="payment-box" style="margin-top: 0.75rem;">
-                        Thanks for your business. Please make your payment to<br>
-                        <strong>{{ $bankAccountNumber }}</strong> (<strong>{{ $bankAccountName }}</strong> - {{ $bankName }})
+                    <div class="payment-box">
+                        <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem;">
+                            Payment Details
+                        </div>
+                        <div style="margin-bottom: 0.75rem;">
+                            Thanks for your business. Please make your payment using the details below:
+                        </div>
+                        <div style="display: grid; gap: 6px; font-size: 0.85rem; background: #f8fafc; padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-gray);">
+                            <div><span style="color: var(--text-muted); font-weight: 500;">Bank Name:</span> <strong>{{ $bankName }}</strong></div>
+                            <div><span style="color: var(--text-muted); font-weight: 500;">Account Name:</span> <strong>{{ $bankAccountName }}</strong></div>
+                            <div><span style="color: var(--text-muted); font-weight: 500;">Account Number:</span> <strong>{{ $bankAccountNumber }}</strong></div>
+                        </div>
                     </div>
                 </div>
 

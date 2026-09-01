@@ -146,8 +146,7 @@ class ProcurementController extends Controller
         $items = [
             [
                 'name' => $procurement->details ?? 'Procurement Item',
-                'amount' => $cost,
-                'subtext' => '1.00 x ' . number_format($cost, 2)
+                'amount' => $cost
             ]
         ];
 
@@ -170,6 +169,13 @@ class ProcurementController extends Controller
     public function generateInvoice(Request $request, $id)
     {
         $procurement = $this->findProcurement($id);
+
+        if (empty($procurement->cost) || !is_numeric($procurement->cost) || (float)$procurement->cost <= 0) {
+            return response()->json([
+                'message' => 'Cannot generate invoice: Procurement cost (price) has not been updated yet. Please edit the procurement details and set a cost first.'
+            ], 422);
+        }
+
         $procurement->invoice_generated = true;
         $procurement->save();
 

@@ -157,8 +157,7 @@ class ShipmentController extends Controller
         $items = [
             [
                 'name' => 'Shipment Cargo (' . ($shipment->service ?? 'Air Freight') . ') - ' . ($shipment->origin ?? 'Origin') . ' to ' . ($shipment->destination ?? 'Destination'),
-                'amount' => $cost,
-                'subtext' => ($shipment->packages ?? 1) . '.00 x ' . number_format($cost / max(1, $shipment->packages ?? 1), 2)
+                'amount' => $cost
             ]
         ];
 
@@ -181,6 +180,13 @@ class ShipmentController extends Controller
     public function generateInvoice(Request $request, $id)
     {
         $shipment = $this->findShipment($id);
+
+        if (empty($shipment->shipping_cost) || !is_numeric($shipment->shipping_cost) || (float)$shipment->shipping_cost <= 0) {
+            return response()->json([
+                'message' => 'Cannot generate invoice: Shipment price (shipping cost) has not been updated yet. Please edit the shipment and set a price first.'
+            ], 422);
+        }
+
         $shipment->invoice_generated = true;
         $shipment->save();
 
