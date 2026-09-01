@@ -632,7 +632,7 @@ body {
     gap: 14px;
 }
 
-.shipment-form-grid input {
+.shipment-form-grid input, .shipment-form-grid select {
     padding: 10px 14px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -640,9 +640,10 @@ body {
     font-size: 0.9rem;
     outline: none;
     transition: var(--transition);
+    background-color: #ffffff;
 }
 
-.shipment-form-grid input:focus {
+.shipment-form-grid input:focus, .shipment-form-grid select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(0, 166, 62, 0.12);
 }

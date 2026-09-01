@@ -69,7 +69,7 @@ async function fetchShipmentDetails() {
 function showDetails() {
     if (!shipment) return;
 
-    document.getElementById("shipmentTitle").textContent = `SHIPMENT ${shipmentId}`;
+    document.getElementById("shipmentTitle").textContent = `SHIPMENT ${shipment.trackingNumber || shipmentId}`;
     document.getElementById("shipmentOrigin").textContent = shipment.origin;
     document.getElementById("shipmentDestination").textContent = shipment.destination;
     document.getElementById("trackingNumber").textContent = shipment.trackingNumber;

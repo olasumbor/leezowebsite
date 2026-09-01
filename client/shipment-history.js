@@ -24,7 +24,7 @@ async function fetchShipments() {
             const data = await response.json();
             // Map the API data to the format expected by the frontend
             shipments = data.map(s => ({
-                id: s.tracking_id,
+                id: s.tracking_id || s.id,
                 route: `${s.origin || '—'} → ${s.destination || '—'}`,
                 date: new Date(s.shipped_date || s.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit" }),
                 status: s.status ? s.status.replace('_', ' ').toUpperCase() : 'PENDING'

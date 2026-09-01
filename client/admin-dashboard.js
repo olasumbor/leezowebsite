@@ -541,6 +541,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 8. Users List & Password Reset
     let allUsers = [];
+    const populateUserDropdown = (users) => {
+        const select = document.getElementById('shipUser');
+        if (!select) return;
+        select.innerHTML = '<option value="" disabled selected>Select User</option>' +
+            users.map(u => `<option value="${u.id}">${u.name} (${u.email})</option>`).join('');
+    };
+
     const loadUsers = async () => {
         try {
             const token = localStorage.getItem("auth_token");
@@ -550,6 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tbody = document.getElementById('admin-users-tbody');
             if (response.ok) {
                 allUsers = await response.json();
+                populateUserDropdown(allUsers);
                 if (allUsers.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No users found.</td></tr>`;
                     return;
@@ -706,7 +714,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCreateShipment = document.getElementById('btnCreateShipment');
     const createShipmentFormContainer = document.getElementById('createShipmentFormContainer');
     if (btnCreateShipment) {
-        btnCreateShipment.addEventListener('click', () => {
+        btnCreateShipment.addEventListener('click', async () => {
+            if (allUsers.length === 0) {
+                await loadUsers();
+            } else {
+                populateUserDropdown(allUsers);
+            }
             createShipmentFormContainer.style.display = createShipmentFormContainer.style.display === 'none' ? 'block' : 'none';
         });
     }
@@ -880,7 +893,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (targetId === 'overview') loadDashboardData();
             if (targetId === 'procurements') loadProcurements();
-            if (targetId === 'shipments') loadShipments();
+            if (targetId === 'shipments') { loadShipments(); loadUsers(); }
             if (targetId === 'pickup-deliveries') loadPickupDeliveries();
             if (targetId === 'frozen-cargos') loadFrozenCargos();
             if (targetId === 'quotes') loadQuotes();

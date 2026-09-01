@@ -109,3 +109,13 @@ function updateStatusTimeline(status) {
         }
     });
 }
+
+// Auto-track if tracking ID is passed in URL (e.g. ?id=LEEZO... or ?tracking_id=LEEZO...)
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const trackingIdParam = params.get("id") || params.get("tracking_id");
+    if (trackingIdParam && trackingInput && trackButton) {
+        trackingInput.value = trackingIdParam;
+        trackButton.click();
+    }
+})();

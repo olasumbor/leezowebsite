@@ -222,7 +222,9 @@
                     <div id="createShipmentFormContainer" class="shipment-create-card" style="display: none;">
                         <h3>Create New Shipment</h3>
                         <form id="createShipmentForm" class="shipment-form-grid">
-                            <input type="number" id="shipUser" placeholder="User ID" required>
+                            <select id="shipUser" required>
+                                <option value="" disabled selected>Select User</option>
+                            </select>
                             <input type="text" id="shipService" placeholder="Service (e.g. Air Freight)" required>
                             <input type="number" id="shipWeight" placeholder="Weight (kg)" required>
                             <input type="number" id="shipPackages" placeholder="Packages count" required>
