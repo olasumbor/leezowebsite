@@ -29,6 +29,11 @@ if (trackButton) {
 
                 document.getElementById("result-tracking-number").textContent = data.tracking_id;
                 
+                const detailsLink = document.getElementById("btn-shipment-details-link");
+                if (detailsLink) {
+                    detailsLink.href = `shipment-details.html?id=${data.tracking_id}`;
+                }
+
                 // Update the status text
                 const statusEl = document.getElementById("shipment-status");
                 if (statusEl) {

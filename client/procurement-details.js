@@ -217,8 +217,53 @@ function updateProcurementStatus(status) {
 
 
 // ========================================
-// DOWNLOAD INVOICE
 // ========================================
+// DOWNLOAD INVOICE AS PDF
+// ========================================
+
+async function downloadInvoiceAsPdf(htmlContent, filename) {
+    if (!window.html2pdf) {
+        await new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            script.onload = resolve;
+            script.onerror = () => reject(new Error('Failed to load html2pdf library.'));
+            document.head.appendChild(script);
+        });
+    }
+
+    const tempContainer = document.createElement('div');
+    tempContainer.style.position = 'fixed';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '0';
+    tempContainer.style.width = '800px';
+    tempContainer.style.background = '#ffffff';
+    tempContainer.innerHTML = htmlContent;
+    document.body.appendChild(tempContainer);
+
+    const noPrintBar = tempContainer.querySelector('.no-print-bar');
+    if (noPrintBar) {
+        noPrintBar.remove();
+    }
+
+    const invoiceElement = tempContainer.querySelector('.invoice-card') || tempContainer.querySelector('.receipt-card') || tempContainer;
+
+    const opt = {
+        margin:       [0.2, 0.2, 0.2, 0.2],
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    try {
+        await window.html2pdf().set(opt).from(invoiceElement).save();
+    } finally {
+        if (tempContainer.parentNode) {
+            tempContainer.parentNode.removeChild(tempContainer);
+        }
+    }
+}
 
 const downloadInvoiceButton = document.getElementById("downloadInvoice") || document.getElementById("downloadReceipt");
 
@@ -251,19 +296,14 @@ if (downloadInvoiceButton) {
 
             if (response.ok) {
                 const htmlContent = await response.text();
-                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const win = window.open(url, '_blank');
-                if (!win) {
-                    const link = document.createElement("a");
-                    link.href = url;
-                    link.download = `Procurement-Invoice-${procurementId}.html`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }
+                await downloadInvoiceAsPdf(htmlContent, `Procurement-Invoice-${procurementId}.pdf`);
             } else {
-                showToast("Failed to generate procurement invoice from backend.", "error");
+                let msg = "Failed to generate procurement invoice.";
+                try {
+                    const err = await response.json();
+                    if (err.message) msg = err.message;
+                } catch(e) {}
+                showToast(msg, "warning");
             }
         } catch (error) {
             console.error("Failed to download procurement invoice:", error);

@@ -25,6 +25,11 @@ class Procurement extends Model
         'delivered_date',
         'recipient_location',
         'cost',
+        'invoice_generated',
+    ];
+
+    protected $casts = [
+        'invoice_generated' => 'boolean',
     ];
 
     public function user()

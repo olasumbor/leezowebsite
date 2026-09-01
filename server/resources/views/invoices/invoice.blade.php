@@ -425,10 +425,6 @@
                     $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : '/logo-leezo.NG.png';
                 @endphp
                 <img src="{{ $logoSrc }}" alt="Leezofood Logo" style="max-height: 52px; width: auto; background: #ffffff; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
-                <div>
-                    <div class="brand-name" style="font-size: 1.25rem; font-weight: 800; color: #ffffff;">Leezofood Exports</div>
-                    <div class="brand-slogan" style="font-size: 0.75rem; color: #dcfce7; font-style: italic;">The taste of naija to the world.</div>
-                </div>
             </div>
 
             <div class="banner-center">
@@ -488,7 +484,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if(isset($items) && count($items) > 0)
                         @foreach($items as $index => $item)
                         <tr>
                             <td>{{ $index + 1 }}</td>
@@ -503,66 +498,25 @@
                             </td>
                         </tr>
                         @endforeach
-                    @else
-                        <!-- Sample/Default items matching reference image -->
-                        <tr>
-                            <td>1</td>
-                            <td><div class="item-title">Super pack chicken</div></td>
-                            <td class="amount-cell">
-                                <div>NGN146,000.00</div>
-                                <div class="item-subtext">10.00 x 14,600.00</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td><div class="item-title">Onion</div></td>
-                            <td class="amount-cell">
-                                <div>NGN507,500.00</div>
-                                <div class="item-subtext">50.00 x 10,150.00</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td><div class="item-title">Chicken/peppersoup/oriental</div></td>
-                            <td class="amount-cell">
-                                <div>NGN654,500.00</div>
-                                <div class="item-subtext">70.00 x 9,350.00</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td><div class="item-title">Shipping cost</div></td>
-                            <td class="amount-cell">
-                                <div>NGN2,158,000.00</div>
-                                <div class="item-subtext">332.00 x 6,500.00</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td><div class="item-title">Cartons</div></td>
-                            <td class="amount-cell">
-                                <div>NGN55,000.00</div>
-                                <div class="item-subtext">22.00 x 2,500.00</div>
-                            </td>
-                        </tr>
-                    @endif
                 </tbody>
             </table>
 
             <!-- BOTTOM FINANCIALS AND PAYMENTS -->
+            @php
+                $bankAccountNumber = $bank_account_number ?? \App\Models\Setting::get('bank_account_number', '0900779403');
+                $bankAccountName = $bank_account_name ?? \App\Models\Setting::get('bank_account_name', 'Leezoe integrated');
+                $bankName = $bank_name ?? \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank.');
+            @endphp
             <div class="bottom-financials">
                 <div>
-                    <div class="payment-box">
-                        Thanks for your business. Please make your payment to<br>
-                        <strong>0900779403</strong><br>
-                        <strong>Leezoe integrated services limited.</strong><br>
-                        <strong>Gtb</strong>
-                    </div>
-
                     <div class="bank-details-block">
-                        0900779403<br>
-                        Leezoe integrated<br>
-                        Guaranty Trust Bank.
+                        {{ $bankAccountNumber }}<br>
+                        {{ $bankAccountName }}<br>
+                        {{ $bankName }}
+                    </div>
+                    <div class="payment-box" style="margin-top: 0.75rem;">
+                        Thanks for your business. Please make your payment to<br>
+                        <strong>{{ $bankAccountNumber }}</strong> (<strong>{{ $bankAccountName }}</strong> - {{ $bankName }})
                     </div>
                 </div>
 
@@ -591,14 +545,14 @@
             </div>
 
             <!-- SIGNATURE -->
-            <div class="signature-section">
+            <!-- <div class="signature-section">
                 <div class="signature-block">
                     <div class="signature-image">Vanessa Attah</div>
                     <div class="signature-line"></div>
                     <div class="signer-name">Vanessa Attah.</div>
                     <div class="signer-title">Authorized Signature</div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

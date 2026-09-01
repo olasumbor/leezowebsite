@@ -24,6 +24,11 @@ class Shipment extends Model
         'recipient_name',
         'recipient_location',
         'shipping_cost',
+        'invoice_generated',
+    ];
+
+    protected $casts = [
+        'invoice_generated' => 'boolean',
     ];
 
     public function user()

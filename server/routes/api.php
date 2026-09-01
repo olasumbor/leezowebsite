@@ -63,8 +63,10 @@ use App\Http\Controllers\Api\FrozenCargoController;
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLinkEmail']);
 Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
 
-// Public tracking route
+// Public tracking and shipment routes
 Route::get('/track/{tracking_id}', [ShipmentController::class, 'track']);
+Route::get('/shipments/{id}', [ShipmentController::class, 'show']);
+Route::get('/shipments/{id}/invoice', [ShipmentController::class, 'downloadInvoice']);
 
 // Public routes for Quotes, Contact, Newsletter, Pickup & Delivery, Frozen Cargo
 Route::post('/quotes/calculate', [QuoteController::class, 'store']);
@@ -89,9 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // User Shipments
     Route::get('/shipments', [ShipmentController::class, 'index']);
     Route::get('/shipments/stats', [ShipmentController::class, 'stats']);
-    Route::get('/shipments/{id}', [ShipmentController::class, 'show']);
     Route::get('/shipments/{id}/receipt', [ShipmentController::class, 'downloadReceipt']);
-    Route::get('/shipments/{id}/invoice', [ShipmentController::class, 'downloadInvoice']);
 
     // User Pickup & Deliveries
     Route::get('/pickup-deliveries', [PickupDeliveryController::class, 'index']);
@@ -119,6 +119,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/procurements/{id}', [ProcurementController::class, 'adminShow']);
     Route::put('/procurements/{id}', [ProcurementController::class, 'adminUpdate']);
     Route::put('/procurements/{id}/status', [ProcurementController::class, 'updateStatus']);
+    Route::post('/procurements/{id}/generate-invoice', [ProcurementController::class, 'generateInvoice']);
     
     // Admin Shipments
     Route::get('/shipments', [ShipmentController::class, 'adminIndex']);
@@ -127,14 +128,17 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::put('/shipments/{id}', [ShipmentController::class, 'adminUpdate']);
     Route::put('/shipments/{id}/status', [ShipmentController::class, 'updateStatus']);
     Route::post('/shipments/{id}/events', [ShipmentController::class, 'addEvent']);
+    Route::post('/shipments/{id}/generate-invoice', [ShipmentController::class, 'generateInvoice']);
 
     // Admin Pickup & Deliveries
     Route::get('/pickup-deliveries', [PickupDeliveryController::class, 'adminIndex']);
     Route::put('/pickup-deliveries/{id}/status', [PickupDeliveryController::class, 'updateStatus']);
+    Route::post('/pickup-deliveries/{id}/generate-invoice', [PickupDeliveryController::class, 'generateInvoice']);
 
     // Admin Frozen Cargos
     Route::get('/frozen-cargos', [FrozenCargoController::class, 'adminIndex']);
     Route::put('/frozen-cargos/{id}/status', [FrozenCargoController::class, 'updateStatus']);
+    Route::post('/frozen-cargos/{id}/generate-invoice', [FrozenCargoController::class, 'generateInvoice']);
 
     // Admin Quotes
     Route::get('/quotes', [QuoteController::class, 'index']);
@@ -147,5 +151,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     // Admin Settings
     Route::get('/settings', [SettingController::class, 'index']);
     Route::post('/settings', [SettingController::class, 'update']);
+    Route::post('/clear-cache', [SettingController::class, 'clearCache']);
+    Route::post('/migrate', [SettingController::class, 'runMigrations']);
 });
 

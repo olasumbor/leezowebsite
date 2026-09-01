@@ -28,4 +28,55 @@ class SettingController extends Controller
 
         return response()->json(['message' => 'Settings updated successfully']);
     }
+
+    // Admin: Clear system cache (artisan optimize:clear)
+    public function clearCache()
+    {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+            $output = \Illuminate\Support\Facades\Artisan::output();
+
+            return response()->json([
+                'message' => 'System, view, route, and config caches cleared successfully!',
+                'output' => trim($output)
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Failed to clear cache: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Admin: Run database migrations (artisan migrate)
+    public function runMigrations(Request $request)
+    {
+        try {
+            $isFresh = filter_var($request->input('fresh'), FILTER_VALIDATE_BOOLEAN);
+            $shouldSeed = filter_var($request->input('seed'), FILTER_VALIDATE_BOOLEAN);
+
+            $output = '';
+
+            if ($isFresh) {
+                \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true]);
+                $output .= \Illuminate\Support\Facades\Artisan::output();
+            } else {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                $output .= \Illuminate\Support\Facades\Artisan::output();
+            }
+
+            if ($shouldSeed) {
+                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+                $output .= "\n" . \Illuminate\Support\Facades\Artisan::output();
+            }
+
+            return response()->json([
+                'message' => 'Database migrations executed successfully!',
+                'output' => trim($output)
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Migration failed: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

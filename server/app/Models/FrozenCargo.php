@@ -23,6 +23,11 @@ class FrozenCargo extends Model
         'departure_date',
         'notes',
         'status',
+        'invoice_generated',
+    ];
+
+    protected $casts = [
+        'invoice_generated' => 'boolean',
     ];
 
     public function user()

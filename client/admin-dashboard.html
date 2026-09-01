@@ -415,6 +415,55 @@
                         </div>
 
                         <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-university" style="margin-right: 8px; color: var(--primary-color);"></i> Bank Account & Invoice Details</h3>
+                            <form id="bankSettingsForm" style="display: grid; gap: 15px;">
+                                <div>
+                                    <label>Account Number</label>
+                                    <input type="text" id="settingBankAccountNumber" style="width: 100%; padding: 10px; margin-top: 5px;" placeholder="e.g. 0900779403">
+                                </div>
+                                <div>
+                                    <label>Account Name</label>
+                                    <input type="text" id="settingBankAccountName" style="width: 100%; padding: 10px; margin-top: 5px;" placeholder="e.g. Leezoe integrated">
+                                </div>
+                                <div>
+                                    <label>Bank Name</label>
+                                    <input type="text" id="settingBankName" style="width: 100%; padding: 10px; margin-top: 5px;" placeholder="e.g. Guaranty Trust Bank">
+                                </div>
+                                <button type="submit" class="btn-primary" style="align-self: start;">Save Bank Details</button>
+                            </form>
+                        </div>
+
+                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-broom" style="margin-right: 8px; color: #f59e0b;"></i> System Maintenance & Cache</h3>
+                            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
+                                Flush compiled views, route tables, application settings, and configuration caches using <code>artisan optimize:clear</code>.
+                            </p>
+                            <button type="button" id="btnClearSystemCache" class="btn-primary" style="background: #f59e0b; border: none; align-self: start;">
+                                <i class="fas fa-sync-alt" style="margin-right: 6px;"></i> Clear System Cache (artisan optimize:clear)
+                            </button>
+                            <div id="cacheOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
+                        </div>
+
+                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-database" style="margin-right: 8px; color: #6366f1;"></i> Database Migrations (artisan migrate)</h3>
+                            <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
+                                Execute pending database schema migrations or seeders using Laravel Artisan.
+                            </p>
+                            <form id="migrationForm" style="display: grid; gap: 12px;">
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
+                                    <input type="checkbox" id="chkMigrateSeed"> Run Database Seeders (<code>--seed</code>)
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: #ef4444;">
+                                    <input type="checkbox" id="chkMigrateFresh"> Fresh Migration (<code>migrate:fresh</code> - Drops all tables!)
+                                </label>
+                                <button type="submit" id="btnRunMigrations" class="btn-primary" style="background: #6366f1; border: none; align-self: start; margin-top: 5px;">
+                                    <i class="fas fa-cogs" style="margin-right: 6px;"></i> Run Database Migrations
+                                </button>
+                            </form>
+                            <div id="migrationOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
+                        </div>
+
+                        <div style="background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                             <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-lock" style="margin-right: 8px; color: #10b981;"></i> Change Administrator Password</h3>
                             <form id="adminChangePasswordForm" style="display: grid; gap: 15px;">
                                 <div>
@@ -628,8 +677,11 @@
                         <input type="date" id="editShipDeliveredDate">
                     </div>
                 </div>
-                <div class="modal-actions">
+                <div class="modal-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
                     <button type="button" class="btn-secondary" onclick="closeModal('shipmentModal')">Cancel</button>
+                    <button type="button" id="btnModalGenerateShipmentInvoice" class="btn-primary" style="background: #10b981; border: none;">
+                        <i class="fas fa-file-invoice"></i> Generate Invoice & Email
+                    </button>
                     <button type="submit" class="btn-primary">Update Shipment</button>
                 </div>
             </form>

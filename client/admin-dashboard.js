@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <button class="btn-primary-outline" onclick="openProcurementModal('${p.procurement_id || p.id}')">
                                 <i class="fas fa-edit"></i> Manage
                             </button>
+                            ${p.invoice_generated ? '<span class="status-badge completed" style="margin-left: 5px;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-left: 5px;" onclick="generateProcurementInvoice('${p.procurement_id || p.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
                         </td>
                     </tr>
                 `).join('');
@@ -242,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <button class="btn-primary-outline" onclick="openShipmentModal('${s.tracking_id}')">
                                 <i class="fas fa-edit"></i> Edit / Track Event
                             </button>
+                            ${s.invoice_generated ? '<span class="status-badge completed" style="margin-left: 5px;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-left: 5px;" onclick="generateShipmentInvoice('${s.tracking_id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
                         </td>
                     </tr>
                 `).join('');
@@ -661,6 +663,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (settings.default_shipping_rate !== undefined) {
                     document.getElementById('settingShippingRate').value = settings.default_shipping_rate;
                 }
+                if (settings.bank_account_number !== undefined && document.getElementById('settingBankAccountNumber')) {
+                    document.getElementById('settingBankAccountNumber').value = settings.bank_account_number;
+                }
+                if (settings.bank_account_name !== undefined && document.getElementById('settingBankAccountName')) {
+                    document.getElementById('settingBankAccountName').value = settings.bank_account_name;
+                }
+                if (settings.bank_name !== undefined && document.getElementById('settingBankName')) {
+                    document.getElementById('settingBankName').value = settings.bank_name;
+                }
             }
         } catch (e) {
             console.error("Error loading settings:", e);
@@ -709,7 +720,148 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-    };
+    }
+
+    const bankSettingsForm = document.getElementById('bankSettingsForm');
+    if (bankSettingsForm) {
+        bankSettingsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = bankSettingsForm.querySelector("button[type='submit']") || bankSettingsForm.querySelector("button");
+            const token = localStorage.getItem("auth_token");
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Saving...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/admin/settings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        settings: {
+                            bank_account_number: document.getElementById('settingBankAccountNumber').value,
+                            bank_account_name: document.getElementById('settingBankAccountName').value,
+                            bank_name: document.getElementById('settingBankName').value
+                        }
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('Bank details updated successfully!', 'success');
+                } else {
+                    const err = await response.json();
+                    showToast(err.message || 'Failed to save bank details', 'error');
+                }
+            } catch (error) {
+                console.error("Error saving bank details:", error);
+                showToast('An error occurred while saving bank details.', 'error');
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
+
+    // 8c. Clear System Cache (artisan optimize:clear)
+    const btnClearSystemCache = document.getElementById('btnClearSystemCache');
+    if (btnClearSystemCache) {
+        btnClearSystemCache.addEventListener('click', async () => {
+            const token = localStorage.getItem("auth_token");
+            const outputBox = document.getElementById('cacheOutputContainer');
+
+            if (typeof setButtonLoading === 'function') {
+                setButtonLoading(btnClearSystemCache, true, 'Clearing Cache...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/admin/clear-cache`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    showToast(data.message || 'System cache cleared successfully!', 'success');
+                    if (outputBox && data.output) {
+                        outputBox.style.display = 'block';
+                        outputBox.textContent = data.output;
+                    }
+                } else {
+                    showToast(data.message || 'Failed to clear system cache.', 'error');
+                }
+            } catch (error) {
+                console.error("Error clearing system cache:", error);
+                showToast('An error occurred while clearing system cache.', 'error');
+            } finally {
+                if (typeof setButtonLoading === 'function') {
+                    setButtonLoading(btnClearSystemCache, false);
+                }
+            }
+        });
+    }
+
+    // 8d. Run Database Migrations (artisan migrate)
+    const migrationForm = document.getElementById('migrationForm');
+    if (migrationForm) {
+        migrationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('btnRunMigrations');
+            const token = localStorage.getItem("auth_token");
+            const outputBox = document.getElementById('migrationOutputContainer');
+            const isSeed = document.getElementById('chkMigrateSeed')?.checked || false;
+            const isFresh = document.getElementById('chkMigrateFresh')?.checked || false;
+
+            if (isFresh && !confirm("WARNING: Fresh migration will DROP ALL TABLES and re-run all migrations! Are you sure you want to proceed?")) {
+                return;
+            }
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Running Migrations...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/admin/migrate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        fresh: isFresh,
+                        seed: isSeed
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    showToast(data.message || 'Database migrations executed successfully!', 'success');
+                    if (outputBox && data.output) {
+                        outputBox.style.display = 'block';
+                        outputBox.textContent = data.output;
+                    }
+                } else {
+                    showToast(data.message || 'Failed to run database migrations.', 'error');
+                }
+            } catch (error) {
+                console.error("Error running migrations:", error);
+                showToast('An error occurred while executing database migrations.', 'error');
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
 
     // 9. Create Shipment Quick Button
     const btnCreateShipment = document.getElementById('btnCreateShipment');
@@ -798,6 +950,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>Completed</option>
                                 <option value="cancelled" ${r.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
                             </select>
+                            <br>
+                            ${r.invoice_generated ? '<span class="status-badge completed" style="margin-top: 5px; display: inline-block;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-top: 5px; padding: 4px 8px; font-size: 0.8rem;" onclick="generatePickupInvoice('${r.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
                         </td>
                     </tr>
                 `).join('');
@@ -854,6 +1008,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>Completed</option>
                                 <option value="cancelled" ${r.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
                             </select>
+                            <br>
+                            ${r.invoice_generated ? '<span class="status-badge completed" style="margin-top: 5px; display: inline-block;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-top: 5px; padding: 4px 8px; font-size: 0.8rem;" onclick="generateFrozenInvoice('${r.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
                         </td>
                     </tr>
                 `).join('');
@@ -1047,4 +1203,101 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run auth check on page load
     checkAdminAuth();
+
+    // Invoice Generation Helpers
+    window.generateShipmentInvoice = async (id) => {
+        const token = localStorage.getItem("auth_token");
+        try {
+            const res = await fetch(`${CONFIG.API_URL}/admin/shipments/${id}/generate-invoice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(data.message || 'Invoice generated and email dispatched!', 'success');
+                loadShipments();
+            } else {
+                showToast(data.message || 'Failed to generate invoice.', 'error');
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Error generating invoice.', 'error');
+        }
+    };
+
+    window.generateProcurementInvoice = async (id) => {
+        const token = localStorage.getItem("auth_token");
+        try {
+            const res = await fetch(`${CONFIG.API_URL}/admin/procurements/${id}/generate-invoice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(data.message || 'Invoice generated and email dispatched!', 'success');
+                loadProcurements();
+            } else {
+                showToast(data.message || 'Failed to generate invoice.', 'error');
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Error generating invoice.', 'error');
+        }
+    };
+
+    window.generatePickupInvoice = async (id) => {
+        const token = localStorage.getItem("auth_token");
+        try {
+            const res = await fetch(`${CONFIG.API_URL}/admin/pickup-deliveries/${id}/generate-invoice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(data.message || 'Invoice generated and email dispatched!', 'success');
+                loadPickupDeliveries();
+            } else {
+                showToast(data.message || 'Failed to generate invoice.', 'error');
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Error generating invoice.', 'error');
+        }
+    };
+
+    window.generateFrozenInvoice = async (id) => {
+        const token = localStorage.getItem("auth_token");
+        try {
+            const res = await fetch(`${CONFIG.API_URL}/admin/frozen-cargos/${id}/generate-invoice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast(data.message || 'Invoice generated and email dispatched!', 'success');
+                loadFrozenCargos();
+            } else {
+                showToast(data.message || 'Failed to generate invoice.', 'error');
+            }
+        } catch (e) {
+            console.error(e);
+            showToast('Error generating invoice.', 'error');
+        }
+    };
+
+    const btnModalGenProc = document.getElementById('btnModalGenerateProcurementInvoice');
+    if (btnModalGenProc) {
+        btnModalGenProc.addEventListener('click', () => {
+            const procId = document.getElementById('editProcurementId').value;
+            if (procId) window.generateProcurementInvoice(procId);
+        });
+    }
+
+    const btnModalGenShip = document.getElementById('btnModalGenerateShipmentInvoice');
+    if (btnModalGenShip) {
+        btnModalGenShip.addEventListener('click', () => {
+            const shipId = document.getElementById('editShipmentId').value;
+            if (shipId && currentShipment) window.generateShipmentInvoice(currentShipment.tracking_id || shipId);
+        });
+    }
 });

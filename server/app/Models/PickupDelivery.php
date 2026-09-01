@@ -22,6 +22,11 @@ class PickupDelivery extends Model
         'weight',
         'notes',
         'status',
+        'invoice_generated',
+    ];
+
+    protected $casts = [
+        'invoice_generated' => 'boolean',
     ];
 
     public function user()

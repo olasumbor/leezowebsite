@@ -12,6 +12,10 @@ async function fetchShipments() {
             return;
         }
 
+        if (shipmentTableBody) {
+            shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #6b7280;">Loading shipments...</td></tr>`;
+        }
+
         const response = await fetch(`${CONFIG.API_URL}/shipments`, {
             method: 'GET',
             headers: {
@@ -34,9 +38,16 @@ async function fetchShipments() {
             fetchShipmentStats();
         } else if (response.status === 401) {
             window.location.href = 'signin.html';
+        } else {
+            if (shipmentTableBody) {
+                shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #ef4444;">Failed to load shipments. Please try refreshing.</td></tr>`;
+            }
         }
     } catch (error) {
         console.error('Failed to fetch shipments:', error);
+        if (shipmentTableBody) {
+            shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #ef4444;">Error connecting to server.</td></tr>`;
+        }
     }
 }
 
@@ -77,7 +88,13 @@ async function fetchShipmentStats() {
 const shipmentTableBody = document.getElementById("shipmentTableBody");
 
 function displayShipments(shipmentList) {
+    if (!shipmentTableBody) return;
     shipmentTableBody.innerHTML = "";
+
+    if (!shipmentList || shipmentList.length === 0) {
+        shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #6b7280;">No shipments found.</td></tr>`;
+        return;
+    }
 
     shipmentList.forEach(function (shipment) {
 
