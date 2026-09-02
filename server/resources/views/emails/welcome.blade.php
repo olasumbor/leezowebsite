@@ -13,5 +13,5 @@
         <a href="{{ config('app.frontend_url') }}/signin.html" class="action-btn">Log In to Your Dashboard</a>
     </p>
     
-    <p>If you have any questions or need assistance, feel free to contact our support team at <a href="mailto:info@leezofood.ng">info@leezofood.ng</a>.</p>
+    <p>If you have any questions or need assistance, feel free to contact our support team at <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>.</p>
 @endsection

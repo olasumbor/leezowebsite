@@ -11,5 +11,5 @@
         <p><strong>Your Message:</strong> {{ $contactMessage->message }}</p>
     </div>
 
-    <p>If your matter is urgent, feel free to call us at <strong>+234 809 499 7264</strong> or reach us on WhatsApp.</p>
+    <p>If your matter is urgent, feel free to call us at <strong>+234 813 671 0716, +234 703 989 0112</strong> or reach us on WhatsApp.</p>
 @endsection

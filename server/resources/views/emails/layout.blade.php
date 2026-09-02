@@ -114,8 +114,9 @@
         </div>
         <div class="email-footer">
             <p><strong>Leezofood Exports & Logistics</strong></p>
-            <p>99, Shasha Road, Lagos, Nigeria | +234 809 499 7264</p>
-            <p><a href="mailto:support@leezofoodexport.com">support@leezofoodexport.com</a> | <a href="https://leezofoodexport.com">www.leezofoodexport.com</a></p>
+            <p>Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria</p>
+            <p>+234 813 671 0716, +234 703 989 0112</p>
+            <p><a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a></p>
             <p style="margin-top: 15px; font-size: 11px; color: #64748b;">© {{ date('Y') }} Leezofood Exports. All Rights Reserved.</p>
         </div>
     </div>
