@@ -544,11 +544,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // 8. Users List & Password Reset
     let allUsers = [];
     const populateUserDropdown = (users) => {
-        const select = document.getElementById('shipUser');
-        if (!select) return;
         const regularUsers = users.filter(u => (u.role || '').toLowerCase() !== 'admin');
-        select.innerHTML = '<option value="" disabled selected>Select User</option>' +
+        const optionsHtml = '<option value="" disabled selected>Select User</option>' +
             regularUsers.map(u => `<option value="${u.id}">${u.name} (${u.email})</option>`).join('');
+        ['shipUser', 'procUser', 'pkdUser', 'frzUser'].forEach(id => {
+            const select = document.getElementById(id);
+            if (select) select.innerHTML = optionsHtml;
+        });
     };
 
     const loadUsers = async () => {
@@ -921,7 +923,188 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 9b. Create Procurement Quick Button & Form
+    const btnCreateProcurement = document.getElementById('btnCreateProcurement');
+    const createProcurementFormContainer = document.getElementById('createProcurementFormContainer');
+    if (btnCreateProcurement) {
+        btnCreateProcurement.addEventListener('click', async () => {
+            if (allUsers.length === 0) {
+                await loadUsers();
+            } else {
+                populateUserDropdown(allUsers);
+            }
+            createProcurementFormContainer.style.display = createProcurementFormContainer.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+
+    const createProcurementForm = document.getElementById('createProcurementForm');
+    if (createProcurementForm) {
+        createProcurementForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = createProcurementForm.querySelector("button[type='submit']") || createProcurementForm.querySelector("button");
+            const token = localStorage.getItem("auth_token");
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Creating...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/admin/procurements`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        user_id: document.getElementById('procUser').value,
+                        name: document.getElementById('procName').value,
+                        email: document.getElementById('procEmail').value,
+                        phone: document.getElementById('procPhone').value,
+                        category: document.getElementById('procCategory').value,
+                        quantity: document.getElementById('procQuantity').value,
+                        cost: document.getElementById('procCostInput').value,
+                        details: document.getElementById('procDetails').value,
+                    })
+                });
+                if (response.ok) {
+                    showToast('Procurement request created successfully', 'success');
+                    createProcurementForm.reset();
+                    createProcurementFormContainer.style.display = 'none';
+                    loadProcurements();
+                } else {
+                    const err = await response.json();
+                    showToast(err.message || 'Error creating procurement request', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
+
+    // 9c. Create Pickup & Delivery Quick Button & Form
+    const btnCreatePickup = document.getElementById('btnCreatePickup');
+    const createPickupFormContainer = document.getElementById('createPickupFormContainer');
+    if (btnCreatePickup) {
+        btnCreatePickup.addEventListener('click', async () => {
+            if (allUsers.length === 0) {
+                await loadUsers();
+            } else {
+                populateUserDropdown(allUsers);
+            }
+            createPickupFormContainer.style.display = createPickupFormContainer.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+
+    const createPickupForm = document.getElementById('createPickupForm');
+    if (createPickupForm) {
+        createPickupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = createPickupForm.querySelector("button[type='submit']") || createPickupForm.querySelector("button");
+            const token = localStorage.getItem("auth_token");
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Creating...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/admin/pickup-deliveries`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        user_id: document.getElementById('pkdUser').value,
+                        name: document.getElementById('pkdName').value,
+                        email: document.getElementById('pkdEmail').value,
+                        phone: document.getElementById('pkdPhone').value,
+                        delivery_phone: document.getElementById('pkdDeliveryPhone').value,
+                        pickup_address: document.getElementById('pkdPickupAddress').value,
+                        delivery_address: document.getElementById('pkdDeliveryAddress').value,
+                        cost: document.getElementById('pkdCostInput').value,
+                    })
+                });
+                if (response.ok) {
+                    showToast('Pickup & delivery request created successfully', 'success');
+                    createPickupForm.reset();
+                    createPickupFormContainer.style.display = 'none';
+                    loadPickupDeliveries();
+                } else {
+                    const err = await response.json();
+                    showToast(err.message || 'Error creating pickup request', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
+
+    // 9d. Create Frozen Cargo Quick Button & Form
+    const btnCreateFrozen = document.getElementById('btnCreateFrozen');
+    const createFrozenFormContainer = document.getElementById('createFrozenFormContainer');
+    if (btnCreateFrozen) {
+        btnCreateFrozen.addEventListener('click', async () => {
+            if (allUsers.length === 0) {
+                await loadUsers();
+            } else {
+                populateUserDropdown(allUsers);
+            }
+            createFrozenFormContainer.style.display = createFrozenFormContainer.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+
+    const createFrozenForm = document.getElementById('createFrozenForm');
+    if (createFrozenForm) {
+        createFrozenForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = createFrozenForm.querySelector("button[type='submit']") || createFrozenForm.querySelector("button");
+            const token = localStorage.getItem("auth_token");
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Creating...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/admin/frozen-cargos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        user_id: document.getElementById('frzUser').value,
+                        name: document.getElementById('frzName').value,
+                        email: document.getElementById('frzEmail').value,
+                        phone: document.getElementById('frzPhone').value,
+                        cargo_description: document.getElementById('frzCargoDescription').value,
+                        temperature_requirement: document.getElementById('frzTemperature').value,
+                        weight: document.getElementById('frzWeight').value,
+                        origin: document.getElementById('frzOrigin').value,
+                        destination: document.getElementById('frzDestination').value,
+                        departure_date: document.getElementById('frzDepartureDate').value || null,
+                        cost: document.getElementById('frzCostInput').value,
+                    })
+                });
+                if (response.ok) {
+                    showToast('Frozen cargo request created successfully', 'success');
+                    createFrozenForm.reset();
+                    createFrozenFormContainer.style.display = 'none';
+                    loadFrozenCargos();
+                } else {
+                    const err = await response.json();
+                    showToast(err.message || 'Error creating frozen cargo request', 'error');
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
+
     // 4b. Pick & Delivery Requests Management
+    let allPickupDeliveries = [];
     const loadPickupDeliveries = async () => {
         try {
             const token = localStorage.getItem("auth_token");
@@ -930,12 +1113,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const tbody = document.getElementById('admin-pickup-tbody');
             if (response.ok) {
-                const requests = await response.json();
-                if (requests.length === 0) {
+                allPickupDeliveries = await response.json();
+                if (allPickupDeliveries.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="6" style="text-align: center;">No pickup & delivery requests found.</td></tr>`;
                     return;
                 }
-                tbody.innerHTML = requests.map(r => `
+                tbody.innerHTML = allPickupDeliveries.map(r => `
                     <tr>
                         <td><strong>${r.request_id}</strong></td>
                         <td>${r.user ? r.user.name : r.name}<br><small style="color: #6b7280;">${r.email} (${r.phone})</small></td>
@@ -943,14 +1126,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${r.delivery_address}${r.delivery_phone ? `<br><small style="color: #6b7280;"><i class="fas fa-phone"></i> ${r.delivery_phone}</small>` : ''}</td>
                         <td><span class="status-badge ${r.status}">${r.status ? r.status.toUpperCase() : 'PENDING'}</span></td>
                         <td>
-                            <select onchange="updatePickupStatus('${r.id}', this.value)" style="padding: 6px; border-radius: 6px;">
-                                <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>Pending</option>
-                                <option value="processing" ${r.status === 'processing' ? 'selected' : ''}>Processing</option>
-                                <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>Completed</option>
-                                <option value="cancelled" ${r.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
-                            </select>
-                            <br>
-                            ${r.invoice_generated ? '<span class="status-badge completed" style="margin-top: 5px; display: inline-block;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-top: 5px; padding: 4px 8px; font-size: 0.8rem;" onclick="generatePickupInvoice('${r.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
+                            <button class="btn-primary-outline" onclick="openPickupModal('${r.id}')">
+                                <i class="fas fa-edit"></i> Manage
+                            </button>
+                            ${r.invoice_generated ? '<span class="status-badge completed" style="margin-left: 5px;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-left: 5px;" onclick="generatePickupInvoice('${r.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
                         </td>
                     </tr>
                 `).join('');
@@ -960,25 +1139,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    window.updatePickupStatus = async (id, status) => {
-        const token = localStorage.getItem("auth_token");
-        try {
-            const res = await fetch(`${CONFIG.API_URL}/admin/pickup-deliveries/${id}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ status })
-            });
-            if (res.ok) {
-                showToast('Pickup request status updated!', 'success');
-            } else {
-                showToast('Failed to update status', 'error');
-            }
-        } catch(err) {
-            console.error(err);
-        }
+    window.openPickupModal = (id) => {
+        const item = allPickupDeliveries.find(r => r.id == id || r.request_id == id);
+        if (!item) return;
+
+        document.getElementById('editPickupId').value = item.id;
+        document.getElementById('pickupModalTitle').textContent = `Manage Pickup & Delivery (${item.request_id})`;
+        document.getElementById('editPickupStatus').value = item.status || 'pending';
+        document.getElementById('editPickupCost').value = item.cost || '';
+        document.getElementById('editPickupAddress').value = item.pickup_address || '';
+        document.getElementById('editDeliveryAddress').value = item.delivery_address || '';
+        document.getElementById('editDeliveryPhone').value = item.delivery_phone || '';
+
+        document.getElementById('pickupModal').style.display = 'flex';
     };
 
+    const pickupForm = document.getElementById('pickupForm');
+    if (pickupForm) {
+        pickupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = pickupForm.querySelector("button[type='submit']") || pickupForm.querySelector("button");
+            const token = localStorage.getItem("auth_token");
+            const id = document.getElementById('editPickupId').value;
+
+            const payload = {
+                status: document.getElementById('editPickupStatus').value,
+                cost: document.getElementById('editPickupCost').value,
+                pickup_address: document.getElementById('editPickupAddress').value,
+                delivery_address: document.getElementById('editDeliveryAddress').value,
+                delivery_phone: document.getElementById('editDeliveryPhone').value,
+            };
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Saving...');
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_URL}/admin/pickup-deliveries/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    showToast('Pickup request details updated!', 'success');
+                    window.closeModal('pickupModal');
+                    loadPickupDeliveries();
+                } else {
+                    showToast('Failed to update pickup request', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
+
     // 4c. Frozen Cargo Requests Management
+    let allFrozenCargos = [];
     const loadFrozenCargos = async () => {
         try {
             const token = localStorage.getItem("auth_token");
@@ -987,12 +1207,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const tbody = document.getElementById('admin-frozen-tbody');
             if (response.ok) {
-                const requests = await response.json();
-                if (requests.length === 0) {
+                allFrozenCargos = await response.json();
+                if (allFrozenCargos.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">No frozen cargo requests found.</td></tr>`;
                     return;
                 }
-                tbody.innerHTML = requests.map(r => `
+                tbody.innerHTML = allFrozenCargos.map(r => `
                     <tr>
                         <td><strong>${r.request_id}</strong></td>
                         <td>${r.user ? r.user.name : r.name}<br><small style="color: #6b7280;">${r.email} (${r.phone})</small></td>
@@ -1001,14 +1221,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${r.notes ? (r.notes.length > 30 ? r.notes.substring(0, 30)+'...' : r.notes) : '<em>None</em>'}</td>
                         <td><span class="status-badge ${r.status}">${r.status ? r.status.toUpperCase() : 'PENDING'}</span></td>
                         <td>
-                            <select onchange="updateFrozenStatus('${r.id}', this.value)" style="padding: 6px; border-radius: 6px;">
-                                <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>Pending</option>
-                                <option value="processing" ${r.status === 'processing' ? 'selected' : ''}>Processing</option>
-                                <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>Completed</option>
-                                <option value="cancelled" ${r.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
-                            </select>
-                            <br>
-                            ${r.invoice_generated ? '<span class="status-badge completed" style="margin-top: 5px; display: inline-block;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-top: 5px; padding: 4px 8px; font-size: 0.8rem;" onclick="generateFrozenInvoice('${r.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
+                            <button class="btn-primary-outline" onclick="openFrozenModal('${r.id}')">
+                                <i class="fas fa-edit"></i> Manage
+                            </button>
+                            ${r.invoice_generated ? '<span class="status-badge completed" style="margin-left: 5px;">Invoice Generated</span>' : `<button class="btn-primary-outline" style="color: #10b981; border-color: #10b981; margin-left: 5px;" onclick="generateFrozenInvoice('${r.id}')"><i class="fas fa-file-invoice"></i> Generate Invoice</button>`}
                         </td>
                     </tr>
                 `).join('');
@@ -1018,23 +1234,69 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    window.updateFrozenStatus = async (id, status) => {
-        const token = localStorage.getItem("auth_token");
-        try {
-            const res = await fetch(`${CONFIG.API_URL}/admin/frozen-cargos/${id}/status`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ status })
-            });
-            if (res.ok) {
-                showToast('Frozen cargo request status updated!', 'success');
-            } else {
-                showToast('Failed to update status', 'error');
-            }
-        } catch(err) {
-            console.error(err);
-        }
+    window.openFrozenModal = (id) => {
+        const item = allFrozenCargos.find(r => r.id == id || r.request_id == id);
+        if (!item) return;
+
+        document.getElementById('editFrozenId').value = item.id;
+        document.getElementById('frozenModalTitle').textContent = `Manage Frozen Cargo (${item.request_id})`;
+        document.getElementById('editFrozenStatus').value = item.status || 'pending';
+        document.getElementById('editFrozenCost').value = item.cost || '';
+        document.getElementById('editFrozenTemp').value = item.temperature_requirement || '';
+        document.getElementById('editFrozenWeight').value = item.weight || '';
+        document.getElementById('editFrozenOrigin').value = item.origin || '';
+        document.getElementById('editFrozenDestination').value = item.destination || '';
+        document.getElementById('editFrozenDepartureDate').value = item.departure_date || '';
+        document.getElementById('editFrozenNotes').value = item.notes || '';
+
+        document.getElementById('frozenModal').style.display = 'flex';
     };
+
+    const frozenForm = document.getElementById('frozenForm');
+    if (frozenForm) {
+        frozenForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = frozenForm.querySelector("button[type='submit']") || frozenForm.querySelector("button");
+            const token = localStorage.getItem("auth_token");
+            const id = document.getElementById('editFrozenId').value;
+
+            const payload = {
+                status: document.getElementById('editFrozenStatus').value,
+                cost: document.getElementById('editFrozenCost').value,
+                temperature_requirement: document.getElementById('editFrozenTemp').value,
+                weight: document.getElementById('editFrozenWeight').value,
+                origin: document.getElementById('editFrozenOrigin').value,
+                destination: document.getElementById('editFrozenDestination').value,
+                departure_date: document.getElementById('editFrozenDepartureDate').value || null,
+                notes: document.getElementById('editFrozenNotes').value,
+            };
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Saving...');
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_URL}/admin/frozen-cargos/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    showToast('Frozen cargo request updated!', 'success');
+                    window.closeModal('frozenModal');
+                    loadFrozenCargos();
+                } else {
+                    showToast('Failed to update frozen cargo request', 'error');
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            }
+        });
+    }
 
     // 10. Sidebar Navigation
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
@@ -1048,10 +1310,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             if (targetId === 'overview') loadDashboardData();
-            if (targetId === 'procurements') loadProcurements();
+            if (targetId === 'procurements') { loadProcurements(); loadUsers(); }
             if (targetId === 'shipments') { loadShipments(); loadUsers(); }
-            if (targetId === 'pickup-deliveries') loadPickupDeliveries();
-            if (targetId === 'frozen-cargos') loadFrozenCargos();
+            if (targetId === 'pickup-deliveries') { loadPickupDeliveries(); loadUsers(); }
+            if (targetId === 'frozen-cargos') { loadFrozenCargos(); loadUsers(); }
             if (targetId === 'quotes') loadQuotes();
             if (targetId === 'users') loadUsers();
             if (targetId === 'messages') loadMessages();
@@ -1297,6 +1559,22 @@ document.addEventListener('DOMContentLoaded', () => {
         btnModalGenShip.addEventListener('click', () => {
             const shipId = document.getElementById('editShipmentId').value;
             if (shipId && currentShipment) window.generateShipmentInvoice(currentShipment.tracking_id || shipId);
+        });
+    }
+
+    const btnModalGenPkd = document.getElementById('btnModalGeneratePickupInvoice');
+    if (btnModalGenPkd) {
+        btnModalGenPkd.addEventListener('click', () => {
+            const pickupId = document.getElementById('editPickupId').value;
+            if (pickupId) window.generatePickupInvoice(pickupId);
+        });
+    }
+
+    const btnModalGenFrz = document.getElementById('btnModalGenerateFrozenInvoice');
+    if (btnModalGenFrz) {
+        btnModalGenFrz.addEventListener('click', () => {
+            const frozenId = document.getElementById('editFrozenId').value;
+            if (frozenId) window.generateFrozenInvoice(frozenId);
         });
     }
 });

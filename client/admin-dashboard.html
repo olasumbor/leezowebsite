@@ -190,8 +190,26 @@
 
                 <!-- Procurements Panel -->
                 <section id="panel-procurements" class="panel">
-                    <div class="panel-header">
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h1>Procurements Management</h1>
+                        <button class="btn-primary" id="btnCreateProcurement">Create Procurement</button>
+                    </div>
+
+                    <div id="createProcurementFormContainer" class="shipment-create-card" style="display: none;">
+                        <h3>Create New Procurement Request</h3>
+                        <form id="createProcurementForm" class="shipment-form-grid">
+                            <select id="procUser" required>
+                                <option value="" disabled selected>Select User</option>
+                            </select>
+                            <input type="text" id="procName" placeholder="Customer Name" required>
+                            <input type="email" id="procEmail" placeholder="Customer Email" required>
+                            <input type="text" id="procPhone" placeholder="Phone Number" required>
+                            <input type="text" id="procCategory" placeholder="Category (e.g. Foodstuffs)">
+                            <input type="text" id="procQuantity" placeholder="Quantity (e.g. 10 bags)">
+                            <input type="number" step="0.01" id="procCostInput" placeholder="Initial Price/Cost (₦)">
+                            <textarea id="procDetails" placeholder="Procurement Details" required style="grid-column: 1 / -1; padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1;"></textarea>
+                            <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i class="fas fa-plus"></i> Save Procurement</button>
+                        </form>
                     </div>
                     <div class="table-container">
                         <table class="modern-table">
@@ -255,8 +273,26 @@
 
                 <!-- Pick & Delivery Panel -->
                 <section id="panel-pickup-deliveries" class="panel">
-                    <div class="panel-header">
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h1>Pick & Delivery Requests</h1>
+                        <button class="btn-primary" id="btnCreatePickup">Create Pickup & Delivery</button>
+                    </div>
+
+                    <div id="createPickupFormContainer" class="shipment-create-card" style="display: none;">
+                        <h3>Create New Pickup & Delivery Request</h3>
+                        <form id="createPickupForm" class="shipment-form-grid">
+                            <select id="pkdUser" required>
+                                <option value="" disabled selected>Select User</option>
+                            </select>
+                            <input type="text" id="pkdName" placeholder="Customer Name" required>
+                            <input type="email" id="pkdEmail" placeholder="Customer Email" required>
+                            <input type="text" id="pkdPhone" placeholder="Sender Phone" required>
+                            <input type="text" id="pkdDeliveryPhone" placeholder="Recipient Phone">
+                            <input type="text" id="pkdPickupAddress" placeholder="Pickup Address" required>
+                            <input type="text" id="pkdDeliveryAddress" placeholder="Delivery Address" required>
+                            <input type="number" step="0.01" id="pkdCostInput" placeholder="Price/Cost (₦)">
+                            <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i class="fas fa-plus"></i> Save Pickup Request</button>
+                        </form>
                     </div>
                     <div class="table-container">
                         <table class="modern-table">
@@ -279,8 +315,29 @@
 
                 <!-- Frozen Cargo Panel -->
                 <section id="panel-frozen-cargos" class="panel">
-                    <div class="panel-header">
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
                         <h1>Frozen Cargo Requests</h1>
+                        <button class="btn-primary" id="btnCreateFrozen">Create Frozen Cargo</button>
+                    </div>
+
+                    <div id="createFrozenFormContainer" class="shipment-create-card" style="display: none;">
+                        <h3>Create New Frozen Cargo Request</h3>
+                        <form id="createFrozenForm" class="shipment-form-grid">
+                            <select id="frzUser" required>
+                                <option value="" disabled selected>Select User</option>
+                            </select>
+                            <input type="text" id="frzName" placeholder="Customer Name" required>
+                            <input type="email" id="frzEmail" placeholder="Customer Email" required>
+                            <input type="text" id="frzPhone" placeholder="Phone Number" required>
+                            <input type="text" id="frzCargoDescription" placeholder="Cargo Description" required>
+                            <input type="text" id="frzTemperature" placeholder="Temp Requirement (e.g. Frozen -18°C)">
+                            <input type="number" step="0.1" id="frzWeight" placeholder="Weight (kg)">
+                            <input type="text" id="frzOrigin" placeholder="Origin" required>
+                            <input type="text" id="frzDestination" placeholder="Destination" required>
+                            <input type="date" id="frzDepartureDate" placeholder="Departure Date">
+                            <input type="number" step="0.01" id="frzCostInput" placeholder="Price/Cost (₦)">
+                            <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i class="fas fa-plus"></i> Save Frozen Cargo Request</button>
+                        </form>
                     </div>
                     <div class="table-container">
                         <table class="modern-table">
@@ -717,6 +774,112 @@
                     <div id="shipmentEventsTimeline" style="max-height: 180px; overflow-y: auto; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 0.9rem;">
                         <!-- Dynamic event items -->
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pickup & Delivery Manage Modal -->
+    <div id="pickupModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="pickupModalTitle">Manage Pickup & Delivery</h2>
+                <button class="modal-close" onclick="closeModal('pickupModal')">&times;</button>
+            </div>
+            <form id="pickupForm">
+                <input type="hidden" id="editPickupId">
+                <div class="form-grid">
+                    <div>
+                        <label>Status</label>
+                        <select id="editPickupStatus" required>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing / In Progress</option>
+                            <option value="completed">Completed / Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Cost / Price (₦)</label>
+                        <input type="number" step="0.01" id="editPickupCost" placeholder="Price for pickup & delivery">
+                    </div>
+                    <div>
+                        <label>Pickup Address</label>
+                        <input type="text" id="editPickupAddress">
+                    </div>
+                    <div>
+                        <label>Delivery Address</label>
+                        <input type="text" id="editDeliveryAddress">
+                    </div>
+                    <div>
+                        <label>Recipient Phone</label>
+                        <input type="text" id="editDeliveryPhone">
+                    </div>
+                </div>
+                <div class="modal-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                    <button type="button" class="btn-secondary" onclick="closeModal('pickupModal')">Cancel</button>
+                    <button type="button" id="btnModalGeneratePickupInvoice" class="btn-primary" style="background: #10b981; border: none;">
+                        <i class="fas fa-file-invoice"></i> Generate Invoice & Email
+                    </button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Frozen Cargo Manage Modal -->
+    <div id="frozenModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="frozenModalTitle">Manage Frozen Cargo Request</h2>
+                <button class="modal-close" onclick="closeModal('frozenModal')">&times;</button>
+            </div>
+            <form id="frozenForm">
+                <input type="hidden" id="editFrozenId">
+                <div class="form-grid">
+                    <div>
+                        <label>Status</label>
+                        <select id="editFrozenStatus" required>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing / In Transit</option>
+                            <option value="completed">Completed / Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Cost / Price (₦)</label>
+                        <input type="number" step="0.01" id="editFrozenCost" placeholder="Price for cold-chain service">
+                    </div>
+                    <div>
+                        <label>Temp Requirement</label>
+                        <input type="text" id="editFrozenTemp" placeholder="e.g. Frozen (-18°C)">
+                    </div>
+                    <div>
+                        <label>Weight (kg)</label>
+                        <input type="number" step="0.1" id="editFrozenWeight">
+                    </div>
+                    <div>
+                        <label>Origin</label>
+                        <input type="text" id="editFrozenOrigin">
+                    </div>
+                    <div>
+                        <label>Destination</label>
+                        <input type="text" id="editFrozenDestination">
+                    </div>
+                    <div>
+                        <label>Departure Date</label>
+                        <input type="date" id="editFrozenDepartureDate">
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label>Cargo Description & Notes</label>
+                    <textarea id="editFrozenNotes" rows="3" placeholder="Additional notes or description"></textarea>
+                </div>
+                <div class="modal-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                    <button type="button" class="btn-secondary" onclick="closeModal('frozenModal')">Cancel</button>
+                    <button type="button" id="btnModalGenerateFrozenInvoice" class="btn-primary" style="background: #10b981; border: none;">
+                        <i class="fas fa-file-invoice"></i> Generate Invoice & Email
+                    </button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>

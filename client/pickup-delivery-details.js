@@ -37,7 +37,8 @@ async function loadPickupDetails() {
                         pickupAddress: matched.pickup_address || "N/A",
                         deliveryAddress: matched.delivery_address || "N/A",
                         requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
-                        deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—"
+                        deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—",
+                        cost: matched.cost ? (isNaN(matched.cost) ? matched.cost : `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote"
                     };
                 }
             }
@@ -58,7 +59,8 @@ async function loadPickupDetails() {
                 pickupAddress: matched.pickup_address || "N/A",
                 deliveryAddress: matched.delivery_address || "N/A",
                 requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
-                deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—"
+                deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—",
+                cost: matched.cost ? (isNaN(matched.cost) ? matched.cost : `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote"
             };
         }
     }
@@ -90,6 +92,7 @@ function renderDetails(pickup) {
     if (document.getElementById("pickupRequestDate")) document.getElementById("pickupRequestDate").textContent = pickup.requestDate;
     if (document.getElementById("pickupDeliveredDate")) document.getElementById("pickupDeliveredDate").textContent = pickup.deliveredDate;
     if (document.getElementById("pickupStatus")) document.getElementById("pickupStatus").textContent = pickup.status;
+    if (document.getElementById("pickupCost")) document.getElementById("pickupCost").textContent = pickup.cost;
 
     updatePickupStatus(pickup.status);
 }

@@ -5,24 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FrozenCargo extends Model
+class Procurement extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'request_id',
+        'procurement_id',
         'user_id',
         'name',
         'email',
         'phone',
-        'cargo_description',
-        'temperature_requirement',
-        'weight',
-        'origin',
-        'destination',
-        'departure_date',
-        'notes',
+        'details',
         'status',
+        'category',
+        'quantity',
+        'supplier',
+        'location',
+        'expected_date',
+        'delivered_date',
+        'recipient_location',
         'cost',
         'invoice_generated',
     ];

@@ -38,7 +38,8 @@ async function loadFrozenDetails() {
                         origin: matched.origin || "N/A",
                         destination: matched.destination || "N/A",
                         departureDate: matched.departure_date ? new Date(matched.departure_date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
-                        notes: matched.notes || "None"
+                        notes: matched.notes || "None",
+                        cost: matched.cost ? (isNaN(matched.cost) ? matched.cost : `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote"
                     };
                 }
             }
@@ -78,6 +79,7 @@ function renderDetails(item) {
     if (document.getElementById("frozenDepartureDate")) document.getElementById("frozenDepartureDate").textContent = item.departureDate;
     if (document.getElementById("frozenNotes")) document.getElementById("frozenNotes").textContent = item.notes;
     if (document.getElementById("frozenStatus")) document.getElementById("frozenStatus").textContent = item.status;
+    if (document.getElementById("frozenCost")) document.getElementById("frozenCost").textContent = item.cost;
 
     updateStatusTimeline(item.status);
 }

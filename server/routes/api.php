@@ -116,6 +116,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
 
     // Admin Procurements
     Route::get('/procurements', [ProcurementController::class, 'adminIndex']);
+    Route::post('/procurements', [ProcurementController::class, 'adminStore']);
     Route::get('/procurements/{id}', [ProcurementController::class, 'adminShow']);
     Route::put('/procurements/{id}', [ProcurementController::class, 'adminUpdate']);
     Route::put('/procurements/{id}/status', [ProcurementController::class, 'updateStatus']);
@@ -132,11 +133,15 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
 
     // Admin Pickup & Deliveries
     Route::get('/pickup-deliveries', [PickupDeliveryController::class, 'adminIndex']);
+    Route::post('/pickup-deliveries', [PickupDeliveryController::class, 'adminStore']);
+    Route::put('/pickup-deliveries/{id}', [PickupDeliveryController::class, 'adminUpdate']);
     Route::put('/pickup-deliveries/{id}/status', [PickupDeliveryController::class, 'updateStatus']);
     Route::post('/pickup-deliveries/{id}/generate-invoice', [PickupDeliveryController::class, 'generateInvoice']);
 
     // Admin Frozen Cargos
     Route::get('/frozen-cargos', [FrozenCargoController::class, 'adminIndex']);
+    Route::post('/frozen-cargos', [FrozenCargoController::class, 'adminStore']);
+    Route::put('/frozen-cargos/{id}', [FrozenCargoController::class, 'adminUpdate']);
     Route::put('/frozen-cargos/{id}/status', [FrozenCargoController::class, 'updateStatus']);
     Route::post('/frozen-cargos/{id}/generate-invoice', [FrozenCargoController::class, 'generateInvoice']);
 

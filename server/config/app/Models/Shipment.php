@@ -5,25 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FrozenCargo extends Model
+class Shipment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'request_id',
+        'tracking_id',
         'user_id',
-        'name',
-        'email',
-        'phone',
-        'cargo_description',
-        'temperature_requirement',
-        'weight',
         'origin',
         'destination',
-        'departure_date',
-        'notes',
         'status',
-        'cost',
+        'expected_delivery_date',
+        'service',
+        'weight',
+        'packages',
+        'shipped_date',
+        'delivered_date',
+        'recipient_name',
+        'recipient_location',
+        'shipping_cost',
         'invoice_generated',
     ];
 
@@ -34,5 +34,10 @@ class FrozenCargo extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function events()
+    {
+        return $this->hasMany(ShipmentEvent::class)->orderBy('timestamp', 'desc');
     }
 }
