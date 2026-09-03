@@ -80,29 +80,53 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 const data = await response.json();
                 
-                if(data.users_count !== undefined) document.getElementById('metric-users').textContent = data.users_count;
-                if(data.procurements_count !== undefined) document.getElementById('metric-procurements').textContent = data.procurements_count;
-                if(data.shipments_count !== undefined) document.getElementById('metric-shipments').textContent = data.shipments_count;
+                if (data.users_count !== undefined && document.getElementById('metric-users')) {
+                    document.getElementById('metric-users').textContent = data.users_count;
+                }
+                if (data.procurements_count !== undefined && document.getElementById('metric-procurements')) {
+                    document.getElementById('metric-procurements').textContent = data.procurements_count;
+                }
+                if (data.shipments_count !== undefined && document.getElementById('metric-shipments')) {
+                    document.getElementById('metric-shipments').textContent = data.shipments_count;
+                }
+                if (data.pickups_count !== undefined && document.getElementById('metric-pickups')) {
+                    document.getElementById('metric-pickups').textContent = data.pickups_count;
+                }
+                if (data.frozen_count !== undefined && document.getElementById('metric-frozen')) {
+                    document.getElementById('metric-frozen').textContent = data.frozen_count;
+                }
+                if (data.quotes_count !== undefined && document.getElementById('metric-quotes')) {
+                    document.getElementById('metric-quotes').textContent = data.quotes_count;
+                }
+                if (data.total_revenue !== undefined && document.getElementById('metric-revenue')) {
+                    document.getElementById('metric-revenue').textContent = '₦' + parseFloat(data.total_revenue).toLocaleString('en-NG', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
                 
                 const tbody = document.getElementById('activity-tbody');
-                if (data.activity && data.activity.length > 0) {
-                    tbody.innerHTML = data.activity.map(item => `
-                        <tr>
-                            <td>${item.id}</td>
-                            <td>${item.type}</td>
-                            <td>${item.user}</td>
-                            <td><span class="status-badge ${item.status_class}">${item.status}</span></td>
-                            <td>${item.date}</td>
-                        </tr>
-                    `).join('');
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No recent activity found.</td></tr>`;
+                if (tbody) {
+                    if (data.activity && data.activity.length > 0) {
+                        tbody.innerHTML = data.activity.map(item => `
+                            <tr>
+                                <td><strong>${item.id}</strong></td>
+                                <td>${item.type}</td>
+                                <td>${item.user}</td>
+                                <td><span class="status-badge ${item.status_class}">${item.status}</span></td>
+                                <td>${item.date}</td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No recent activity found.</td></tr>`;
+                    }
                 }
             }
         } catch (error) {
             console.error("Error fetching admin data:", error);
         }
     };
+
 
     // 3. Procurements Management
     let allProcurements = [];
