@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('pickup_address');
             $table->dateTime('pickup_date')->nullable();
             $table->text('delivery_address');
-            $table->text('item_description');
+            $table->text('item_description')->nullable();
             $table->decimal('weight', 10, 2)->nullable();
             $table->text('notes')->nullable();
             $table->string('status')->default('pending');
