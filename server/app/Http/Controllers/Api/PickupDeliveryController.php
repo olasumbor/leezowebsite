@@ -226,6 +226,12 @@ class PickupDeliveryController extends Controller
         ]);
     }
 
+    // Download Pickup & Delivery Receipt
+    public function downloadReceipt(Request $request, $id)
+    {
+        return $this->downloadInvoice($request, $id);
+    }
+
     // Download Pickup & Delivery Invoice
     public function downloadInvoice(Request $request, $id)
     {

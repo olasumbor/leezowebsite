@@ -248,6 +248,12 @@ class FrozenCargoController extends Controller
         ]);
     }
 
+    // Download Frozen Cargo Receipt
+    public function downloadReceipt(Request $request, $id)
+    {
+        return $this->downloadInvoice($request, $id);
+    }
+
     // Download Frozen Cargo Invoice
     public function downloadInvoice(Request $request, $id)
     {

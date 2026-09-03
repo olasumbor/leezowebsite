@@ -2,282 +2,283 @@
 <html lang="en">
 
 <head>
-    <!-- Instant Auth Guard -->
-    <script>
-        (function() {
-            var token = localStorage.getItem("auth_token");
-            var loggedIn = localStorage.getItem("loggedIn") === "true";
-            if (!token && !loggedIn) {
-                window.location.replace("signin.html");
-            }
-        })();
-    </script>
+  <!-- Instant Auth Guard -->
+  <script>
+    (function () {
+      var token = localStorage.getItem("auth_token");
+      var loggedIn = localStorage.getItem("loggedIn") === "true";
+      if (!token && !loggedIn) {
+        window.location.replace("signin.html");
+      }
+    })();
+  </script>
 
 
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title>Pick Up & Delivery Details | Leezoexports Logistics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <!-- Google Fonts -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Pick Up & Delivery Details | Leezoexports Logistics</title>
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+  <!-- Google Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 
-    <!-- Global CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+
+  <!-- Global CSS -->
+
+  <link rel="stylesheet" href="style.css">
 
 
-    <!-- Details CSS -->
-    <link rel="stylesheet" href="pickup-delivery-details.css">
-    <link rel="stylesheet" href="toast.css">
+  <!-- Details CSS -->
+  <link rel="stylesheet" href="pickup-delivery-details.css">
+  <link rel="stylesheet" href="toast.css">
 </head>
 
 
 
-  <header class="dashboard-header">
-    <div class="dashboard-logo">
-      <a href="dashboard.html">
-        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
-      </a>
-    </div>
-
-    <ul class="dashboard-nav-links">
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="shipment-history.html">My Shipments</a></li>
-      <li><a href="procurement-history.html">Procurement</a></li>
-      <li><a href="pickup-delivery-history.html" class="active">Pickup & Delivery</a></li>
-      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li class="dashboard-mobile-logout">
-        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
-      </li>
-    </ul>
-
-    <div class="dashboard-right">
-      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
-      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </header>
-
-  <main class="dash-page-wrapper">
-    <a href="pickup-delivery-history.html" class="dash-back-link">
-      <span>← Back to Pickup & Delivery History</span>
+<header class="dashboard-header">
+  <div class="dashboard-logo">
+    <a href="dashboard.html">
+      <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
     </a>
+  </div>
 
-    <div class="dash-header-block">
-      <div>
-        <h1 class="dash-header-title">Pickup & Delivery <span id="pickupId"></span></h1>
-        <p class="dash-header-subtitle">Detailed breakdown and live tracking status for your request.</p>
+  <ul class="dashboard-nav-links">
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="shipment-history.html">My Shipments</a></li>
+    <li><a href="procurement-history.html">Procurement</a></li>
+    <li><a href="pickup-delivery-history.html" class="active">Pickup & Delivery</a></li>
+    <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+    <li><a href="profile.html">Profile</a></li>
+    <li class="dashboard-mobile-logout">
+      <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+    </li>
+  </ul>
+
+  <div class="dashboard-right">
+    <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+    <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</header>
+
+<main class="dash-page-wrapper">
+  <a href="pickup-delivery-history.html" class="dash-back-link">
+    <span>← Back to Pickup & Delivery History</span>
+  </a>
+
+  <div class="dash-header-block">
+    <div>
+      <h1 class="dash-header-title">Pickup & Delivery <span id="pickupId"></span></h1>
+      <p class="dash-header-subtitle">Detailed breakdown and live tracking status for your request.</p>
+    </div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadReceipt">Download
+        Invoice</button>
+      <button type="button" class="dash-action-btn" id="trackPickup">Track Request</button>
+    </div>
+  </div>
+
+  <!-- TIMELINE STEPPER -->
+  <div class="dash-card">
+    <div class="dash-timeline">
+      <div class="dash-timeline-step" id="statusRequested">
+        <div class="dash-step-icon">1</div>
+        <div class="dash-step-label">Requested</div>
       </div>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadReceipt">Download Receipt</button>
-        <button type="button" class="dash-action-btn" id="trackPickup">Track Request</button>
+      <div class="dash-timeline-step" id="statusAssigned">
+        <div class="dash-step-icon">2</div>
+        <div class="dash-step-label">Assigned</div>
+      </div>
+      <div class="dash-timeline-step" id="statusPickup">
+        <div class="dash-step-icon">3</div>
+        <div class="dash-step-label">Picked Up</div>
+      </div>
+      <div class="dash-timeline-step" id="statusTransit">
+        <div class="dash-step-icon">4</div>
+        <div class="dash-step-label">In Transit</div>
+      </div>
+      <div class="dash-timeline-step" id="statusDelivered">
+        <div class="dash-step-icon">5</div>
+        <div class="dash-step-label">Delivered</div>
       </div>
     </div>
+  </div>
 
-    <!-- TIMELINE STEPPER -->
-    <div class="dash-card">
-      <div class="dash-timeline">
-        <div class="dash-timeline-step" id="statusRequested">
-          <div class="dash-step-icon">1</div>
-          <div class="dash-step-label">Requested</div>
-        </div>
-        <div class="dash-timeline-step" id="statusAssigned">
-          <div class="dash-step-icon">2</div>
-          <div class="dash-step-label">Assigned</div>
-        </div>
-        <div class="dash-timeline-step" id="statusPickup">
-          <div class="dash-step-icon">3</div>
-          <div class="dash-step-label">Picked Up</div>
-        </div>
-        <div class="dash-timeline-step" id="statusTransit">
-          <div class="dash-step-icon">4</div>
-          <div class="dash-step-label">In Transit</div>
-        </div>
-        <div class="dash-timeline-step" id="statusDelivered">
-          <div class="dash-step-icon">5</div>
-          <div class="dash-step-label">Delivered</div>
-        </div>
+  <div class="dash-card">
+    <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-weight: 700; font-size: 1.1rem;">Request Details &
+      Addresses</h3>
+
+    <div class="dash-details-grid">
+      <div class="dash-detail-item">
+        <label>Request ID</label>
+        <p id="detailPickupId">—</p>
+      </div>
+      <div class="dash-detail-item">
+        <label>Customer Name</label>
+        <p id="pickupName">—</p>
+      </div>
+      <div class="dash-detail-item">
+        <label>Phone Number (Sender)</label>
+        <p id="pickupPhone">—</p>
+      </div>
+      <div class="dash-detail-item">
+        <label>Delivery Phone (Recipient)</label>
+        <p id="deliveryPhone">—</p>
+      </div>
+      <div class="dash-detail-item">
+        <label>Status</label>
+        <p id="pickupStatus">—</p>
+      </div>
+      <div class="dash-detail-item" style="grid-column: 1 / -1;">
+        <label>Pick Up Address</label>
+        <p id="pickupAddress">—</p>
+      </div>
+      <div class="dash-detail-item" style="grid-column: 1 / -1;">
+        <label>Delivery Address</label>
+        <p id="deliveryAddress">—</p>
+      </div>
+      <div class="dash-detail-item">
+        <label>Request Date</label>
+        <p id="pickupRequestDate">—</p>
+      </div>
+      <div class="dash-detail-item">
+        <label>Delivered Date</label>
+        <p id="pickupDeliveredDate">—</p>
+      </div>
+      <div class="dash-detail-item" style="grid-column: 1 / -1;">
+        <label>Service Cost</label>
+        <p id="pickupCost" style="font-size: 1.3rem; color: var(--dash-primary); font-weight: 700;">—</p>
       </div>
     </div>
+  </div>
+</main>
 
-    <div class="dash-card">
-      <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-weight: 700; font-size: 1.1rem;">Request Details & Addresses</h3>
 
-      <div class="dash-details-grid">
-        <div class="dash-detail-item">
-          <label>Request ID</label>
-          <p id="detailPickupId">—</p>
-        </div>
-        <div class="dash-detail-item">
-          <label>Customer Name</label>
-          <p id="pickupName">—</p>
-        </div>
-        <div class="dash-detail-item">
-          <label>Phone Number (Sender)</label>
-          <p id="pickupPhone">—</p>
-        </div>
-        <div class="dash-detail-item">
-          <label>Delivery Phone (Recipient)</label>
-          <p id="deliveryPhone">—</p>
-        </div>
-        <div class="dash-detail-item">
-          <label>Status</label>
-          <p id="pickupStatus">—</p>
-        </div>
-        <div class="dash-detail-item" style="grid-column: 1 / -1;">
-          <label>Pick Up Address</label>
-          <p id="pickupAddress">—</p>
-        </div>
-        <div class="dash-detail-item" style="grid-column: 1 / -1;">
-          <label>Delivery Address</label>
-          <p id="deliveryAddress">—</p>
-        </div>
-        <div class="dash-detail-item">
-          <label>Request Date</label>
-          <p id="pickupRequestDate">—</p>
-        </div>
-        <div class="dash-detail-item">
-          <label>Delivered Date</label>
-          <p id="pickupDeliveredDate">—</p>
-        </div>
-        <div class="dash-detail-item" style="grid-column: 1 / -1;">
-          <label>Service Cost</label>
-          <p id="pickupCost" style="font-size: 1.3rem; color: var(--dash-primary); font-weight: 700;">—</p>
-        </div>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <div class="footer-contact">
+
+      <h3>Get in Touch</h3>
+
+      <div class="contact-item">
+        <img src="images/location.svg" alt="Location">
+        <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
+          target="_blank">
+          Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
+        </a>
       </div>
+
+      <div class="contact-item">
+        <img src="images/phone.svg" alt="Phone">
+
+        <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
+      </div>
+
+      <div class="contact-item">
+        <img src="images/Email.svg" alt="Email">
+
+        <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+      </div>
+
+      <div class="social-icons">
+
+        <a href="https://www.facebook.com/leezofoodng" target="_blank">
+          <img src="images/icons-facebook.svg" alt="Facebook">
+        </a>
+
+        <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
+          <img src="images/instagram.svg" alt="Instagram">
+        </a>
+
+        <a href="#">
+          <img src="images/twitter.svg" alt="Twitter">
+        </a>
+
+        <a href="https://wa.me/2348136710716">
+          <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+        </a>
+
+      </div>
+
     </div>
-  </main>
+
+    <div class="footer-links">
+
+      <h3>Quick Links</h3>
+
+      <ul class="footer-menu">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="services.html">Our Services</a></li>
+        <li><a href="track-shipment.html">Track Shipment</a></li>
+        <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+      </ul>
+
+    </div>
+
+    <div class="footer-newsletter">
+
+      <h3>Newsletter</h3>
+
+      <p class="newsletter-text">
+        Join our newsletter to receive important logistics updates,
+        freight tips, company news, and exclusive promotions delivered
+        straight to your inbox.
+      </p>
+
+      <form class="newsletter-form">
+
+        <input type="email" placeholder="Your Email Address">
+
+        <button type="submit">
+          Sign Up
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <hr class="footer-divider">
+
+  <div class="footer-bottom">
+
+    <p>
+      <span>Leezofoodng.export</span>
+      All Rights Reserved.
+    </p>
+
+  </div>
+
+</footer>
 
 
 
-    <!-- FOOTER -->
-
-    <footer class="footer">
-
-        <div class="footer-container">
-
-            <div class="footer-contact">
-
-                <h3>Get in Touch</h3>
-
-                <div class="contact-item">
-                    <img src="images/location.svg" alt="Location">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
-                        target="_blank">
-                        Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
-                    </a>
-                </div>
-
-                <div class="contact-item">
-                    <img src="images/phone.svg" alt="Phone">
-
-                    <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
-                </div>
-
-                <div class="contact-item">
-                    <img src="images/Email.svg" alt="Email">
-
-                    <a
-                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
-                </div>
-
-                <div class="social-icons">
-
-                    <a href="https://www.facebook.com/leezofoodng" target="_blank">
-                        <img src="images/icons-facebook.svg" alt="Facebook">
-                    </a>
-
-                    <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
-                        <img src="images/instagram.svg" alt="Instagram">
-                    </a>
-
-                    <a href="#">
-                        <img src="images/twitter.svg" alt="Twitter">
-                    </a>
-
-                    <a href="https://wa.me/2348136710716">
-                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="footer-links">
-
-                <h3>Quick Links</h3>
-
-                <ul class="footer-menu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="services.html">Our Services</a></li>
-                    <li><a href="track-shipment.html">Track Shipment</a></li>
-                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
-                </ul>
-
-            </div>
-
-            <div class="footer-newsletter">
-
-                <h3>Newsletter</h3>
-
-                <p class="newsletter-text">
-                    Join our newsletter to receive important logistics updates,
-                    freight tips, company news, and exclusive promotions delivered
-                    straight to your inbox.
-                </p>
-
-                <form class="newsletter-form">
-
-                    <input type="email" placeholder="Your Email Address">
-
-                    <button type="submit">
-                        Sign Up
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
-
-        <hr class="footer-divider">
-
-        <div class="footer-bottom">
-
-            <p>
-                <span>Leezofoodng.export</span>
-                All Rights Reserved.
-            </p>
-
-        </div>
-
-    </footer>
-
-
-
-    <script src="config.js"></script>
-    <script src="toast.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="pickup-delivery-details.js"></script>
+<script src="config.js"></script>
+<script src="toast.js"></script>
+<script src="auth.js"></script>
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="pickup-delivery-details.js"></script>
 </body>
 
 </html>

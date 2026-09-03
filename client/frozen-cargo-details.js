@@ -161,7 +161,7 @@ async function downloadInvoiceAsPdf(htmlContent, filename) {
     }
 }
 
-const downloadInvoiceBtn = document.getElementById("downloadFrozenInvoice");
+const downloadInvoiceBtn = document.getElementById("downloadReceipt") || document.getElementById("downloadFrozenInvoice") || document.getElementById("downloadInvoice");
 if (downloadInvoiceBtn) {
     downloadInvoiceBtn.addEventListener("click", async function () {
         if (!frozenId) {
@@ -180,12 +180,21 @@ if (downloadInvoiceBtn) {
                 headers['Authorization'] = `Bearer ${token}`;
             }
 
-            const invoiceUrl = `${CONFIG.API_URL}/frozen-cargos/${frozenId}/invoice`;
-            const response = await fetch(invoiceUrl, {
+            let invoiceUrl = `${CONFIG.API_URL}/frozen-cargos/${frozenId}/invoice`;
+            let response = await fetch(invoiceUrl, {
                 method: 'GET',
                 credentials: 'include',
                 headers: headers
             });
+
+            if (!response.ok && response.status === 404) {
+                invoiceUrl = `${CONFIG.API_URL}/frozen-cargos/${frozenId}/receipt`;
+                response = await fetch(invoiceUrl, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: headers
+                });
+            }
 
             if (response.ok) {
                 const htmlContent = await response.text();

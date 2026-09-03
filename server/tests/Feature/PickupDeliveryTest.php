@@ -107,4 +107,26 @@ class PickupDeliveryTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonMissingPath('errors.item_description');
     }
+
+    public function test_user_can_download_receipt_and_invoice_for_pickup_delivery()
+    {
+        $user = User::factory()->create(['email' => 'download.receipt.' . rand(1000, 9999) . '@example.com']);
+        $pickup = PickupDelivery::create([
+            'request_id' => 'PKD99988811',
+            'user_id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => '08011112222',
+            'pickup_address' => 'Origin Address',
+            'delivery_address' => 'Destination Address',
+            'cost' => 20000,
+            'invoice_generated' => true,
+        ]);
+
+        $receiptResponse = $this->actingAs($user, 'sanctum')->getJson("/api/pickup-deliveries/{$pickup->request_id}/receipt");
+        $receiptResponse->assertStatus(200);
+
+        $invoiceResponse = $this->actingAs($user, 'sanctum')->getJson("/api/pickup-deliveries/{$pickup->request_id}/invoice");
+        $invoiceResponse->assertStatus(200);
+    }
 }

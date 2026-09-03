@@ -180,7 +180,7 @@ async function downloadInvoiceAsPdf(htmlContent, filename) {
     }
 }
 
-const downloadShipmentInvoiceButton = document.getElementById("downloadInvoice") || document.getElementById("downloadReceipt");
+const downloadShipmentInvoiceButton = document.getElementById("downloadReceipt") || document.getElementById("downloadInvoice") || document.getElementById("downloadShipmentInvoice");
 
 if (downloadShipmentInvoiceButton) {
     downloadShipmentInvoiceButton.addEventListener("click", async function () {
@@ -191,7 +191,7 @@ if (downloadShipmentInvoiceButton) {
         }
 
         if (typeof setButtonLoading === 'function') {
-            setButtonLoading(downloadShipmentInvoiceButton, true, "Generating Invoice...");
+            setButtonLoading(downloadShipmentInvoiceButton, true, "Generating Document...");
         }
 
         try {
@@ -201,18 +201,27 @@ if (downloadShipmentInvoiceButton) {
                 headers['Authorization'] = `Bearer ${token}`;
             }
 
-            const invoiceUrl = `${CONFIG.API_URL}/shipments/${shipmentId}/invoice`;
-            const response = await fetch(invoiceUrl, {
+            let invoiceUrl = `${CONFIG.API_URL}/shipments/${shipmentId}/receipt`;
+            let response = await fetch(invoiceUrl, {
                 method: 'GET',
                 credentials: 'include',
                 headers: headers
             });
 
+            if (!response.ok) {
+                invoiceUrl = `${CONFIG.API_URL}/shipments/${shipmentId}/invoice`;
+                response = await fetch(invoiceUrl, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: headers
+                });
+            }
+
             if (response.ok) {
                 const htmlContent = await response.text();
-                await downloadInvoiceAsPdf(htmlContent, `Shipment-Invoice-${shipmentId}.pdf`);
+                await downloadInvoiceAsPdf(htmlContent, `Shipment-Document-${shipmentId}.pdf`);
             } else {
-                let msg = "Failed to generate shipment invoice.";
+                let msg = "Failed to generate shipment document.";
                 try {
                     const err = await response.json();
                     if (err.message) msg = err.message;
@@ -220,8 +229,8 @@ if (downloadShipmentInvoiceButton) {
                 showToast(msg, "warning");
             }
         } catch (error) {
-            console.error("Failed to download shipment invoice:", error);
-            showToast("An error occurred while generating shipment invoice.", "error");
+            console.error("Failed to download shipment document:", error);
+            showToast("An error occurred while generating shipment document.", "error");
         } finally {
             if (typeof setButtonLoading === 'function') {
                 setButtonLoading(downloadShipmentInvoiceButton, false);

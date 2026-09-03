@@ -176,7 +176,7 @@ async function downloadInvoiceAsPdf(htmlContent, filename) {
     }
 }
 
-const downloadInvoiceBtn = document.getElementById("downloadPickupInvoice");
+const downloadInvoiceBtn = document.getElementById("downloadReceipt") || document.getElementById("downloadPickupInvoice") || document.getElementById("downloadInvoice");
 if (downloadInvoiceBtn) {
     downloadInvoiceBtn.addEventListener("click", async function () {
         if (!pickupId) {
@@ -185,7 +185,7 @@ if (downloadInvoiceBtn) {
         }
 
         if (typeof setButtonLoading === 'function') {
-            setButtonLoading(downloadInvoiceBtn, true, "Generating Invoice...");
+            setButtonLoading(downloadInvoiceBtn, true, "Generating Receipt...");
         }
 
         try {
@@ -195,18 +195,27 @@ if (downloadInvoiceBtn) {
                 headers['Authorization'] = `Bearer ${token}`;
             }
 
-            const invoiceUrl = `${CONFIG.API_URL}/pickup-deliveries/${pickupId}/invoice`;
-            const response = await fetch(invoiceUrl, {
+            let invoiceUrl = `${CONFIG.API_URL}/pickup-deliveries/${pickupId}/invoice`;
+            let response = await fetch(invoiceUrl, {
                 method: 'GET',
                 credentials: 'include',
                 headers: headers
             });
 
+            if (!response.ok && response.status === 404) {
+                invoiceUrl = `${CONFIG.API_URL}/pickup-deliveries/${pickupId}/receipt`;
+                response = await fetch(invoiceUrl, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: headers
+                });
+            }
+
             if (response.ok) {
                 const htmlContent = await response.text();
-                await downloadInvoiceAsPdf(htmlContent, `Pickup-Delivery-Invoice-${pickupId}.pdf`);
+                await downloadInvoiceAsPdf(htmlContent, `Pickup-Delivery-Receipt-${pickupId}.pdf`);
             } else {
-                let msg = "Failed to generate invoice.";
+                let msg = "Failed to generate receipt.";
                 try {
                     const err = await response.json();
                     if (err.message) msg = err.message;
@@ -214,8 +223,8 @@ if (downloadInvoiceBtn) {
                 if (typeof showToast !== "undefined") showToast(msg, "warning");
             }
         } catch (error) {
-            console.error("Failed to download invoice:", error);
-            if (typeof showToast !== "undefined") showToast("An error occurred while generating invoice.", "error");
+            console.error("Failed to download receipt:", error);
+            if (typeof showToast !== "undefined") showToast("An error occurred while generating receipt.", "error");
         } finally {
             if (typeof setButtonLoading === 'function') {
                 setButtonLoading(downloadInvoiceBtn, false);
