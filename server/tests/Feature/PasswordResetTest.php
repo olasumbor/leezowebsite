@@ -35,6 +35,22 @@ class PasswordResetTest extends TestCase
         );
     }
 
+    public function test_password_reset_notification_mail_generation()
+    {
+        $user = User::factory()->create([
+            'email' => 'mailtest@example.com',
+        ]);
+
+        $notification = new ResetPassword('sample-token-123');
+        $mailMessage = $notification->toMail($user);
+
+        $this->assertEquals('emails.password_reset', $mailMessage->view);
+        $this->assertStringContainsString('sample-token-123', $mailMessage->viewData['url']);
+        $this->assertStringContainsString(urlencode('mailtest@example.com'), $mailMessage->viewData['url']);
+    }
+
+
+
     public function test_forgot_password_fails_for_invalid_email_format()
     {
         $response = $this->postJson('/api/forgot-password', [

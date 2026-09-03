@@ -33,13 +33,7 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        $frontendUrl = config('app.frontend_url', 'http://localhost:5500');
-        if (str_contains($frontendUrl, 'reset-password.html')) {
-            $url = $frontendUrl . '?token=' . $token . '&email=' . urlencode($this->email);
-        } else {
-            $url = rtrim($frontendUrl, '/') . '/client/reset-password.html?token=' . $token . '&email=' . urlencode($this->email);
-        }
-        
-        $this->notify(new \Illuminate\Auth\Notifications\ResetPassword($url));
+        $this->notify(new \Illuminate\Auth\Notifications\ResetPassword($token));
     }
 }
+

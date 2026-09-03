@@ -61,7 +61,8 @@ use App\Http\Controllers\Api\FrozenCargoController;
 
 // Password Reset Routes
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLinkEmail']);
-Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
+
 
 // Public tracking and shipment routes
 Route::get('/track/{tracking_id}', [ShipmentController::class, 'track']);
