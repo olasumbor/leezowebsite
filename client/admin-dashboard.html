@@ -543,20 +543,53 @@
                                 <div id="cacheOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
                             </div>
 
-                            <div style="background: #f8fafc; padding: 24px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: var(--shadow-sm);">
-                                <h3 style="margin-bottom: 16px; color: var(--text-main);"><i class="fas fa-database" style="margin-right: 8px; color: #6366f1;"></i> Database Migrations (artisan migrate)</h3>
-                                <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px; line-height: 1.5;">
-                                    Execute pending database schema migrations or seeders using Laravel Artisan.
+                            <div style="background: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: var(--shadow-sm);">
+                                <h3 style="margin-bottom: 8px; color: var(--text-main); font-weight: 600;">
+                                    <i class="fas fa-database" style="margin-right: 8px; color: #6366f1;"></i> Database Updates & System Reset
+                                </h3>
+                                <p style="font-size: 0.9rem; color: #475569; margin-bottom: 16px; line-height: 1.5;">
+                                    Apply software updates to your database structure or perform a system data reset.
                                 </p>
-                                <form id="migrationForm" style="display: grid; gap: 12px;">
-                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                                        <input type="checkbox" id="chkMigrateSeed"> Run Database Seeders (<code>--seed</code>)
+
+                                <!-- Routine maintenance safe info box -->
+                                <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 0.85rem; color: #1e40af; line-height: 1.4;">
+                                    <i class="fas fa-shield-alt" style="margin-right: 6px; color: #2563eb;"></i>
+                                    <strong>Routine Maintenance (Safe):</strong> Standard database updates bring table structures up to date to support new features while keeping all your user accounts, shipments, and records completely safe.
+                                </div>
+
+                                <form id="migrationForm" style="display: grid; gap: 14px;">
+                                    <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; cursor: pointer; color: #334155;">
+                                        <input type="checkbox" id="chkMigrateSeed" style="margin-top: 3px;">
+                                        <span>
+                                            <strong>Load Initial System Defaults & Demo Data</strong><br>
+                                            <span style="font-size: 0.8rem; color: #64748b;">Fills essential default settings, setup values, and sample data into the database.</span>
+                                        </span>
                                     </label>
-                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer; color: #ef4444;">
-                                        <input type="checkbox" id="chkMigrateFresh"> Fresh Migration (<code>migrate:fresh</code> - Drops all tables!)
-                                    </label>
-                                    <button type="submit" id="btnRunMigrations" class="btn-primary" style="background: #6366f1; border: none; align-self: start; margin-top: 5px;">
-                                        <i class="fas fa-cogs" style="margin-right: 6px;"></i> Run Database Migrations
+
+                                    <div style="border-top: 1px dashed #e2e8f0; padding-top: 12px;">
+                                        <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; cursor: pointer; color: #dc2626;">
+                                            <input type="checkbox" id="chkMigrateFresh" style="margin-top: 3px;">
+                                            <span>
+                                                <strong style="color: #dc2626;"><i class="fas fa-exclamation-triangle" style="margin-right: 4px;"></i> Complete Database Reset (Factory Reset)</strong> 
+                                                <span style="background: #fee2e2; color: #991b1b; font-size: 0.72rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 6px; text-transform: uppercase;">Danger Zone</span><br>
+                                                <span style="font-size: 0.8rem; color: #b91c1c;">Wipes all existing database tables clean and recreates them from scratch.</span>
+                                            </span>
+                                        </label>
+                                    </div>
+
+                                    <!-- Dynamic Danger Alert Box (Visible only when Full Database Reset is checked) -->
+                                    <div id="dangerResetAlert" style="display: none; background: #fef2f2; border: 1.5px solid #fca5a5; border-radius: 8px; padding: 14px; margin-top: 4px;">
+                                        <div style="display: flex; align-items: center; gap: 8px; color: #991b1b; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px;">
+                                            <i class="fas fa-radiation-alt" style="font-size: 1.1rem; color: #dc2626;"></i>
+                                            CRITICAL WARNING: Irreversible Data Loss
+                                        </div>
+                                        <p style="font-size: 0.83rem; color: #7f1d1d; margin: 0; line-height: 1.45;">
+                                            Checking this option will <strong>PERMANENTLY ERASE ALL USER ACCOUNTS, SHIPMENT RECORDS, PICKUP REQUESTS, FROZEN CARGO, QUOTES, AND SYSTEM SETTINGS</strong>. This action cannot be undone!
+                                        </p>
+                                    </div>
+
+                                    <button type="submit" id="btnRunMigrations" class="btn-primary" style="background: #6366f1; border: none; align-self: start; margin-top: 6px; padding: 10px 18px; font-weight: 500;">
+                                        <i class="fas fa-cogs" style="margin-right: 6px;"></i> Execute Database Action
                                     </button>
                                 </form>
                                 <div id="migrationOutputContainer" style="display: none; margin-top: 15px; background: #1e293b; color: #38bdf8; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.82rem; white-space: pre-wrap; word-break: break-all;"></div>
@@ -566,6 +599,48 @@
                 </section>
             </div>
         </main>
+    </div>
+
+
+    <!-- Confirm Database Reset Safety Modal -->
+    <div id="resetDatabaseConfirmModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 520px; border-top: 5px solid #dc2626;">
+            <div class="modal-header">
+                <h2 style="color: #dc2626; display: flex; align-items: center; gap: 10px; font-size: 1.25rem;">
+                    <i class="fas fa-exclamation-triangle"></i> Confirm Complete Database Reset
+                </h2>
+                <button class="modal-close" onclick="closeModal('resetDatabaseConfirmModal')">&times;</button>
+            </div>
+            <div style="padding: 10px 0;">
+                <div style="background: #fef2f2; border-left: 4px solid #dc2626; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px;">
+                    <p style="margin: 0; color: #991b1b; font-weight: 600; font-size: 0.95rem;">
+                        ⚠️ Warning: You are about to perform a Factory Reset on your database!
+                    </p>
+                    <p style="margin: 6px 0 0 0; color: #7f1d1d; font-size: 0.88rem; line-height: 1.4;">
+                        This operation drops all database tables. The following data will be <strong>PERMANENTLY DELETED</strong>:
+                    </p>
+                    <ul style="margin: 8px 0 0 18px; padding: 0; color: #7f1d1d; font-size: 0.85rem; line-height: 1.5;">
+                        <li>All customer accounts & administrator passwords</li>
+                        <li>All active shipments, tracking history & procurement logs</li>
+                        <li>All pickup & delivery requests, frozen cargo & quotes</li>
+                        <li>All custom bank details and shipping configuration settings</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <label style="display: block; font-size: 0.88rem; font-weight: 600; color: #374151; margin-bottom: 6px;">
+                        To confirm this dangerous action, type <strong style="color: #dc2626; font-family: monospace; background: #fee2e2; padding: 2px 6px; border-radius: 4px;">RESET</strong> below:
+                    </label>
+                    <input type="text" id="confirmResetInput" placeholder="Type RESET to confirm" style="width: 100%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.95rem; text-transform: uppercase;">
+                </div>
+            </div>
+            <div class="modal-actions" style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" class="btn-secondary" onclick="closeModal('resetDatabaseConfirmModal')">Cancel</button>
+                <button type="button" id="btnConfirmDatabaseReset" class="btn-primary" disabled style="background: #dc2626; border: none; opacity: 0.5; cursor: not-allowed;">
+                    <i class="fas fa-trash-alt" style="margin-right: 6px;"></i> Erase Database & Reset System
+                </button>
+            </div>
+        </div>
     </div>
 
 

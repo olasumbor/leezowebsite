@@ -811,57 +811,109 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 8d. Run Database Migrations (artisan migrate)
+    // 8d. Run Database Maintenance & Reset
+    const chkMigrateFresh = document.getElementById('chkMigrateFresh');
+    const dangerResetAlert = document.getElementById('dangerResetAlert');
+    if (chkMigrateFresh && dangerResetAlert) {
+        chkMigrateFresh.addEventListener('change', () => {
+            dangerResetAlert.style.display = chkMigrateFresh.checked ? 'block' : 'none';
+        });
+    }
+
+    const confirmResetInput = document.getElementById('confirmResetInput');
+    const btnConfirmDatabaseReset = document.getElementById('btnConfirmDatabaseReset');
+    if (confirmResetInput && btnConfirmDatabaseReset) {
+        confirmResetInput.addEventListener('input', () => {
+            const val = confirmResetInput.value.trim().toUpperCase();
+            if (val === 'RESET') {
+                btnConfirmDatabaseReset.disabled = false;
+                btnConfirmDatabaseReset.style.opacity = '1';
+                btnConfirmDatabaseReset.style.cursor = 'pointer';
+            } else {
+                btnConfirmDatabaseReset.disabled = true;
+                btnConfirmDatabaseReset.style.opacity = '0.5';
+                btnConfirmDatabaseReset.style.cursor = 'not-allowed';
+            }
+        });
+    }
+
+    const executeDatabaseMigration = async (isFresh, isSeed) => {
+        const submitBtn = document.getElementById('btnRunMigrations');
+        const token = localStorage.getItem("auth_token");
+        const outputBox = document.getElementById('migrationOutputContainer');
+
+        if (typeof setButtonLoading === 'function' && submitBtn) {
+            setButtonLoading(submitBtn, true, isFresh ? 'Resetting Database...' : 'Updating Database...');
+        }
+
+        try {
+            const response = await fetch(`${CONFIG.API_URL}/admin/migrate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    fresh: isFresh,
+                    seed: isSeed
+                })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                showToast(data.message || (isFresh ? 'Database factory reset executed successfully!' : 'Database updated successfully!'), 'success');
+                if (outputBox && data.output) {
+                    outputBox.style.display = 'block';
+                    outputBox.textContent = data.output;
+                }
+            } else {
+                showToast(data.message || 'Failed to execute database action.', 'error');
+            }
+        } catch (error) {
+            console.error("Error executing database action:", error);
+            showToast('An error occurred while executing database action.', 'error');
+        } finally {
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
+        }
+    };
+
     const migrationForm = document.getElementById('migrationForm');
     if (migrationForm) {
         migrationForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const submitBtn = document.getElementById('btnRunMigrations');
-            const token = localStorage.getItem("auth_token");
-            const outputBox = document.getElementById('migrationOutputContainer');
             const isSeed = document.getElementById('chkMigrateSeed')?.checked || false;
             const isFresh = document.getElementById('chkMigrateFresh')?.checked || false;
 
-            if (isFresh && !confirm("WARNING: Fresh migration will DROP ALL TABLES and re-run all migrations! Are you sure you want to proceed?")) {
+            if (isFresh) {
+                // Open confirmation safety modal for Database Reset
+                if (confirmResetInput) {
+                    confirmResetInput.value = '';
+                }
+                if (btnConfirmDatabaseReset) {
+                    btnConfirmDatabaseReset.disabled = true;
+                    btnConfirmDatabaseReset.style.opacity = '0.5';
+                    btnConfirmDatabaseReset.style.cursor = 'not-allowed';
+                }
+                const modal = document.getElementById('resetDatabaseConfirmModal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                }
                 return;
             }
 
-            if (typeof setButtonLoading === 'function' && submitBtn) {
-                setButtonLoading(submitBtn, true, 'Running Migrations...');
-            }
+            // Routine database maintenance / update (safe)
+            await executeDatabaseMigration(false, isSeed);
+        });
+    }
 
-            try {
-                const response = await fetch(`${CONFIG.API_URL}/admin/migrate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        fresh: isFresh,
-                        seed: isSeed
-                    })
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    showToast(data.message || 'Database migrations executed successfully!', 'success');
-                    if (outputBox && data.output) {
-                        outputBox.style.display = 'block';
-                        outputBox.textContent = data.output;
-                    }
-                } else {
-                    showToast(data.message || 'Failed to run database migrations.', 'error');
-                }
-            } catch (error) {
-                console.error("Error running migrations:", error);
-                showToast('An error occurred while executing database migrations.', 'error');
-            } finally {
-                if (typeof setButtonLoading === 'function' && submitBtn) {
-                    setButtonLoading(submitBtn, false);
-                }
-            }
+    if (btnConfirmDatabaseReset) {
+        btnConfirmDatabaseReset.addEventListener('click', async () => {
+            const isSeed = document.getElementById('chkMigrateSeed')?.checked || false;
+            window.closeModal('resetDatabaseConfirmModal');
+            await executeDatabaseMigration(true, isSeed);
         });
     }
 
