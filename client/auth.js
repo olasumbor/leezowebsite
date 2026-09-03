@@ -146,6 +146,10 @@ if (isProtectedPage) {
                         welcomeHeader.textContent = `Welcome, ${user.name}!`;
                     }
 
+                    if (currentFilename === "dashboard.html") {
+                        loadUserDashboardStats(token);
+                    }
+
                     // Auto-fill user details on pickup-delivery form if present
                     const nameInput = document.getElementById("name");
                     const emailInput = document.getElementById("email");
@@ -161,6 +165,47 @@ if (isProtectedPage) {
     };
     checkAuth();
 }
+
+async function loadUserDashboardStats(token) {
+    if (!token || typeof CONFIG === "undefined") return;
+    try {
+        const headers = { "Accept": "application/json", "Authorization": `Bearer ${token}` };
+
+        const [shipRes, procRes, pkdRes, frzRes] = await Promise.allSettled([
+            fetch(`${CONFIG.API_URL}/shipments`, { headers }),
+            fetch(`${CONFIG.API_URL}/procurements`, { headers }),
+            fetch(`${CONFIG.API_URL}/pickup-deliveries`, { headers }),
+            fetch(`${CONFIG.API_URL}/frozen-cargos`, { headers }),
+        ]);
+
+        if (shipRes.status === 'fulfilled' && shipRes.value.ok) {
+            const data = await shipRes.value.json();
+            const el = document.getElementById("dashUserShipments");
+            if (el) el.textContent = Array.isArray(data) ? data.length : 0;
+        }
+
+        if (procRes.status === 'fulfilled' && procRes.value.ok) {
+            const data = await procRes.value.json();
+            const el = document.getElementById("dashUserProcurements");
+            if (el) el.textContent = Array.isArray(data) ? data.length : 0;
+        }
+
+        if (pkdRes.status === 'fulfilled' && pkdRes.value.ok) {
+            const data = await pkdRes.value.json();
+            const el = document.getElementById("dashUserPickups");
+            if (el) el.textContent = Array.isArray(data) ? data.length : 0;
+        }
+
+        if (frzRes.status === 'fulfilled' && frzRes.value.ok) {
+            const data = await frzRes.value.json();
+            const el = document.getElementById("dashUserFrozen");
+            if (el) el.textContent = Array.isArray(data) ? data.length : 0;
+        }
+    } catch (err) {
+        console.error("Error loading user dashboard summary stats:", err);
+    }
+}
+
 
 // SIGN UP
 const signupForm = document.getElementById("signupForm");

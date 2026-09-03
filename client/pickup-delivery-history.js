@@ -49,9 +49,9 @@ async function loadPickupHistory() {
 
 function formatStatus(status) {
     if (!status) return "Pending";
-    const s = status.toLowerCase();
+    const s = status.toLowerCase().replace('_', ' ');
     if (s === "completed" || s === "delivered") return "Completed";
-    if (s === "in_transit" || s === "in progress") return "In Progress";
+    if (s === "in_transit" || s === "in progress" || s === "processing" || s === "confirmed") return "In Progress";
     if (s === "cancelled") return "Cancelled";
     return "Pending";
 }
@@ -61,22 +61,23 @@ function displayPickups(data) {
     tableBody.innerHTML = "";
 
     if (data.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px;">No pickup requests found.</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #6b7280;">No pickup requests found.</td></tr>`;
         return;
     }
 
     data.forEach(function (pickup) {
         const row = document.createElement("tr");
         row.innerHTML = `
-            <td>${pickup.id}</td>
+            <td><strong>${pickup.id}</strong></td>
             <td>${pickup.date}</td>
-            <td>${pickup.status}</td>
+            <td><span class="status-badge ${pickup.status.toLowerCase().replace(' ', '-')}">${pickup.status}</span></td>
             <td>
-                <button type="button" class="view-pickup" data-id="${pickup.id}">View</button>
+                <button type="button" class="view-pickup" data-id="${pickup.id}">View Details</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
+
 
     const viewButtons = document.querySelectorAll(".view-pickup");
     viewButtons.forEach(function (button) {

@@ -27,9 +27,10 @@ async function fetchProcurements() {
             const data = await response.json();
             // Format dates and IDs for the frontend
             procurementData = data.map(p => ({
-                id: p.procurement_id,
-                date: new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit" }),
-                status: p.status
+                id: p.procurement_id || `PROC-${p.id}`,
+                date: new Date(p.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+                status: formatStatus(p.status),
+                rawStatus: p.status
             }));
             displayProcurements(procurementData);
             updateStatistics();
@@ -42,6 +43,14 @@ async function fetchProcurements() {
     }
 }
 
+function formatStatus(status) {
+    if (!status) return "Pending";
+    const s = status.toLowerCase().replace('_', ' ');
+    if (s === "completed" || s === "delivered") return "Completed";
+    if (s === "in_progress" || s === "in progress" || s === "processing" || s === "approved") return "In Progress";
+    if (s === "cancelled") return "Cancelled";
+    return "Pending";
+}
 
 // =================================================
 // ELEMENTS
@@ -65,6 +74,11 @@ function displayProcurements(data) {
 
     tableBody.innerHTML = "";
 
+    if (!data || data.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: #6b7280;">No procurement requests found.</td></tr>`;
+        return;
+    }
+
     data.forEach(function (procurement) {
 
         const row = document.createElement("tr");
@@ -72,7 +86,7 @@ function displayProcurements(data) {
         row.innerHTML = `
 
             <td>
-                ${procurement.id}
+                <strong>${procurement.id}</strong>
             </td>
 
             <td>
@@ -80,7 +94,7 @@ function displayProcurements(data) {
             </td>
 
             <td>
-                ${procurement.status}
+                <span class="status-badge ${procurement.status.toLowerCase().replace(' ', '-')}">${procurement.status}</span>
             </td>
 
             <td>
@@ -90,7 +104,7 @@ function displayProcurements(data) {
                     class="view-procurement"
                     data-id="${procurement.id}"
                 >
-                    View
+                    View Details
                 </button>
 
             </td>
@@ -161,26 +175,18 @@ function updateStatistics() {
         }).length;
 
 
-    document.getElementById(
-        "totalProcurements"
-    ).textContent = total;
+    const totalEl = document.getElementById("totalProcurements");
+    const completedEl = document.getElementById("completedProcurements");
+    const inProgressEl = document.getElementById("inProgressProcurements");
+    const pendingEl = document.getElementById("pendingProcurements");
 
-
-    document.getElementById(
-        "completedProcurements"
-    ).textContent = completed;
-
-
-    document.getElementById(
-        "inProgressProcurements"
-    ).textContent = inProgress;
-
-
-    document.getElementById(
-        "pendingProcurements"
-    ).textContent = pending;
+    if (totalEl) totalEl.textContent = total;
+    if (completedEl) completedEl.textContent = completed;
+    if (inProgressEl) inProgressEl.textContent = inProgress;
+    if (pendingEl) pendingEl.textContent = pending;
 
 }
+
 
 
 // =================================================

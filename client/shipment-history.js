@@ -30,11 +30,13 @@ async function fetchShipments() {
             shipments = data.map(s => ({
                 id: s.tracking_id || s.id,
                 route: `${s.origin || 'Lagos, Nigeria'} → ${s.destination || '—'}`,
-                date: new Date(s.shipped_date || s.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit" }),
-                status: s.status ? s.status.replace('_', ' ').toUpperCase() : 'PENDING'
+                date: new Date(s.shipped_date || s.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+                status: s.status ? s.status.replace('_', ' ').toUpperCase() : 'PENDING',
+                rawStatus: s.status
             }));
             
             displayShipments(shipments);
+            updateShipmentStatsLocal();
             fetchShipmentStats();
         } else if (response.status === 401) {
             window.location.href = 'signin.html';
@@ -49,6 +51,32 @@ async function fetchShipments() {
             shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #ef4444;">Error connecting to server.</td></tr>`;
         }
     }
+}
+
+function updateShipmentStatsLocal() {
+    const total = shipments.length;
+    const delivered = shipments.filter(s => {
+        const st = (s.rawStatus || s.status || '').toLowerCase();
+        return st === 'delivered' || st === 'completed';
+    }).length;
+    const inTransit = shipments.filter(s => {
+        const st = (s.rawStatus || s.status || '').toLowerCase();
+        return st === 'in_transit' || st === 'in transit' || st === 'processing' || st === 'in-transit';
+    }).length;
+    const pending = shipments.filter(s => {
+        const st = (s.rawStatus || s.status || '').toLowerCase();
+        return st === 'pending' || (st !== 'delivered' && st !== 'completed' && st !== 'in_transit' && st !== 'in transit' && st !== 'processing' && st !== 'cancelled');
+    }).length;
+
+    const totalEl = document.getElementById("totalShipments");
+    const deliveredEl = document.getElementById("deliveredShipments");
+    const inTransitEl = document.getElementById("inTransitShipments");
+    const pendingEl = document.getElementById("pendingShipments");
+
+    if (totalEl) totalEl.textContent = total;
+    if (deliveredEl) deliveredEl.textContent = delivered;
+    if (inTransitEl) inTransitEl.textContent = inTransit;
+    if (pendingEl) pendingEl.textContent = pending;
 }
 
 async function fetchShipmentStats() {
@@ -71,10 +99,10 @@ async function fetchShipmentStats() {
             const inTransitEl = document.getElementById("inTransitShipments");
             const pendingEl = document.getElementById("pendingShipments");
 
-            if (totalEl) totalEl.textContent = stats.total ?? 0;
-            if (deliveredEl) deliveredEl.textContent = stats.delivered ?? 0;
-            if (inTransitEl) inTransitEl.textContent = stats.in_transit ?? 0;
-            if (pendingEl) pendingEl.textContent = stats.pending ?? 0;
+            if (totalEl && stats.total !== undefined) totalEl.textContent = stats.total;
+            if (deliveredEl && stats.delivered !== undefined) deliveredEl.textContent = stats.delivered;
+            if (inTransitEl && stats.in_transit !== undefined) inTransitEl.textContent = stats.in_transit;
+            if (pendingEl && stats.pending !== undefined) pendingEl.textContent = stats.pending;
         }
     } catch (error) {
         console.error('Failed to fetch shipment stats:', error);
@@ -101,25 +129,26 @@ function displayShipments(shipmentList) {
         const row = document.createElement("tr");
 
         row.innerHTML = `
-            <td>${shipment.id}</td>
+            <td><strong>${shipment.id}</strong></td>
 
             <td>${shipment.route}</td>
 
             <td>${shipment.date}</td>
 
-            <td>${shipment.status}</td>
+            <td><span class="status-badge ${shipment.status.toLowerCase().replace(' ', '-')}">${shipment.status}</span></td>
 
             <td>
                 <button 
                     class="view-shipment" 
                     data-shipment-id="${shipment.id}">
-                    View
+                    View Details
                 </button>
             </td>
         `;
 
         shipmentTableBody.appendChild(row);
     });
+
 
     addViewButtonListeners();
 }

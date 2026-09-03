@@ -43,12 +43,13 @@ async function loadFrozenHistory() {
 
 function formatStatus(status) {
     if (!status) return "Pending";
-    const s = status.toLowerCase();
+    const s = status.toLowerCase().replace('_', ' ');
     if (s === "completed" || s === "delivered") return "Completed";
-    if (s === "in_transit" || s === "in progress" || s === "confirmed") return "In Progress";
+    if (s === "in_transit" || s === "in progress" || s === "processing" || s === "confirmed") return "In Progress";
     if (s === "cancelled") return "Cancelled";
     return "Pending";
 }
+
 
 function displayFrozenRequests(data) {
     if (!tableBody) return;
