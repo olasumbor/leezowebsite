@@ -242,16 +242,27 @@ if (signupForm) {
 
             if (response.ok) {
                 const data = await response.json();
+                const user = data && data.user ? data.user : {};
                 localStorage.setItem("loggedIn", "true");
-                localStorage.setItem("userEmail", data.user.email);
+                localStorage.setItem("userEmail", user.email || email);
                 localStorage.setItem("auth_token", data.token);
-                showToast("Account created successfully!", "success");
+                // Show a clearly visible success toast and let the user see it
+                // before redirecting to the dashboard.
+                showToast("Account created successfully!", "success", null, 2000);
                 setTimeout(() => {
                     window.location.href = "dashboard.html";
-                }, 800);
+                }, 2000);
             } else {
-                const errorData = await response.json();
-                showToast(errorData.message || "Registration failed.", "error");
+                let errorData = {};
+                try {
+                    errorData = await response.json();
+                } catch (parseErr) {
+                    console.error("Could not parse error response", parseErr);
+                }
+                const errorMessage = errorData.message
+                    || (errorData.errors ? Object.values(errorData.errors).flat().join(" ") : "")
+                    || "Registration failed. Please check your details and try again.";
+                showToast(errorMessage, "error");
             }
         } catch (error) {
             console.error("Signup error", error);
