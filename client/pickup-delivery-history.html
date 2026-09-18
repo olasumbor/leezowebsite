@@ -2,49 +2,66 @@
 <html lang="en">
 
 <head>
-    <!-- Instant Auth Guard -->
-    <script>
-        (function() {
-            var token = localStorage.getItem("auth_token");
-            var loggedIn = localStorage.getItem("loggedIn") === "true";
-            if (!token && !loggedIn) {
-                window.location.replace("signin.html");
-            }
-        })();
-    </script>
+  <!-- Instant Auth Guard -->
+  <script>
+    (function () {
+      var token = localStorage.getItem("auth_token");
+      var loggedIn = localStorage.getItem("loggedIn") === "true";
+      if (!token && !loggedIn) {
+        window.location.replace("signin.html");
+      }
+    })();
+  </script>
 
 
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pick Up & Delivery History | Leezowebsite</title>
-
-
-    <!-- Google Fonts -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Pick Up & Delivery History | Leezowebsite</title>
 
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="images/favicon.ico">
+  <!-- Google Fonts -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="images/favicon.ico">
 
-    <!-- Pick Up & Delivery History CSS -->
-    <link rel="stylesheet" href="pickup-delivery-history.css">
-    <link rel="stylesheet" href="toast.css">
+
+  <link rel="icon" href="images/favicon.ico">
+
+  <meta name="description"
+    content="Pickup & Delivery History - Leezo Food Exports Logistics pickup and delivery history">
+  <meta name="keywords" content="pickup delivery history, delivery history">
+  <meta name="author" content="Leezo Food Exports Logistics">
+  <meta property="og:title" content="Pickup & Delivery History | Leezo Food Exports Logistics">
+  <meta property="og:description"
+    content="Pickup & Delivery History - Leezo Food Exports Logistics pickup and delivery history">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leezowebsite.com/pickup-delivery-history">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pickup & Delivery History | Leezo Food Exports Logistics">
+  <meta name="twitter:description"
+    content="Pickup & Delivery History - Leezo Food Exports Logistics pickup and delivery history">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Pick Up & Delivery History CSS -->
+  <link rel="stylesheet" href="pickup-delivery-history.css">
+  <link rel="stylesheet" href="toast.css">
+
 <body class="dash-body">
 
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
-        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Food Exports Logistics">
       </a>
     </div>
 
@@ -131,117 +148,116 @@
 
 
 
-    <!-- FOOTER -->
+  <!-- FOOTER -->
 
 
-    <footer class="footer">
+  <footer class="footer">
 
-        <div class="footer-container">
+    <div class="footer-container">
 
-            <div class="footer-contact">
+      <div class="footer-contact">
 
-                <h3>Get in Touch</h3>
+        <h3>Get in Touch</h3>
 
-                <div class="contact-item">
-                    <img src="images/location.svg" alt="Location">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
-                        target="_blank">
-                        Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
-                    </a>
-                </div>
+        <div class="contact-item">
+          <img src="images/location.svg" alt="Location">
+          <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
+            target="_blank">
+            Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
+          </a>
+        </div>
 
-                <div class="contact-item">
-                    <img src="images/phone.svg" alt="Phone">
+        <div class="contact-item">
+          <img src="images/phone.svg" alt="Phone">
 
-                    <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
-                </div>
+          <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
+        </div>
 
-                <div class="contact-item">
-                    <img src="images/Email.svg" alt="Email">
+        <div class="contact-item">
+          <img src="images/Email.svg" alt="Email">
 
-                    <a
-                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
-                </div>
+          <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+        </div>
 
-                <div class="social-icons">
+        <div class="social-icons">
 
-                    <a href="https://www.facebook.com/leezofoodng" target="_blank">
-                        <img src="images/icons-facebook.svg" alt="Facebook">
-                    </a>
+          <a href="https://www.facebook.com/leezofoodng" target="_blank">
+            <img src="images/icons-facebook.svg" alt="Facebook">
+          </a>
 
-                    <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
-                        <img src="images/instagram.svg" alt="Instagram">
-                    </a>
+          <a href="https://www.instagram.com/leezofoodng.export/" target="_blank">
+            <img src="images/instagram.svg" alt="Instagram">
+          </a>
 
-                    <a href="#">
-                        <img src="images/twitter.svg" alt="Twitter">
-                    </a>
+          <a href="#">
+            <img src="images/twitter.svg" alt="Twitter">
+          </a>
 
-                    <a href="https://wa.me/2348136710716">
-                        <img src="images/icons-whatsapp.svg" alt="WhatsApp">
-                    </a>
-
-                </div>
-
-            </div>
-
-            <div class="footer-links">
-
-                <h3>Quick Links</h3>
-
-                <ul class="footer-menu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="services.html">Our Services</a></li>
-                    <li><a href="track-shipment.html">Track Shipment</a></li>
-                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
-                </ul>
-
-            </div>
-
-            <div class="footer-newsletter">
-
-                <h3>Newsletter</h3>
-
-                <p class="newsletter-text">
-                    Join our newsletter to receive important logistics updates,
-                    freight tips, company news, and exclusive promotions delivered
-                    straight to your inbox.
-                </p>
-
-                <form class="newsletter-form">
-
-                    <input type="email" placeholder="Your Email Address">
-
-                    <button type="submit">
-                        Sign Up
-                    </button>
-
-                </form>
-
-            </div>
+          <a href="https://wa.me/2348136710716">
+            <img src="images/icons-whatsapp.svg" alt="WhatsApp">
+          </a>
 
         </div>
 
-        <hr class="footer-divider">
+      </div>
 
-        <div class="footer-bottom">
+      <div class="footer-links">
 
-            <p>
-                <span>Leezofoodng.export</span>
-                All Rights Reserved.
-            </p>
+        <h3>Quick Links</h3>
 
-        </div>
+        <ul class="footer-menu">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html">Our Services</a></li>
+          <li><a href="track-shipment.html">Track Shipment</a></li>
+          <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+        </ul>
 
-    </footer>
+      </div>
+
+      <div class="footer-newsletter">
+
+        <h3>Newsletter</h3>
+
+        <p class="newsletter-text">
+          Join our newsletter to receive important logistics updates,
+          freight tips, company news, and exclusive promotions delivered
+          straight to your inbox.
+        </p>
+
+        <form class="newsletter-form">
+
+          <input type="email" placeholder="Your Email Address">
+
+          <button type="submit">
+            Sign Up
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+
+      <p>
+        <span>Leezofoodng.export</span>
+        All Rights Reserved.
+      </p>
+
+    </div>
+
+  </footer>
 
 
-    <script src="config.js"></script>
-    <script src="toast.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
-    <script src="pickup-delivery-history.js"></script>
+  <script src="config.js"></script>
+  <script src="toast.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+  <script src="pickup-delivery-history.js"></script>
 </body>
 
 </html>

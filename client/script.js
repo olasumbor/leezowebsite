@@ -101,36 +101,36 @@ function renderDynamicNavbar() {
             navRight.innerHTML = `<a href="signin.html" class="signin-btn nav-signin-btn">Sign In</a>`;
         }
     }
-// Dynamic User Dashboard Navbar & Mobile Navigation Drawer
-function renderDashboardNavbar() {
-    const dashHeader = document.querySelector(".dashboard-header");
-    if (!dashHeader) return;
+    // Dynamic User Dashboard Navbar & Mobile Navigation Drawer
+    function renderDashboardNavbar() {
+        const dashHeader = document.querySelector(".dashboard-header");
+        if (!dashHeader) return;
 
-    let rawPath = window.location.pathname.toLowerCase().split('?')[0].split('#')[0].replace(/\/+$/, '') || 'dashboard.html';
-    let currentPath = rawPath.split('/').pop() || 'dashboard.html';
-    if (currentPath && !currentPath.includes('.')) {
-        currentPath += '.html';
-    }
+        let rawPath = window.location.pathname.toLowerCase().split('?')[0].split('#')[0].replace(/\/+$/, '') || 'dashboard.html';
+        let currentPath = rawPath.split('/').pop() || 'dashboard.html';
+        if (currentPath && !currentPath.includes('.')) {
+            currentPath += '.html';
+        }
 
-    const dashLinks = [
-        { href: "dashboard.html", label: "Dashboard", match: ["dashboard.html"] },
-        { href: "shipment-history.html", label: "My Shipments", match: ["shipment-history.html", "shipment-details.html"] },
-        { href: "procurement-history.html", label: "Procurement", match: ["procurement-history.html", "procurement.html", "procurement-details.html"] },
-        { href: "pickup-delivery-history.html", label: "Pickup & Delivery", match: ["pickup-delivery-history.html", "pickup-delivery.html", "pickup-delivery-details.html"] },
-        { href: "frozen-cargo-history.html", label: "Frozen Cargo", match: ["frozen-cargo-history.html", "frozen-cargo.html", "frozen-cargo-details.html"] },
-        { href: "profile.html", label: "Profile", match: ["profile.html"] }
-    ];
+        const dashLinks = [
+            { href: "dashboard.html", label: "Dashboard", match: ["dashboard.html"] },
+            { href: "shipment-history.html", label: "My Shipments", match: ["shipment-history.html", "shipment-details.html"] },
+            { href: "procurement-history.html", label: "Procurement", match: ["procurement-history.html", "procurement.html", "procurement-details.html"] },
+            { href: "pickup-delivery-history.html", label: "Pickup & Delivery", match: ["pickup-delivery-history.html", "pickup-delivery.html", "pickup-delivery-details.html"] },
+            { href: "frozen-cargo-history.html", label: "Frozen Cargo", match: ["frozen-cargo-history.html", "frozen-cargo.html", "frozen-cargo-details.html"] },
+            { href: "profile.html", label: "Profile", match: ["profile.html"] }
+        ];
 
-    if (!dashHeader.querySelector(".dashboard-nav-links")) {
-        const navItemsHtml = dashLinks.map(link => {
-            const isActive = link.match.includes(currentPath) ? ' class="active"' : '';
-            return `      <li><a href="${link.href}"${isActive}>${link.label}</a></li>`;
-        }).join("\n");
+        if (!dashHeader.querySelector(".dashboard-nav-links")) {
+            const navItemsHtml = dashLinks.map(link => {
+                const isActive = link.match.includes(currentPath) ? ' class="active"' : '';
+                return `      <li><a href="${link.href}"${isActive}>${link.label}</a></li>`;
+            }).join("\n");
 
-        dashHeader.innerHTML = `
+            dashHeader.innerHTML = `
         <div class="dashboard-logo">
           <a href="dashboard.html">
-            <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+            <img src="images/logo-leezo.NG.svg" alt="Leezo Food Exports Logistics">
           </a>
         </div>
 
@@ -150,143 +150,143 @@ function renderDashboardNavbar() {
           </div>
         </div>
         `;
-    } else {
-        // Highlight active link
-        const links = dashHeader.querySelectorAll(".dashboard-nav-links a");
-        links.forEach(a => {
-            const href = a.getAttribute("href");
-            const matchedObj = dashLinks.find(dl => dl.href === href);
-            if (matchedObj && matchedObj.match.includes(currentPath)) {
-                a.classList.add("active");
-            } else {
-                a.classList.remove("active");
+        } else {
+            // Highlight active link
+            const links = dashHeader.querySelectorAll(".dashboard-nav-links a");
+            links.forEach(a => {
+                const href = a.getAttribute("href");
+                const matchedObj = dashLinks.find(dl => dl.href === href);
+                if (matchedObj && matchedObj.match.includes(currentPath)) {
+                    a.classList.add("active");
+                } else {
+                    a.classList.remove("active");
+                }
+            });
+        }
+
+        const logoutBtn = dashHeader.querySelector("#logoutButton");
+        const mobileLogoutBtn = dashHeader.querySelector(".mobile-logout-btn");
+
+        const handleLogout = async () => {
+            const btnToAnimate = logoutBtn || mobileLogoutBtn;
+            if (typeof setButtonLoading === 'function' && btnToAnimate) {
+                setButtonLoading(btnToAnimate, true, "Logging out...");
             }
-        });
+            try {
+                const token = localStorage.getItem("auth_token");
+                if (token && typeof CONFIG !== "undefined") {
+                    await fetch(`${CONFIG.API_URL}/logout`, {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error("Logout error", e);
+            } finally {
+                localStorage.removeItem("loggedIn");
+                localStorage.removeItem("userEmail");
+                localStorage.removeItem("auth_token");
+                window.location.href = "signin.html";
+            }
+        };
+
+        if (logoutBtn && !logoutBtn.dataset.bound) {
+            logoutBtn.dataset.bound = "true";
+            logoutBtn.addEventListener("click", handleLogout);
+        }
+        if (mobileLogoutBtn && !mobileLogoutBtn.dataset.bound) {
+            mobileLogoutBtn.dataset.bound = "true";
+            mobileLogoutBtn.addEventListener("click", handleLogout);
+        }
+
+        const dashHamburger = dashHeader.querySelector(".dashboard-hamburger");
+        const dashNavLinks = dashHeader.querySelector(".dashboard-nav-links");
+
+        if (dashHamburger && dashNavLinks && !dashHamburger.dataset.bound) {
+            dashHamburger.dataset.bound = "true";
+            dashHamburger.addEventListener("click", (e) => {
+                e.stopPropagation();
+                dashHamburger.classList.toggle("active");
+                dashNavLinks.classList.toggle("active");
+                document.body.classList.toggle("menu-open");
+            });
+
+            const links = dashNavLinks.querySelectorAll("a");
+            links.forEach(l => {
+                l.addEventListener("click", () => {
+                    dashHamburger.classList.remove("active");
+                    dashNavLinks.classList.remove("active");
+                    document.body.classList.remove("menu-open");
+                });
+            });
+        }
     }
 
-    const logoutBtn = dashHeader.querySelector("#logoutButton");
-    const mobileLogoutBtn = dashHeader.querySelector(".mobile-logout-btn");
+    function initNavbars() {
+        renderDynamicNavbar();
+        renderDashboardNavbar();
+    }
 
-    const handleLogout = async () => {
-        const btnToAnimate = logoutBtn || mobileLogoutBtn;
-        if (typeof setButtonLoading === 'function' && btnToAnimate) {
-            setButtonLoading(btnToAnimate, true, "Logging out...");
-        }
-        try {
-            const token = localStorage.getItem("auth_token");
-            if (token && typeof CONFIG !== "undefined") {
-                await fetch(`${CONFIG.API_URL}/logout`, {
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initNavbars);
+    } else {
+        initNavbars();
+    }
+
+
+
+
+
+
+
+
+
+    // Newsletter Subscription
+    const newsletterForms = document.querySelectorAll(".newsletter-form");
+    newsletterForms.forEach(form => {
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const emailInput = form.querySelector('input[type="email"]');
+            const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector('button');
+            const email = emailInput ? emailInput.value.trim() : "";
+
+            if (!email) return;
+
+            if (typeof setButtonLoading === 'function' && submitBtn) {
+                setButtonLoading(submitBtn, true, 'Subscribing...');
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_URL}/newsletter/subscribe`, {
                     method: "POST",
                     headers: {
                         "Accept": "application/json",
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email })
                 });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showToast(data.message, "success");
+                    form.reset();
+                } else {
+                    const errData = await response.json();
+                    showToast(errData.message || "Failed to subscribe to newsletter.", "error");
+                }
+            } catch (error) {
+                console.error("Newsletter error", error);
+                showToast("An error occurred while subscribing.", "error");
+            } finally {
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
             }
-        } catch (e) {
-            console.error("Logout error", e);
-        } finally {
-            localStorage.removeItem("loggedIn");
-            localStorage.removeItem("userEmail");
-            localStorage.removeItem("auth_token");
-            window.location.href = "signin.html";
-        }
-    };
-
-    if (logoutBtn && !logoutBtn.dataset.bound) {
-        logoutBtn.dataset.bound = "true";
-        logoutBtn.addEventListener("click", handleLogout);
-    }
-    if (mobileLogoutBtn && !mobileLogoutBtn.dataset.bound) {
-        mobileLogoutBtn.dataset.bound = "true";
-        mobileLogoutBtn.addEventListener("click", handleLogout);
-    }
-
-    const dashHamburger = dashHeader.querySelector(".dashboard-hamburger");
-    const dashNavLinks = dashHeader.querySelector(".dashboard-nav-links");
-
-    if (dashHamburger && dashNavLinks && !dashHamburger.dataset.bound) {
-        dashHamburger.dataset.bound = "true";
-        dashHamburger.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dashHamburger.classList.toggle("active");
-            dashNavLinks.classList.toggle("active");
-            document.body.classList.toggle("menu-open");
         });
-
-        const links = dashNavLinks.querySelectorAll("a");
-        links.forEach(l => {
-            l.addEventListener("click", () => {
-                dashHamburger.classList.remove("active");
-                dashNavLinks.classList.remove("active");
-                document.body.classList.remove("menu-open");
-            });
-        });
-    }
-}
-
-function initNavbars() {
-    renderDynamicNavbar();
-    renderDashboardNavbar();
-}
-
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initNavbars);
-} else {
-    initNavbars();
-}
-
-
-
-
-
-
-
-
-
-// Newsletter Subscription
-const newsletterForms = document.querySelectorAll(".newsletter-form");
-newsletterForms.forEach(form => {
-    form.addEventListener("submit", async function(event) {
-        event.preventDefault();
-
-        const emailInput = form.querySelector('input[type="email"]');
-        const submitBtn = form.querySelector('button[type="submit"]') || form.querySelector('button');
-        const email = emailInput ? emailInput.value.trim() : "";
-
-        if (!email) return;
-
-        if (typeof setButtonLoading === 'function' && submitBtn) {
-            setButtonLoading(submitBtn, true, 'Subscribing...');
-        }
-
-        try {
-            const response = await fetch(`${CONFIG.API_URL}/newsletter/subscribe`, {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                showToast(data.message, "success");
-                form.reset();
-            } else {
-                const errData = await response.json();
-                showToast(errData.message || "Failed to subscribe to newsletter.", "error");
-            }
-        } catch (error) {
-            console.error("Newsletter error", error);
-            showToast("An error occurred while subscribing.", "error");
-        } finally {
-            if (typeof setButtonLoading === 'function' && submitBtn) {
-                setButtonLoading(submitBtn, false);
-            }
-        }
     });
-});
 }

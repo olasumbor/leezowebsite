@@ -2,31 +2,42 @@
 <html lang="en">
 
 <head>
-    <!-- Instant Auth Guard -->
-    <script>
-        (function() {
-            var token = localStorage.getItem("auth_token");
-            var loggedIn = localStorage.getItem("loggedIn") === "true";
-            if (!token && !loggedIn) {
-                window.location.replace("signin.html");
-            }
-        })();
-    </script>
+  <!-- Instant Auth Guard -->
+  <script>
+    (function () {
+      var token = localStorage.getItem("auth_token");
+      var loggedIn = localStorage.getItem("loggedIn") === "true";
+      if (!token && !loggedIn) {
+        window.location.replace("signin.html");
+      }
+    })();
+  </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frozen Cargo | Leezowebsite</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frozen Cargo | Leezowebsite</title>
 
-    <!-- Google Fonts: Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="images/favicon.ico">
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="images/favicon.ico">
 
-    <!-- CSS File -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="toast.css">
+  <meta name="description" content="Frozen Cargo - Leezo Food Exports Logistics frozen cargo services">
+  <meta name="keywords" content="frozen cargo, cold storage, refrigerated transport">
+  <meta name="author" content="Leezo Food Exports Logistics">
+  <meta property="og:title" content="Frozen Cargo | Leezo Food Exports Logistics">
+  <meta property="og:description" content="Frozen Cargo - Leezo Food Exports Logistics frozen cargo services">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leezowebsite.com/frozen-cargo">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Frozen Cargo | Leezo Food Exports Logistics">
+  <meta name="twitter:description" content="Frozen Cargo - Leezo Food Exports Logistics frozen cargo services">
+
+  <!-- CSS File -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="toast.css">
 </head>
 
 <body class="dash-body">
@@ -34,7 +45,7 @@
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
-        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Food Exports Logistics">
       </a>
     </div>
 
@@ -68,7 +79,8 @@
     <div class="dash-header-block">
       <div>
         <h1 class="dash-header-title">Frozen Cargo Cold-Chain Booking</h1>
-        <p class="dash-header-subtitle">Temperature-controlled transportation & cold storage solutions for perishable foods.</p>
+        <p class="dash-header-subtitle">Temperature-controlled transportation & cold storage solutions for perishable
+          foods.</p>
       </div>
       <a href="frozen-cargo-history.html" class="dash-action-btn-outline dash-action-btn">
         <span>View History →</span>
@@ -103,7 +115,8 @@
 
         <div class="form-group">
           <label for="cargo_description">Cargo / Goods Description</label>
-          <textarea id="cargo_description" name="cargo_description" placeholder="Specify food items, perishables, packaging type, etc." required rows="2"></textarea>
+          <textarea id="cargo_description" name="cargo_description"
+            placeholder="Specify food items, perishables, packaging type, etc." required rows="2"></textarea>
         </div>
 
         <div class="dash-form-grid">
@@ -113,7 +126,8 @@
               <option value="">-- Select Temperature Range --</option>
               <option value="Chilled (0°C to 4°C)">Chilled (0°C to 4°C) - Fresh foods, dairy, beverages</option>
               <option value="Frozen (-18°C)">Frozen (-18°C) - Frozen meat, poultry, seafood</option>
-              <option value="Deep Freeze (-25°C or lower)">Deep Freeze (-25°C or lower) - Ice cream, specialized frozen products</option>
+              <option value="Deep Freeze (-25°C or lower)">Deep Freeze (-25°C or lower) - Ice cream, specialized frozen
+                products</option>
               <option value="Ambient / Controlled (+15°C to +25°C)">Ambient / Controlled (+15°C to +25°C)</option>
             </select>
           </div>
@@ -138,10 +152,12 @@
 
         <div class="form-group">
           <label for="notes">Additional Notes & Instructions</label>
-          <textarea id="notes" name="notes" placeholder="Cold chain monitoring, inspection certificates, or special notes" rows="3"></textarea>
+          <textarea id="notes" name="notes"
+            placeholder="Cold chain monitoring, inspection certificates, or special notes" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="dash-action-btn" style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
+        <button type="submit" class="dash-action-btn"
+          style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
           Submit Frozen Cargo Booking
         </button>
       </form>
@@ -150,71 +166,76 @@
 
 
 
-    <!-- FOOTER SECTION -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-contact">
-                <h3>Get in Touch</h3>
-                <div class="contact-item">
-                    <img src="images/location.svg" alt="Location">
-                    <span><a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria</a></span>
-                </div>
-                <div class="contact-item">
-                    <img src="images/phone.svg" alt="Phone">
-                    <span><a href="tel:+2348136710716" style="color: inherit; text-decoration: none;">+234 813 671 0716, +234 703 989 0112</a></span>
-                </div>
-                <div class="contact-item">
-                    <img src="images/email.svg" alt="Email">
-                    <span><a href="mailto:leezointegratedserviceslimited@gmail.com" style="color: inherit; text-decoration: none;">leezointegratedserviceslimited@gmail.com</a></span>
-                </div>
-                <div class="social-icons">
-                    <a href="#"><img src="images/icons-facebook.svg" alt="Facebook"></a>
-                    <a href="#"><img src="images/instagram.svg" alt="Instagram"></a>
-                    <a href="#"><img src="images/twitter.svg" alt="Twitter"></a>
-                    <a href="#"><img src="images/icons-whatsapp.svg" alt="WhatsApp"></a>
-                </div>
-            </div>
-
-            <div class="footer-links">
-                <h3>Quick Links</h3>
-                <ul class="footer-menu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="services.html">Our Services</a></li>
-                    <li><a href="track-shipment.html">Track Shipment</a></li>
-                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-newsletter">
-                <h3>Newsletter</h3>
-                <p class="newsletter-text">
-                    Join our newsletter to receive important logistics updates,
-                    freight tips, company news, and exclusive promotions delivered
-                    straight to your inbox.
-                </p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your Email Address">
-                    <button type="submit">Sign Up</button>
-                </form>
-            </div>
+  <!-- FOOTER SECTION -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-contact">
+        <h3>Get in Touch</h3>
+        <div class="contact-item">
+          <img src="images/location.svg" alt="Location">
+          <span><a
+              href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria"
+              target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Shop 8,
+              Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria</a></span>
         </div>
-
-        <hr class="footer-divider">
-
-        <div class="footer-bottom">
-            <p>
-                <span>Leezofoodng.export</span>
-                All Rights Reserved.
-            </p>
+        <div class="contact-item">
+          <img src="images/phone.svg" alt="Phone">
+          <span><a href="tel:+2348136710716" style="color: inherit; text-decoration: none;">+234 813 671 0716, +234 703
+              989 0112</a></span>
         </div>
-    </footer>
+        <div class="contact-item">
+          <img src="images/email.svg" alt="Email">
+          <span><a href="mailto:leezointegratedserviceslimited@gmail.com"
+              style="color: inherit; text-decoration: none;">leezointegratedserviceslimited@gmail.com</a></span>
+        </div>
+        <div class="social-icons">
+          <a href="#"><img src="images/icons-facebook.svg" alt="Facebook"></a>
+          <a href="#"><img src="images/instagram.svg" alt="Instagram"></a>
+          <a href="#"><img src="images/twitter.svg" alt="Twitter"></a>
+          <a href="#"><img src="images/icons-whatsapp.svg" alt="WhatsApp"></a>
+        </div>
+      </div>
 
-    <script src="config.js"></script>
-    <script src="toast.js"></script>
-    <script src="auth.js"></script>
-    <script src="script.js"></script>
-    <script src="frozen-cargo.js"></script>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul class="footer-menu">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html">Our Services</a></li>
+          <li><a href="track-shipment.html">Track Shipment</a></li>
+          <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-newsletter">
+        <h3>Newsletter</h3>
+        <p class="newsletter-text">
+          Join our newsletter to receive important logistics updates,
+          freight tips, company news, and exclusive promotions delivered
+          straight to your inbox.
+        </p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your Email Address">
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+      <p>
+        <span>Leezofoodng.export</span>
+        All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="toast.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+  <script src="frozen-cargo.js"></script>
 </body>
 
 </html>

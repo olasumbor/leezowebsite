@@ -2,16 +2,16 @@
 <html lang="en">
 
 <head>
-    <!-- Instant Auth Guard -->
-    <script>
-        (function() {
-            var token = localStorage.getItem("auth_token");
-            var loggedIn = localStorage.getItem("loggedIn") === "true";
-            if (!token && !loggedIn) {
-                window.location.replace("signin.html");
-            }
-        })();
-    </script>
+  <!-- Instant Auth Guard -->
+  <script>
+    (function () {
+      var token = localStorage.getItem("auth_token");
+      var loggedIn = localStorage.getItem("loggedIn") === "true";
+      if (!token && !loggedIn) {
+        window.location.replace("signin.html");
+      }
+    })();
+  </script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,14 +20,29 @@
   <!-- Google Fonts: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="icon" href="images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="images/favicon.ico">
 
-    <!-- CSS File -->
-    <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/favicon.ico">
 
-    <link rel=stylesheet href=toast.css>
+  <meta name="description" content="Procurement - Leezo Food Exports Logistics procurement and purchasing services">
+  <meta name="keywords" content="procurement, purchasing, sourcing, procurement services">
+  <meta name="author" content="Leezo Food Exports Logistics">
+  <meta property="og:title" content="Procurement | Leezo Food Exports Logistics">
+  <meta property="og:description"
+    content="Procurement - Leezo Food Exports Logistics procurement and purchasing services">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leezowebsite.com/procurement">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Procurement | Leezo Food Exports Logistics">
+  <meta name="twitter:description"
+    content="Procurement - Leezo Food Exports Logistics procurement and purchasing services">
+
+  <!-- CSS File -->
+  <link rel="stylesheet" href="style.css">
+
+  <link rel=stylesheet href=toast.css>
 </head>
 
 <body class="dash-body">
@@ -35,7 +50,7 @@
   <header class="dashboard-header">
     <div class="dashboard-logo">
       <a href="dashboard.html">
-        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Food Exports Logistics">
       </a>
     </div>
 
@@ -97,10 +112,13 @@
 
         <div class="form-group">
           <label for="details">Procurement Item Details</label>
-          <textarea id="details" name="details" placeholder="List all the food items, products, quantity, or specific brand preferences you want us to procure..." required></textarea>
+          <textarea id="details" name="details"
+            placeholder="List all the food items, products, quantity, or specific brand preferences you want us to procure..."
+            required></textarea>
         </div>
 
-        <button type="submit" class="dash-action-btn" style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
+        <button type="submit" class="dash-action-btn"
+          style="width: 100%; justify-content: center; height: 48px; font-size: 15px;">
           Submit Procurement Request
         </button>
       </form>
@@ -172,12 +190,12 @@
         <h3>Quick Links</h3>
 
         <ul class="footer-menu">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="services.html">Our Services</a></li>
-                    <li><a href="track-shipment.html">Track Shipment</a></li>
-                    <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
-                </ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html">Our Services</a></li>
+          <li><a href="track-shipment.html">Track Shipment</a></li>
+          <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+        </ul>
 
       </div>
 

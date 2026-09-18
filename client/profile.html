@@ -4,7 +4,7 @@
 <head>
     <!-- Instant Auth Guard -->
     <script>
-        (function() {
+        (function () {
             var token = localStorage.getItem("auth_token");
             var loggedIn = localStorage.getItem("loggedIn") === "true";
             if (!token && !loggedIn) {
@@ -21,11 +21,25 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="icon" href="images/favicon.ico">
 
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="icon" href="images/favicon.ico">
+
+    <meta name="description" content="Profile - Leezo Food Exports Logistics user profile and account settings">
+    <meta name="keywords" content="profile, user profile, account settings">
+    <meta name="author" content="Leezo Food Exports Logistics">
+    <meta property="og:title" content="Profile | Leezo Food Exports Logistics">
+    <meta property="og:description" content="Profile - Leezo Food Exports Logistics user profile and account settings">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://leezowebsite.com/profile">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Profile | Leezo Food Exports Logistics">
+    <meta name="twitter:description" content="Profile - Leezo Food Exports Logistics user profile and account settings">
 
     <!-- Global CSS -->
     <link rel="stylesheet" href="style.css">
@@ -35,34 +49,34 @@
 
 <body class="dash-body">
 
-  <header class="dashboard-header">
-    <div class="dashboard-logo">
-      <a href="dashboard.html">
-        <img src="images/logo-leezo.NG.svg" alt="Leezo Exports Logistics Logo">
-      </a>
-    </div>
+    <header class="dashboard-header">
+        <div class="dashboard-logo">
+            <a href="dashboard.html">
+                <img src="images/logo-leezo.NG.svg" alt="Leezo Food Exports Logistics">
+            </a>
+        </div>
 
-    <ul class="dashboard-nav-links">
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="shipment-history.html">My Shipments</a></li>
-      <li><a href="procurement-history.html">Procurement</a></li>
-      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
-      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
-      <li><a href="profile.html" class="active">Profile</a></li>
-      <li class="dashboard-mobile-logout">
-        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
-      </li>
-    </ul>
+        <ul class="dashboard-nav-links">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="shipment-history.html">My Shipments</a></li>
+            <li><a href="procurement-history.html">Procurement</a></li>
+            <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+            <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+            <li><a href="profile.html" class="active">Profile</a></li>
+            <li class="dashboard-mobile-logout">
+                <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+            </li>
+        </ul>
 
-    <div class="dashboard-right">
-      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
-      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-  </header>
+        <div class="dashboard-right">
+            <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+            <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
 
     <main class="dash-page-wrapper" style="max-width: 750px;">
 
@@ -81,10 +95,11 @@
 
         <!-- PROFILE FORM SECTION -->
         <div style="display: flex; flex-direction: column; gap: 24px;">
-            
+
             <!-- Account Information -->
             <div class="dash-card">
-                <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-size: 1.2rem; font-weight: 700;">Account Information</h3>
+                <h3 style="margin: 0 0 20px; color: var(--dash-navy); font-size: 1.2rem; font-weight: 700;">Account
+                    Information</h3>
                 <p id="profileMessage" style="text-align: center; margin-bottom: 15px; font-weight: 500;"></p>
                 <form id="profileForm" class="dash-form">
 
@@ -103,7 +118,8 @@
                         <input type="tel" id="profilePhone" placeholder="08000087753">
                     </div>
 
-                    <button type="submit" class="dash-action-btn" style="margin-top: 10px; width: 100%; justify-content: center;">
+                    <button type="submit" class="dash-action-btn"
+                        style="margin-top: 10px; width: 100%; justify-content: center;">
                         Save Profile Changes
                     </button>
                 </form>
@@ -120,8 +136,11 @@
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>
                         <div style="position: relative; width: 100%;">
-                            <input type="password" id="currentPassword" required placeholder="Enter current password" style="width: 100%; padding-right: 40px;">
-                            <button type="button" class="toggle-password-btn" data-target="currentPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                            <input type="password" id="currentPassword" required placeholder="Enter current password"
+                                style="width: 100%; padding-right: 40px;">
+                            <button type="button" class="toggle-password-btn" data-target="currentPassword"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;"
+                                aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -130,8 +149,11 @@
                     <div class="form-group">
                         <label for="newPassword">New Password</label>
                         <div style="position: relative; width: 100%;">
-                            <input type="password" id="newPassword" required minlength="8" placeholder="Minimum 8 characters" style="width: 100%; padding-right: 40px;">
-                            <button type="button" class="toggle-password-btn" data-target="newPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                            <input type="password" id="newPassword" required minlength="8"
+                                placeholder="Minimum 8 characters" style="width: 100%; padding-right: 40px;">
+                            <button type="button" class="toggle-password-btn" data-target="newPassword"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;"
+                                aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -140,14 +162,18 @@
                     <div class="form-group">
                         <label for="confirmNewPassword">Confirm New Password</label>
                         <div style="position: relative; width: 100%;">
-                            <input type="password" id="confirmNewPassword" required minlength="8" placeholder="Re-enter new password" style="width: 100%; padding-right: 40px;">
-                            <button type="button" class="toggle-password-btn" data-target="confirmNewPassword" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;" aria-label="Toggle password visibility">
+                            <input type="password" id="confirmNewPassword" required minlength="8"
+                                placeholder="Re-enter new password" style="width: 100%; padding-right: 40px;">
+                            <button type="button" class="toggle-password-btn" data-target="confirmNewPassword"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #6b7280;"
+                                aria-label="Toggle password visibility">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
                     </div>
 
-                    <button type="submit" class="dash-action-btn" style="margin-top: 10px; width: 100%; justify-content: center;">
+                    <button type="submit" class="dash-action-btn"
+                        style="margin-top: 10px; width: 100%; justify-content: center;">
                         Update Password
                     </button>
                 </form>
@@ -183,7 +209,8 @@
                 <div class="contact-item">
                     <img src="images/Email.svg" alt="Email">
 
-                    <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+                    <a
+                        href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
                 </div>
 
                 <div class="social-icons">
