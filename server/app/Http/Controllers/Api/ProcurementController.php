@@ -201,7 +201,8 @@ class ProcurementController extends Controller
             ]
         ];
 
-        return response()->view('invoices.invoice', [
+        return response()->view('invoices.procurement-invoice', [
+            'procurement' => $procurement,
             'invoice_number' => 'INV-' . strtoupper(substr(md5($procurement->procurement_id ?? $id), 0, 6)),
             'customer_name' => $procurement->name ?? ($procurement->user->name ?? 'Customer'),
             'invoice_date' => $procurement->created_at ? $procurement->created_at->format('d M Y') : date('d M Y'),

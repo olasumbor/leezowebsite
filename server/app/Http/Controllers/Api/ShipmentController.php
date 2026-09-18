@@ -161,7 +161,8 @@ class ShipmentController extends Controller
             ]
         ];
 
-        return response()->view('invoices.invoice', [
+        return response()->view('invoices.shipment-invoice', [
+            'shipment' => $shipment,
             'invoice_number' => 'INV-' . strtoupper(substr(md5($shipment->tracking_id ?? $id), 0, 6)),
             'customer_name' => $shipment->recipient ?? ($shipment->user->name ?? 'Customer'),
             'invoice_date' => $shipment->created_at ? $shipment->created_at->format('d M Y') : date('d M Y'),

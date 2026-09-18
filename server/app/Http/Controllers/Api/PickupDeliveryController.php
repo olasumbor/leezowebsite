@@ -263,7 +263,8 @@ class PickupDeliveryController extends Controller
             ]
         ];
 
-        return response()->view('invoices.invoice', [
+        return response()->view('invoices.pickup-delivery-invoice', [
+            'pickup_delivery' => $pickupDelivery,
             'invoice_number' => 'INV-' . strtoupper(substr(md5($pickupDelivery->request_id ?? $id), 0, 6)),
             'customer_name' => $pickupDelivery->name ?? ($pickupDelivery->user->name ?? 'Customer'),
             'invoice_date' => $pickupDelivery->created_at ? $pickupDelivery->created_at->format('d M Y') : date('d M Y'),

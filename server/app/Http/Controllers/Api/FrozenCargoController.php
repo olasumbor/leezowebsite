@@ -285,7 +285,8 @@ class FrozenCargoController extends Controller
             ]
         ];
 
-        return response()->view('invoices.invoice', [
+        return response()->view('invoices.frozen-cargo-invoice', [
+            'frozen_cargo' => $frozenCargo,
             'invoice_number' => 'INV-' . strtoupper(substr(md5($frozenCargo->request_id ?? $id), 0, 6)),
             'customer_name' => $frozenCargo->name ?? ($frozenCargo->user->name ?? 'Customer'),
             'invoice_date' => $frozenCargo->created_at ? $frozenCargo->created_at->format('d M Y') : date('d M Y'),
