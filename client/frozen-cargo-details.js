@@ -117,104 +117,17 @@ function updateStatusTimeline(status) {
 }
 
 // Download Invoice Handler
-async function downloadInvoiceAsPdf(htmlContent, filename) {
-    if (!window.html2pdf) {
-        await new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-            script.onload = resolve;
-            script.onerror = () => reject(new Error('Failed to load html2pdf library.'));
-            document.head.appendChild(script);
-        });
-    }
 
-    const tempContainer = document.createElement('div');
-    tempContainer.style.position = 'fixed';
-    tempContainer.style.left = '-9999px';
-    tempContainer.style.top = '0';
-    tempContainer.style.width = '800px';
-    tempContainer.style.background = '#ffffff';
-    tempContainer.innerHTML = htmlContent;
-    document.body.appendChild(tempContainer);
-
-    const noPrintBar = tempContainer.querySelector('.no-print-bar');
-    if (noPrintBar) {
-        noPrintBar.remove();
-    }
-
-    const invoiceElement = tempContainer.querySelector('.invoice-card') || tempContainer.querySelector('.receipt-card') || tempContainer;
-
-    const opt = {
-        margin:       [0.2, 0.2, 0.2, 0.2],
-        filename:     filename,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    try {
-        await window.html2pdf().set(opt).from(invoiceElement).save();
-    } finally {
-        if (tempContainer.parentNode) {
-            tempContainer.parentNode.removeChild(tempContainer);
-        }
-    }
-}
-
-const downloadInvoiceBtn = document.getElementById("downloadReceipt") || document.getElementById("downloadFrozenInvoice") || document.getElementById("downloadInvoice");
+const downloadInvoiceBtn = document.getElementById("downloadFrozenInvoice") || document.getElementById("downloadInvoice");
 if (downloadInvoiceBtn) {
-    downloadInvoiceBtn.addEventListener("click", async function () {
+    downloadInvoiceBtn.addEventListener("click", function () {
         if (!frozenId) {
             if (typeof showToast !== "undefined") showToast("Request ID not found.", "warning");
             return;
         }
 
-        if (typeof setButtonLoading === 'function') {
-            setButtonLoading(downloadInvoiceBtn, true, "Generating Invoice...");
-        }
-
-        try {
-            const token = localStorage.getItem('auth_token');
-            const headers = {};
-            if (token) {
-                headers['Authorization'] = `Bearer ${token}`;
-            }
-
-            let invoiceUrl = `${CONFIG.API_URL}/frozen-cargos/${frozenId}/invoice`;
-            let response = await fetch(invoiceUrl, {
-                method: 'GET',
-                credentials: 'include',
-                headers: headers
-            });
-
-            if (!response.ok && response.status === 404) {
-                invoiceUrl = `${CONFIG.API_URL}/frozen-cargos/${frozenId}/receipt`;
-                response = await fetch(invoiceUrl, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: headers
-                });
-            }
-
-            if (response.ok) {
-                const htmlContent = await response.text();
-                await downloadInvoiceAsPdf(htmlContent, `Frozen-Cargo-Invoice-${frozenId}.pdf`);
-            } else {
-                let msg = "Failed to generate invoice.";
-                try {
-                    const err = await response.json();
-                    if (err.message) msg = err.message;
-                } catch(e) {}
-                if (typeof showToast !== "undefined") showToast(msg, "warning");
-            }
-        } catch (error) {
-            console.error("Failed to download invoice:", error);
-            if (typeof showToast !== "undefined") showToast("An error occurred while generating invoice.", "error");
-        } finally {
-            if (typeof setButtonLoading === 'function') {
-                setButtonLoading(downloadInvoiceBtn, false);
-            }
-        }
+        // Download PDF directly from backend
+        window.location.href = `${CONFIG.API_URL}/frozen-cargos/${frozenId}/invoice`;
     });
 }
 

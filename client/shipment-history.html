@@ -88,9 +88,14 @@
         <h1 class="dash-header-title">My Shipments</h1>
         <p class="dash-header-subtitle">Track and review all your previous shipments.</p>
       </div>
-      <a href="request-quote.html" class="dash-action-btn">
-        <span>+ Request Quote</span>
-      </a>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="create-shipment.html" class="dash-action-btn">
+          <span>+ Create Shipment</span>
+        </a>
+        <a href="request-quote.html" class="dash-action-btn dash-action-btn-outline">
+          <span>Request Quote</span>
+        </a>
+      </div>
     </div>
 
     <!-- STATISTICS -->
@@ -128,12 +133,13 @@
               <th>Route</th>
               <th>Date</th>
               <th>Status</th>
+              <th style="text-align: right;">Total Cost (₦)</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody id="shipmentTableBody">
             <tr>
-              <td colspan="5" style="text-align: center; padding: 20px; color: #6b7280;">Loading shipments...</td>
+              <td colspan="6" style="text-align: center; padding: 20px; color: #6b7280;">Loading shipments...</td>
             </tr>
           </tbody>
         </table>

@@ -23,6 +23,7 @@
     <link rel="icon" href="images/favicon.ico">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
     <link rel="icon" href="images/favicon.ico">
 
     <meta name="description" content="Admin Dashboard - Leezo Food Exports Logistics administration panel">
@@ -285,19 +286,85 @@
 
                     <div id="createShipmentFormContainer" class="shipment-create-card" style="display: none;">
                         <h3>Create New Shipment</h3>
-                        <form id="createShipmentForm" class="shipment-form-grid">
-                            <select id="shipUser" required>
-                                <option value="" disabled selected>Select User</option>
-                            </select>
-                            <input type="text" id="shipOrigin" placeholder="Origin (e.g. Lagos, Nigeria)" required>
-                            <input type="text" id="shipDestination" placeholder="Destination (e.g. London, UK)"
-                                required>
-                            <input type="text" id="shipService" placeholder="Service (e.g. Air Freight)" required>
-                            <input type="number" id="shipWeight" placeholder="Weight (kg)" required>
-                            <input type="number" id="shipPackages" placeholder="Packages count" required>
-                            <input type="text" id="shipRecipient" placeholder="Recipient Name" required>
-                            <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i
-                                    class="fas fa-plus"></i> Save Shipment</button>
+                        <form id="createShipmentForm">
+                            <div class="shipment-form-section">
+                                <h4><i class="fas fa-user"></i> Recipient Details</h4>
+                                <div class="shipment-form-grid">
+                                    <select id="shipUser" required>
+                                        <option value="" disabled selected>Select User (Recipient)</option>
+                                    </select>
+                                    <input type="text" id="shipRecipient" placeholder="Recipient Name">
+                                    <input type="email" id="shipRecipientEmail" placeholder="Recipient Email">
+                                    <input type="text" id="shipRecipientPhone" placeholder="Recipient Phone">
+                                </div>
+                            </div>
+
+                            <div class="shipment-form-section">
+                                <h4><i class="fas fa-route"></i> Route & Shipment Type</h4>
+                                <div class="shipment-form-grid">
+                                    <input type="text" id="shipOrigin" placeholder="Origin (e.g. Lagos, Nigeria)" required>
+                                    <input type="text" id="shipDestination" placeholder="Destination (e.g. London, UK)" required>
+                                    <select id="shipType">
+                                        <option value="" disabled selected>Shipment Type</option>
+                                        <option value="air">Air Freight</option>
+                                        <option value="sea">Sea Freight</option>
+                                        <option value="road">Road / Trucking</option>
+                                        <option value="rail">Rail Freight</option>
+                                    </select>
+                                    <input type="text" id="shipService" placeholder="Service (e.g. Air Freight)">
+                                </div>
+                            </div>
+
+                            <div class="shipment-form-section">
+                                <h4><i class="fas fa-calendar-alt"></i> Dates & Status</h4>
+                                <div class="shipment-form-grid">
+                                    <label class="shipment-field-label">Shipped Date
+                                        <input type="date" id="shipShippedDate">
+                                    </label>
+                                    <label class="shipment-field-label">Expected Delivery Date
+                                        <input type="date" id="shipExpectedDate">
+                                    </label>
+                                    <label class="shipment-field-label">Actual Delivered Date
+                                        <input type="date" id="shipDeliveredDate">
+                                    </label>
+                                    <select id="shipStatus">
+                                        <option value="pending" selected>Pending</option>
+                                        <option value="in_transit">In Transit</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="shipment-form-section">
+                                <h4><i class="fas fa-box-open"></i> Shipment Items
+                                    <button type="button" class="btn-add-item" onclick="addCreateShipmentItem()">
+                                        <i class="fas fa-plus"></i> Add Item
+                                    </button>
+                                </h4>
+                                <div class="shipment-items-table-wrap">
+                                    <table class="shipment-items-table" id="createShipmentItemsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Item Name</th>
+                                                <th>Qty</th>
+                                                <th>Weight (kg)</th>
+                                                <th>Rate (₦)</th>
+                                                <th>Cost (₦)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="createShipmentItems">
+                                            <!-- dynamic item rows injected here -->
+                                        </tbody>
+                                    </table>
+                                    <div class="shipment-items-total">
+                                        Estimated Total (Items): <span id="createShipmentItemsTotal">₦0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-primary shipment-submit-btn"><i class="fas fa-plus"></i> Save Shipment</button>
                         </form>
                     </div>
 
@@ -931,23 +998,38 @@
                     </div>
                     <div>
                         <label>Service Type</label>
-                        <input type="text" id="editShipService" placeholder="Air / Sea Freight">
+                        <input type="text" id="editShipService" placeholder="e.g. Express / Standard">
                     </div>
                     <div>
-                        <label>Weight (kg)</label>
-                        <input type="number" step="0.1" id="editShipWeight">
+                        <label>Shipment Type</label>
+                        <select id="editShipType">
+                            <option value="">Select Type</option>
+                            <option value="air">Air Freight</option>
+                            <option value="sea">Sea Freight</option>
+                            <option value="road">Road / Trucking</option>
+                            <option value="rail">Rail Freight</option>
+                        </select>
                     </div>
+
                     <div>
                         <label>Package Count</label>
                         <input type="number" id="editShipPackages">
                     </div>
                     <div>
-                        <label>Shipping Cost (₦)</label>
-                        <input type="number" step="0.01" id="editShipCost">
-                    </div>
-                    <div>
                         <label>Recipient Name</label>
                         <input type="text" id="editShipRecipient">
+                    </div>
+                    <div>
+                        <label>Recipient Email</label>
+                        <input type="email" id="editShipRecipientEmail">
+                    </div>
+                    <div>
+                        <label>Recipient Phone</label>
+                        <input type="text" id="editShipRecipientPhone">
+                    </div>
+                    <div>
+                        <label>Recipient Location</label>
+                        <input type="text" id="editShipRecipientLocation">
                     </div>
                     <div>
                         <label>Origin</label>
@@ -958,12 +1040,44 @@
                         <input type="text" id="editShipDestination">
                     </div>
                     <div>
+                        <label>Shipped Date</label>
+                        <input type="date" id="editShipShippedDate">
+                    </div>
+                    <div>
                         <label>Expected Delivery Date</label>
                         <input type="date" id="editShipExpectedDate">
                     </div>
                     <div>
                         <label>Actual Delivered Date</label>
                         <input type="date" id="editShipDeliveredDate">
+                    </div>
+                </div>
+
+                <div class="shipment-form-section shipment-section-inline" style="margin-top: 18px;">
+                    <h4 style="margin-bottom: 10px;">Shipment Items
+                        <button type="button" class="btn-add-item" onclick="addEditShipmentItem()">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                    </h4>
+                    <div class="shipment-items-table-wrap">
+                        <table class="shipment-items-table" id="editShipmentItemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Qty</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Rate (₦)</th>
+                                    <th>Cost (₦)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="editShipmentItems">
+                                <!-- dynamic item rows injected here -->
+                            </tbody>
+                        </table>
+                        <div class="shipment-items-total">
+                            Estimated Total (Items): <span id="editShipmentItemsTotal">₦0.00</span>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">

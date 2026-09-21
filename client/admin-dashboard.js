@@ -23,6 +23,123 @@ window.switchShipmentModalTab = (tabName) => {
     }
 };
 
+// ============================================================
+// Shipment multi-item helpers (name / qty / weight / rate / cost)
+// ============================================================
+const currencyFmt = (amount) => {
+    const value = Number.isFinite(parseFloat(amount)) ? parseFloat(amount) : 0;
+    return '₦' + value.toLocaleString('en-NG', { minimumFractionDigits: 2 });
+};
+
+// Build a single item row and append it to the given tbody
+function appendShipmentItemRow(tbodyId, data) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    data = data || {};
+
+    const tr = document.createElement('tr');
+    tr.className = 'shipment-item-row';
+
+    tr.innerHTML = `
+        <td><input type="text" class="ship-item-name" value="${escapeAttr(data.name || '')}" placeholder="e.g. Frozen Tilapia"></td>
+        <td><input type="number" min="0" step="any" class="ship-item-quantity" value="${escapeAttr(data.quantity == null ? '' : data.quantity)}" oninput="updateShipmentItemsTotal('${tbodyId}')"></td>
+        <td><input type="number" min="0" step="any" class="ship-item-weight" value="${escapeAttr(data.weight == null ? '' : data.weight)}" oninput="updateShipmentItemsTotal('${tbodyId}')"></td>
+        <td><input type="number" min="0" step="any" class="ship-item-rate" value="${escapeAttr(data.rate == null ? '' : data.rate)}" oninput="updateShipmentItemsTotal('${tbodyId}')"></td>
+        <td><input type="number" min="0" step="any" class="ship-item-cost" value="${escapeAttr(data.cost == null ? '' : data.cost)}" oninput="updateShipmentItemsTotal('${tbodyId}')"></td>
+        <td style="text-align: center;">
+            <button type="button" class="btn-remove-item" onclick="removeShipmentItemRow(this)" title="Remove item">
+                <i class="fas fa-times"></i>
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(tr);
+    updateShipmentItemsTotal(tbodyId);
+}
+
+// Escape a value for safe use inside an HTML attribute in the row builder
+function escapeAttr(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function removeShipmentItemRow(btn) {
+    const row = btn.closest('tr');
+    const tbody = row ? row.parentNode : null;
+    if (row) row.remove();
+    if (tbody) updateShipmentItemsTotal(tbody.id);
+}
+
+window.addCreateShipmentItem = () => {
+    appendShipmentItemRow('createShipmentItems');
+};
+
+window.addEditShipmentItem = () => {
+    appendShipmentItemRow('editShipmentItems');
+};
+
+// Collect item rows from a tbody into a clean JSON array
+function collectShipmentItems(tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return [];
+    const items = [];
+    const rows = tbody.querySelectorAll('tr.shipment-item-row');
+
+    rows.forEach(row => {
+        const name = (row.querySelector('.ship-item-name')?.value || '').trim();
+        if (!name) return;
+        items.push({
+            name: name,
+            quantity: (row.querySelector('.ship-item-quantity')?.value || '').trim() || null,
+            weight: (row.querySelector('.ship-item-weight')?.value || '').trim() || null,
+            rate: (row.querySelector('.ship-item-rate')?.value || '').trim() || null,
+            cost: (row.querySelector('.ship-item-cost')?.value || '').trim() || null,
+        });
+    });
+
+    return items;
+}
+
+// Recompute the running total for an item tbody
+function updateShipmentItemsTotal(tbodyId) {
+    const items = collectShipmentItems(tbodyId);
+    let total = 0;
+    items.forEach(item => {
+        if (item.cost !== null && item.cost !== '' && Number.isFinite(parseFloat(item.cost))) {
+            total += parseFloat(item.cost);
+        } else if (item.quantity && item.rate
+            && Number.isFinite(parseFloat(item.quantity)) && Number.isFinite(parseFloat(item.rate))) {
+            total += parseFloat(item.quantity) * parseFloat(item.rate);
+        }
+    });
+
+    const totalId = tbodyId === 'editShipmentItems' ? 'editShipmentItemsTotal' : 'createShipmentItemsTotal';
+    const totalEl = document.getElementById(totalId);
+    if (totalEl) totalEl.textContent = currencyFmt(total);
+}
+
+// Render existing items into the edit modal
+function renderEditShipmentItems(items) {
+    const tbody = document.getElementById('editShipmentItems');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (items && items.length > 0) {
+        items.forEach(item => appendShipmentItemRow('editShipmentItems', {
+            name: item.name || '',
+            quantity: item.quantity,
+            weight: item.weight,
+            rate: item.rate,
+            cost: item.cost,
+        }));
+    } else {
+        appendShipmentItemRow('editShipmentItems');
+    }
+    updateShipmentItemsTotal('editShipmentItems');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Authentication & Role Check
     const checkAdminAuth = async () => {
@@ -292,14 +409,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('editShipStatus').value = currentShipment.status || 'pending';
                 document.getElementById('editShipCurrentLocation').value = currentShipment.current_location || '';
                 document.getElementById('editShipService').value = currentShipment.service || '';
-                document.getElementById('editShipWeight').value = currentShipment.weight || '';
                 document.getElementById('editShipPackages').value = currentShipment.packages || '';
-                document.getElementById('editShipCost').value = currentShipment.shipping_cost || '';
-                document.getElementById('editShipRecipient').value = currentShipment.recipient || '';
+                document.getElementById('editShipRecipient').value = currentShipment.recipient || currentShipment.recipient_name || '';
+                document.getElementById('editShipRecipientEmail').value = currentShipment.recipient_email || '';
+                document.getElementById('editShipRecipientPhone').value = currentShipment.recipient_phone || '';
+                document.getElementById('editShipRecipientLocation').value = currentShipment.recipient_location || '';
                 document.getElementById('editShipOrigin').value = currentShipment.origin || '';
                 document.getElementById('editShipDestination').value = currentShipment.destination || '';
+                document.getElementById('editShipType').value = currentShipment.shipment_type || '';
+                document.getElementById('editShipShippedDate').value = currentShipment.shipped_date || '';
                 document.getElementById('editShipExpectedDate').value = currentShipment.expected_delivery_date || '';
                 document.getElementById('editShipDeliveredDate').value = currentShipment.delivered_date || '';
+
+                // Populate items
+                renderEditShipmentItems(currentShipment.items || []);
 
                 // Populate events
                 renderShipmentEventsTimeline(currentShipment.events || []);
@@ -338,14 +461,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 status: document.getElementById('editShipStatus').value,
                 current_location: document.getElementById('editShipCurrentLocation').value,
                 service: document.getElementById('editShipService').value,
-                weight: document.getElementById('editShipWeight').value,
+                shipment_type: document.getElementById('editShipType').value,
                 packages: document.getElementById('editShipPackages').value,
-                shipping_cost: document.getElementById('editShipCost').value,
                 recipient: document.getElementById('editShipRecipient').value,
+                recipient_email: document.getElementById('editShipRecipientEmail').value,
+                recipient_phone: document.getElementById('editShipRecipientPhone').value,
+                recipient_location: document.getElementById('editShipRecipientLocation').value,
                 origin: document.getElementById('editShipOrigin').value,
                 destination: document.getElementById('editShipDestination').value,
+                shipped_date: document.getElementById('editShipShippedDate').value || null,
                 expected_delivery_date: document.getElementById('editShipExpectedDate').value || null,
                 delivered_date: document.getElementById('editShipDeliveredDate').value || null,
+                items: collectShipmentItems('editShipmentItems'),
             };
 
             if (typeof setButtonLoading === 'function' && submitBtn) {
@@ -951,6 +1078,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 populateUserDropdown(allUsers);
             }
+            const tbodyCreate = document.getElementById('createShipmentItems');
+            if (tbodyCreate && tbodyCreate.querySelectorAll('tr.shipment-item-row').length === 0) {
+                appendShipmentItemRow('createShipmentItems');
+            }
             createShipmentFormContainer.style.display = createShipmentFormContainer.style.display === 'none' ? 'block' : 'none';
         });
     }
@@ -975,14 +1106,25 @@ document.addEventListener('DOMContentLoaded', () => {
                         origin: document.getElementById('shipOrigin').value || 'Lagos, Nigeria',
                         destination: document.getElementById('shipDestination').value,
                         service: document.getElementById('shipService').value,
-                        weight: document.getElementById('shipWeight').value,
-                        packages: document.getElementById('shipPackages').value,
+                        shipment_type: document.getElementById('shipType').value,
                         recipient: document.getElementById('shipRecipient').value,
+                        recipient_email: document.getElementById('shipRecipientEmail').value,
+                        recipient_phone: document.getElementById('shipRecipientPhone').value,
+                        status: document.getElementById('shipStatus').value || 'pending',
+                        shipped_date: document.getElementById('shipShippedDate').value || null,
+                        expected_delivery_date: document.getElementById('shipExpectedDate').value || null,
+                        delivered_date: document.getElementById('shipDeliveredDate').value || null,
+                        items: collectShipmentItems('createShipmentItems'),
                     })
                 });
                 if (response.ok) {
                     showToast('Shipment created successfully', 'success');
                     createShipmentForm.reset();
+                    const createItemsTbody = document.getElementById('createShipmentItems');
+                    if (createItemsTbody) {
+                        createItemsTbody.innerHTML = '';
+                        appendShipmentItemRow('createShipmentItems');
+                    }
                     createShipmentFormContainer.style.display = 'none';
                     loadShipments();
                 } else {
@@ -996,6 +1138,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     setButtonLoading(submitBtn, false);
                 }
             }
+        });
+    }
+
+    const shipUserSelect = document.getElementById('shipUser');
+    if (shipUserSelect) {
+        shipUserSelect.addEventListener('change', () => {
+            const selectedId = shipUserSelect.value;
+            const selected = allUsers.find(u => String(u.id) === String(selectedId));
+            if (!selected) return;
+            const nameEl = document.getElementById('shipRecipient');
+            const emailEl = document.getElementById('shipRecipientEmail');
+            const phoneEl = document.getElementById('shipRecipientPhone');
+            if (nameEl && (nameEl.value || '').trim() === '' && selected.name) nameEl.value = selected.name;
+            if (emailEl && (emailEl.value || '').trim() === '' && selected.email) emailEl.value = selected.email;
+            if (phoneEl && (phoneEl.value || '').trim() === '' && selected.phone) phoneEl.value = selected.phone;
         });
     }
 

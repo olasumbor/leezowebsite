@@ -217,8 +217,7 @@ function updateProcurementStatus(status) {
 
 
 // ========================================
-// ========================================
-// DOWNLOAD INVOICE AS PDF
+// DOWNLOAD INVOICE
 // ========================================
 
 async function downloadInvoiceAsPdf(htmlContent, filename) {
@@ -232,96 +231,86 @@ async function downloadInvoiceAsPdf(htmlContent, filename) {
         });
     }
 
-    const tempContainer = document.createElement('div');
-    tempContainer.style.position = 'fixed';
-    tempContainer.style.left = '-9999px';
-    tempContainer.style.top = '0';
-    tempContainer.style.width = '800px';
-    tempContainer.style.background = '#ffffff';
-    tempContainer.innerHTML = htmlContent;
-    document.body.appendChild(tempContainer);
+    // Parse the HTML content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
 
-    const noPrintBar = tempContainer.querySelector('.no-print-bar');
-    if (noPrintBar) {
-        noPrintBar.remove();
-    }
+    // Create a container div that properly holds the document
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'fixed';
+    wrapper.style.left = '-9999px';
+    wrapper.style.top = '0';
+    wrapper.style.background = '#ffffff';
+    wrapper.style.width = '800px';
+    wrapper.style.height = '1200px';
+    wrapper.style.overflow = 'hidden';
+    wrapper.style.padding = '30px 45px';
+    wrapper.style.boxSizing = 'border-box';
+    document.body.appendChild(wrapper);
 
-    const invoiceElement = tempContainer.querySelector('.invoice-card') || tempContainer.querySelector('.receipt-card') || tempContainer;
+    // Extract and preserve styles from the original HTML
+    const styleTags = doc.querySelectorAll('style');
+    styleTags.forEach(style => {
+        const clonedStyle = document.createElement('style');
+        clonedStyle.textContent = style.textContent;
+        wrapper.appendChild(clonedStyle);
+    });
+
+    // Extract body content (without the body tag itself)
+    const bodyContent = doc.body ? doc.body.innerHTML : htmlContent;
+    wrapper.innerHTML += bodyContent;
+
+    // Force styles to apply by making wrapper visible briefly
+    wrapper.style.visibility = 'visible';
+    wrapper.style.display = 'block';
+
+    // Wait for fonts and images to load
+    await new Promise((resolve) => {
+        setTimeout(resolve, 1000); // Give time for rendering
+    });
+
+    // The wrapper itself is the invoice element
+    const invoiceElement = wrapper;
 
     const opt = {
         margin:       [0.2, 0.2, 0.2, 0.2],
         filename:     filename,
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        html2canvas:  {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            width: 800,
+            height: 1200,
+            windowWidth: 800
+        },
         jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
 
     try {
         await window.html2pdf().set(opt).from(invoiceElement).save();
     } finally {
-        if (tempContainer.parentNode) {
-            tempContainer.parentNode.removeChild(tempContainer);
+        if (wrapper.parentNode) {
+            wrapper.parentNode.removeChild(wrapper);
         }
     }
 }
 
-const downloadInvoiceButton = document.getElementById("downloadReceipt") || document.getElementById("downloadInvoice") || document.getElementById("downloadProcurementInvoice");
+const downloadInvoiceButton = document.getElementById("downloadInvoice") || document.getElementById("downloadProcurementInvoice");
 
 if (downloadInvoiceButton) {
 
-    downloadInvoiceButton.addEventListener("click", async function() {
+    downloadInvoiceButton.addEventListener("click", function() {
 
         if (!procurementId) {
             showToast("Procurement ID not found.", "warning");
             return;
         }
 
-        if (typeof setButtonLoading === 'function') {
-            setButtonLoading(downloadInvoiceButton, true, "Generating Document...");
-        }
-
-        try {
-            const token = localStorage.getItem('auth_token');
-            const headers = {};
-            if (token) {
-                headers['Authorization'] = `Bearer ${token}`;
-            }
-
-            let invoiceUrl = `${CONFIG.API_URL}/procurements/${procurementId}/receipt`;
-            let response = await fetch(invoiceUrl, {
-                method: 'GET',
-                credentials: 'include',
-                headers: headers
-            });
-
-            if (!response.ok) {
-                invoiceUrl = `${CONFIG.API_URL}/procurements/${procurementId}/invoice`;
-                response = await fetch(invoiceUrl, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: headers
-                });
-            }
-
-            if (response.ok) {
-                const htmlContent = await response.text();
-                await downloadInvoiceAsPdf(htmlContent, `Procurement-Document-${procurementId}.pdf`);
-            } else {
-                let msg = "Failed to generate procurement document.";
-                try {
-                    const err = await response.json();
-                    if (err.message) msg = err.message;
-                } catch(e) {}
-                showToast(msg, "warning");
-            }
-        } catch (error) {
-            console.error("Failed to download procurement document:", error);
-            showToast("An error occurred while generating document.", "error");
-        } finally {
-            if (typeof setButtonLoading === 'function') {
-                setButtonLoading(downloadInvoiceButton, false);
-            }
-        }
+        // Download PDF directly from backend
+        window.location.href = `${CONFIG.API_URL}/procurements/${procurementId}/invoice`;
 
     });
 

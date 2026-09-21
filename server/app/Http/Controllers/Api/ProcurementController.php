@@ -139,34 +139,6 @@ class ProcurementController extends Controller
         return response()->json($procurement);
     }
 
-    // Download Procurement Receipt
-    public function downloadReceipt(Request $request, $id)
-    {
-        $user = $request->user();
-
-        if ($user->role === 'admin') {
-            $procurement = $this->findProcurement($id);
-        } else {
-            $query = Procurement::with('user')->where(function ($q) use ($user) {
-                $q->where('user_id', $user->id)
-                  ->orWhere('email', $user->email);
-            });
-            if (is_numeric($id)) {
-                $procurement = $query->where(function ($q) use ($id) {
-                    $q->where('id', $id)->orWhere('procurement_id', (string) $id);
-                })->firstOrFail();
-            } else {
-                $procurement = $query->where('procurement_id', $id)->firstOrFail();
-            }
-        }
-
-        return response()->view('receipts.procurement-receipt', [
-            'procurement' => $procurement
-        ], 200, [
-            'Content-Type' => 'text/html; charset=UTF-8'
-        ]);
-    }
-
     // Download Procurement Invoice
     public function downloadInvoice(Request $request, $id)
     {
@@ -201,9 +173,11 @@ class ProcurementController extends Controller
             ]
         ];
 
-        return response()->view('invoices.procurement-invoice', [
+        $invoiceNumber = 'INV-' . strtoupper(substr(md5($procurement->procurement_id ?? $id), 0, 6));
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.procurement-invoice', [
             'procurement' => $procurement,
-            'invoice_number' => 'INV-' . strtoupper(substr(md5($procurement->procurement_id ?? $id), 0, 6)),
+            'invoice_number' => $invoiceNumber,
             'customer_name' => $procurement->name ?? ($procurement->user->name ?? 'Customer'),
             'invoice_date' => $procurement->created_at ? $procurement->created_at->format('d M Y') : date('d M Y'),
             'due_date' => $procurement->expected_date ? \Carbon\Carbon::parse($procurement->expected_date)->format('d M Y') : date('d M Y'),
@@ -212,21 +186,15 @@ class ProcurementController extends Controller
             'bank_account_number' => \App\Models\Setting::get('bank_account_number', '0900779403'),
             'bank_account_name' => \App\Models\Setting::get('bank_account_name', 'Leezoe integrated'),
             'bank_name' => \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank.'),
-        ], 200, [
-            'Content-Type' => 'text/html; charset=UTF-8'
         ]);
+
+        return $pdf->download('Procurement-Invoice-' . $invoiceNumber . '.pdf');
     }
 
     // Admin: Generate Invoice
     public function generateInvoice(Request $request, $id)
     {
         $procurement = $this->findProcurement($id);
-
-        if (empty($procurement->cost) || !is_numeric($procurement->cost) || (float)$procurement->cost <= 0) {
-            return response()->json([
-                'message' => 'Cannot generate invoice: Procurement cost (price) has not been updated yet. Please edit the procurement details and set a cost first.'
-            ], 422);
-        }
 
         $procurement->invoice_generated = true;
         $procurement->save();

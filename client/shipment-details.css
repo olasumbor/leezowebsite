@@ -341,7 +341,6 @@
    SHIPMENT ACTION BUTTONS
 ================================================= */
 
-#downloadReceipt,
 #trackShipment {
     display: inline-flex;
     align-items: center;
@@ -366,7 +365,34 @@
     transition: background 0.2s ease;
 }
 
-#downloadReceipt:hover,
 #trackShipment:hover {
     background: #008f34;
+}
+/* Shipment items block */
+.dash-shipment-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid var(--dash-border, #e2e8f0);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dash-shipment-items-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: #f1f5f9;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.dash-shipment-items-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.dash-shipment-items-table td:first-child {
+    font-weight: 600;
+    color: #101828;
 }

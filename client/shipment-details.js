@@ -40,14 +40,18 @@ async function fetchShipmentDetails() {
                 destination: data.destination || "—",
                 trackingNumber: data.tracking_id || data.tracking_number || shipmentId,
                 service: data.service || "Standard Shipping",
-                weight: data.weight ? `${data.weight} kg` : "—",
+                shipmentType: data.shipment_type || "",
+                weight: data.weight ? `${data.weight}` : "—",
                 packages: data.packages || 1,
                 shippedDate: data.shipped_date ? new Date(data.shipped_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : (data.created_at ? new Date(data.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—"),
                 deliveredDate: data.delivered_date ? new Date(data.delivered_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—",
                 recipient: data.recipient_name || data.recipient || "—",
                 recipientLocation: data.recipient_location || data.destination || "—",
                 shippingCost: data.shipping_cost ? (isNaN(data.shipping_cost) ? data.shipping_cost : `₦${parseFloat(data.shipping_cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "—",
-                status: data.status
+                status: data.status,
+                canEdit: data.can_edit === true,
+                invoiceGenerated: data.invoice_generated === true || data.invoice_generated === 1 || data.invoice_generated === "1",
+                items: data.items || []
             };
 
             showDetails();
@@ -69,11 +73,40 @@ async function fetchShipmentDetails() {
 function showDetails() {
     if (!shipment) return;
 
+    // Only allow editing while the shipment has not been priced/invoiced by admin
+    const editButton = document.getElementById("editShipment");
+    if (editButton) {
+        if (shipment.canEdit) {
+            editButton.style.display = "";
+            editButton.addEventListener("click", () => {
+                window.location.href = `create-shipment.html?edit=${encodeURIComponent(shipmentId)}`;
+            });
+        } else {
+            editButton.style.display = "none";
+        }
+    }
+
+    // Invoice can only be downloaded once admin has generated it.
+    const invoiceBtn = document.getElementById("downloadInvoice");
+    if (invoiceBtn) {
+        if (shipment.invoiceGenerated) {
+            invoiceBtn.disabled = false;
+            invoiceBtn.style.opacity = "";
+            invoiceBtn.style.cursor = "";
+            invoiceBtn.title = "Download invoice";
+        } else {
+            invoiceBtn.disabled = true;
+            invoiceBtn.style.opacity = "0.6";
+            invoiceBtn.style.cursor = "not-allowed";
+            invoiceBtn.title = "Invoice is not available yet. It becomes available once Leezofood prices and generates it.";
+        }
+    }
+
     document.getElementById("shipmentTitle").textContent = `SHIPMENT ${shipment.trackingNumber || shipmentId}`;
     document.getElementById("shipmentOrigin").textContent = shipment.origin;
     document.getElementById("shipmentDestination").textContent = shipment.destination;
     document.getElementById("trackingNumber").textContent = shipment.trackingNumber;
-    document.getElementById("shipmentService").textContent = shipment.service;
+    document.getElementById("shipmentService").textContent = shipment.service + (shipment.shipmentType ? ` (${shipment.shipmentType.toUpperCase()})` : "");
     document.getElementById("shipmentWeight").textContent = shipment.weight;
     document.getElementById("shipmentPackages").textContent = shipment.packages;
     document.getElementById("shipmentDate").textContent = shipment.shippedDate;
@@ -81,6 +114,77 @@ function showDetails() {
     document.getElementById("recipientName").textContent = shipment.recipient;
     document.getElementById("recipientLocation").textContent = shipment.recipientLocation;
     document.getElementById("shippingCost").textContent = shipment.shippingCost;
+
+    renderShipmentItems();
+}
+
+// ========================================
+// SHIPMENT ITEMS
+// ========================================
+
+function renderShipmentItems() {
+    const container = document.getElementById("shipmentItemsBlock");
+    const totalContainer = document.getElementById("shipmentItemsTotal");
+    const totalValue = document.getElementById("shipmentItemsTotalValue");
+    if (!container) return;
+
+    const items = shipment.items || [];
+
+    if (!items || items.length === 0) {
+        container.innerHTML = `<p style="color: #6b7280;">No item details available for this shipment.</p>`;
+        if (totalContainer) totalContainer.style.display = 'none';
+        return;
+    }
+
+    let totalCost = 0;
+
+    const rows = items.map(item => {
+        const cost = parseFloat(item.cost) || 0;
+        totalCost += cost;
+        return `
+            <tr>
+                <td>${escapeHtml(item.name || '—')}</td>
+                <td>${item.quantity || '—'}</td>
+                <td>${item.weight ? `${item.weight}` : '—'}</td>
+                <td style="text-align: right;">${formatCurrency(item.rate)}</td>
+                <td style="text-align: right;">${formatCurrency(item.cost)}</td>
+            </tr>
+        `;
+    }).join("");
+
+    container.innerHTML = `
+        <table class="dash-shipment-items-table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Weight (kg)</th>
+                    <th style="text-align: right;">Rate (₦)</th>
+                    <th style="text-align: right;">Cost (₦)</th>
+                </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+
+    // Display the total
+    if (totalContainer && totalValue) {
+        totalValue.textContent = formatCurrency(totalCost);
+        totalContainer.style.display = 'block';
+    }
+}
+
+function formatCurrency(amount) {
+    const value = Number.isFinite(parseFloat(amount)) ? parseFloat(amount) : 0;
+    return '₦' + value.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
 }
 
 // ========================================
@@ -133,109 +237,19 @@ document.getElementById("trackShipment").addEventListener(
 
 
 // ========================================
-// DOWNLOAD INVOICE AS PDF
+// DOWNLOAD INVOICE
 // ========================================
 
-async function downloadInvoiceAsPdf(htmlContent, filename) {
-    if (!window.html2pdf) {
-        await new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-            script.onload = resolve;
-            script.onerror = () => reject(new Error('Failed to load html2pdf library.'));
-            document.head.appendChild(script);
-        });
-    }
+const downloadInvoiceButton = document.getElementById("downloadInvoice") || document.getElementById("downloadShipmentInvoice");
 
-    const tempContainer = document.createElement('div');
-    tempContainer.style.position = 'fixed';
-    tempContainer.style.left = '-9999px';
-    tempContainer.style.top = '0';
-    tempContainer.style.width = '800px';
-    tempContainer.style.background = '#ffffff';
-    tempContainer.innerHTML = htmlContent;
-    document.body.appendChild(tempContainer);
-
-    const noPrintBar = tempContainer.querySelector('.no-print-bar');
-    if (noPrintBar) {
-        noPrintBar.remove();
-    }
-
-    const invoiceElement = tempContainer.querySelector('.invoice-card') || tempContainer.querySelector('.receipt-card') || tempContainer;
-
-    const opt = {
-        margin:       [0.2, 0.2, 0.2, 0.2],
-        filename:     filename,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-
-    try {
-        await window.html2pdf().set(opt).from(invoiceElement).save();
-    } finally {
-        if (tempContainer.parentNode) {
-            tempContainer.parentNode.removeChild(tempContainer);
-        }
-    }
-}
-
-const downloadShipmentInvoiceButton = document.getElementById("downloadReceipt") || document.getElementById("downloadInvoice") || document.getElementById("downloadShipmentInvoice");
-
-if (downloadShipmentInvoiceButton) {
-    downloadShipmentInvoiceButton.addEventListener("click", async function () {
-
-        if (!shipmentId) {
-            showToast("Shipment ID not found.", "warning");
+if (downloadInvoiceButton) {
+    downloadInvoiceButton.addEventListener("click", function () {
+        if (!shipment || !shipment.invoiceGenerated) {
+            showToast("Invoice has not been generated by admin yet. It becomes available once Leezofood prices and generates it.", "warning");
             return;
         }
 
-        if (typeof setButtonLoading === 'function') {
-            setButtonLoading(downloadShipmentInvoiceButton, true, "Generating Document...");
-        }
-
-        try {
-            const token = localStorage.getItem('auth_token');
-            const headers = {};
-            if (token) {
-                headers['Authorization'] = `Bearer ${token}`;
-            }
-
-            let invoiceUrl = `${CONFIG.API_URL}/shipments/${shipmentId}/receipt`;
-            let response = await fetch(invoiceUrl, {
-                method: 'GET',
-                credentials: 'include',
-                headers: headers
-            });
-
-            if (!response.ok) {
-                invoiceUrl = `${CONFIG.API_URL}/shipments/${shipmentId}/invoice`;
-                response = await fetch(invoiceUrl, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: headers
-                });
-            }
-
-            if (response.ok) {
-                const htmlContent = await response.text();
-                await downloadInvoiceAsPdf(htmlContent, `Shipment-Document-${shipmentId}.pdf`);
-            } else {
-                let msg = "Failed to generate shipment document.";
-                try {
-                    const err = await response.json();
-                    if (err.message) msg = err.message;
-                } catch(e) {}
-                showToast(msg, "warning");
-            }
-        } catch (error) {
-            console.error("Failed to download shipment document:", error);
-            showToast("An error occurred while generating shipment document.", "error");
-        } finally {
-            if (typeof setButtonLoading === 'function') {
-                setButtonLoading(downloadShipmentInvoiceButton, false);
-            }
-        }
-
+        // Download PDF directly from backend
+        window.location.href = `${CONFIG.API_URL}/shipments/${shipmentId}/invoice`;
     });
 }

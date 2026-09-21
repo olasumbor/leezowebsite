@@ -13,7 +13,7 @@ async function fetchShipments() {
         }
 
         if (shipmentTableBody) {
-            shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #6b7280;">Loading shipments...</td></tr>`;
+            shipmentTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: #6b7280;">Loading shipments...</td></tr>`;
         }
 
         const response = await fetch(`${CONFIG.API_URL}/shipments`, {
@@ -27,13 +27,29 @@ async function fetchShipments() {
         if (response.ok) {
             const data = await response.json();
             // Map the API data to the format expected by the frontend
-            shipments = data.map(s => ({
-                id: s.tracking_id || s.id,
-                route: `${s.origin || 'Lagos, Nigeria'} → ${s.destination || '—'}`,
-                date: new Date(s.shipped_date || s.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-                status: s.status ? s.status.replace('_', ' ').toUpperCase() : 'PENDING',
-                rawStatus: s.status
-            }));
+            shipments = data.map(s => {
+                // Compute total cost from items where available
+                let totalCost = null;
+                if (Array.isArray(s.items) && s.items.length > 0) {
+                    totalCost = s.items.reduce((sum, item) => {
+                        const c = parseFloat(item.cost);
+                        if (Number.isFinite(c) && c > 0) return sum + c;
+                        const q = parseFloat(item.quantity) || 0;
+                        const r = parseFloat(item.rate) || 0;
+                        if (Number.isFinite(q) && Number.isFinite(r) && (q > 0 || r > 0)) return sum + (q * r);
+                        return sum;
+                    }, 0);
+                    if (totalCost <= 0) totalCost = null;
+                }
+                return {
+                    id: s.tracking_id || s.id,
+                    route: `${s.origin || 'Lagos, Nigeria'} → ${s.destination || '—'}`,
+                    date: new Date(s.shipped_date || s.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+                    status: s.status ? s.status.replace('_', ' ').toUpperCase() : 'PENDING',
+                    rawStatus: s.status,
+                    totalCost: totalCost
+                };
+            });
             
             displayShipments(shipments);
             updateShipmentStatsLocal();
@@ -42,13 +58,13 @@ async function fetchShipments() {
             window.location.href = 'signin.html';
         } else {
             if (shipmentTableBody) {
-                shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #ef4444;">Failed to load shipments. Please try refreshing.</td></tr>`;
+                shipmentTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: #ef4444;">Failed to load shipments. Please try refreshing.</td></tr>`;
             }
         }
     } catch (error) {
         console.error('Failed to fetch shipments:', error);
         if (shipmentTableBody) {
-            shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #ef4444;">Error connecting to server.</td></tr>`;
+            shipmentTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: #ef4444;">Error connecting to server.</td></tr>`;
         }
     }
 }
@@ -120,7 +136,7 @@ function displayShipments(shipmentList) {
     shipmentTableBody.innerHTML = "";
 
     if (!shipmentList || shipmentList.length === 0) {
-        shipmentTableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #6b7280;">No shipments found.</td></tr>`;
+        shipmentTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: #6b7280;">No shipments found.</td></tr>`;
         return;
     }
 
@@ -136,6 +152,12 @@ function displayShipments(shipmentList) {
             <td>${shipment.date}</td>
 
             <td><span class="status-badge ${shipment.status.toLowerCase().replace(' ', '-')}">${shipment.status}</span></td>
+
+            <td style="text-align: right;">
+                ${shipment.totalCost != null
+                    ? '₦' + Number(shipment.totalCost).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    : '<span style="color: #9ca3af;">—</span>'}
+            </td>
 
             <td>
                 <button 

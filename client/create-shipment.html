@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Instant Auth Guard -->
+  <script>
+    (function () {
+      var token = localStorage.getItem("auth_token");
+      var loggedIn = localStorage.getItem("loggedIn") === "true";
+      if (!token && !loggedIn) {
+        window.location.replace("signin.html");
+      }
+    })();
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Shipment | Leezoexports Logistics</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="images/favicon.ico">
+
+  <!-- CSS File -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="create-shipment.css">
+  <link rel=stylesheet href=toast.css>
+</head>
+
+
+<body class="dash-body">
+
+  <header class="dashboard-header">
+    <div class="dashboard-logo">
+      <a href="dashboard.html">
+        <img src="images/logo-leezo.NG.svg" alt="Leezo Food Exports Logistics">
+      </a>
+    </div>
+
+    <ul class="dashboard-nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="shipment-history.html" class="active">My Shipments</a></li>
+      <li><a href="procurement-history.html">Procurement</a></li>
+      <li><a href="pickup-delivery-history.html">Pickup & Delivery</a></li>
+      <li><a href="frozen-cargo-history.html">Frozen Cargo</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li class="dashboard-mobile-logout">
+        <button type="button" class="logout-button mobile-logout-btn">Sign Out</button>
+      </li>
+    </ul>
+
+    <div class="dashboard-right">
+      <button type="button" id="logoutButton" class="logout-button">Sign Out</button>
+      <div class="dashboard-hamburger" aria-label="Toggle Dashboard Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-page-wrapper">
+    <a href="shipment-history.html" class="dash-back-link">
+      <span>← Back to My Shipments</span>
+    </a>
+
+    <div class="dash-header-block">
+      <div>
+        <h1 class="dash-header-title" id="csPageTitle">Create a New Shipment</h1>
+        <p class="dash-header-subtitle" id="csPageSubtitle">Fill in your shipment details and add the items you would like to send.</p>
+      </div>
+    </div>
+
+    <form id="createShipmentForm" class="create-shipment-card">
+
+<!-- Route & Type -->
+      <div class="cs-section">
+        <h3><img src="images/location.svg" alt=""> Route & Shipment Type</h3>
+        <div class="cs-grid">
+          <div class="cs-field">
+            <label for="csOrigin">Origin</label>
+            <input type="text" id="csOrigin" placeholder="e.g. Lagos, Nigeria" value="Lagos, Nigeria" required>
+          </div>
+          <div class="cs-field">
+            <label for="csDestination">Destination</label>
+            <input type="text" id="csDestination" placeholder="e.g. London, UK" required>
+          </div>
+          <div class="cs-field">
+            <label for="csType">Shipment Type</label>
+            <select id="csType">
+              <option value="" disabled selected>Select type</option>
+              <option value="air">Air Freight</option>
+              <option value="sea">Sea Freight</option>
+              <option value="road">Road / Trucking</option>
+              <option value="rail">Rail Freight</option>
+            </select>
+          </div>
+          <div class="cs-field">
+            <label for="csService">Service</label>
+            <input type="text" id="csService" placeholder="e.g. Express / Standard">
+          </div>
+        </div>
+      </div>
+<!-- Items -->
+      <div class="cs-section">
+        <div class="cs-section-head">
+          <h3>📦 Shipment Items</h3>
+          <button type="button" class="btn-add-item" onclick="addItemRow()">
+            <span class="plus">+</span> Add Item
+          </button>
+        </div>
+        <p class="cs-section-hint">Add all items you are shipping. Name is required; quantity and weight are optional.</p>
+        <div class="cs-items-wrap">
+          <table class="cs-items-table" id="csItemsTable">
+            <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Weight (kg)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="csItems">
+              <!-- dynamic item rows injected here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <button type="submit" id="csSubmitBtn" class="cs-submit-btn">Submit Shipment Request</button>
+    </form>
+  </main>
+<footer class="footer">
+    <div class="footer-container">
+      <div class="footer-contact">
+        <h3>Get in Touch</h3>
+        <div class="contact-item">
+          <img src="images/location.svg" alt="Location">
+          <a href="https://www.google.com/maps/search/?api=1&query=Shop%208%2C%20Kingscourt%20Estate%2C%20Shasha%20Akowonjo%2C%20Lagos%2C%20Nigeria" target="_blank">
+            Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria
+          </a>
+        </div>
+        <div class="contact-item">
+          <img src="images/phone.svg" alt="Phone">
+          <a href="tel:+2348136710716">+234 813 671 0716, +234 703 989 0112</a>
+        </div>
+        <div class="contact-item">
+          <img src="images/Email.svg" alt="Email">
+          <a href="mailto:leezointegratedserviceslimited@gmail.com">leezointegratedserviceslimited@gmail.com</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul class="footer-menu">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="services.html">Our Services</a></li>
+          <li><a href="track-shipment.html">Track Shipment</a></li>
+          <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <p><span>Leezofoodng.export</span> All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script src="config.js"></script>
+  <script src="toast.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
+  <script src="create-shipment.js"></script>
+</body>
+
+</html>
+      </div>

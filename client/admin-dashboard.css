@@ -979,3 +979,142 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================================
+   Shipment multi-item & extended forms
+   ============================================================ */
+.shipment-form-section {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+}
+
+.shipment-form-section h4 {
+    font-size: 1rem;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.shipment-form-section h4 i {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+.shipment-field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.shipment-field-label input {
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.shipment-submit-btn {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 1rem;
+    margin-top: 6px;
+}
+
+.shipment-items-table-wrap {
+    overflow-x: auto;
+    margin-top: 6px;
+}
+
+.shipment-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.shipment-items-table th {
+    text-align: left;
+    padding: 10px 10px;
+    background: #f1f5f9;
+    font-size: 0.8rem;
+    color: #374151;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.shipment-items-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.shipment-items-table input {
+    width: 100%;
+    min-width: 90px;
+    padding: 7px 9px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.btn-add-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-add-item:hover {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn-remove-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #fef2f2;
+    color: #ef4444;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.btn-remove-item:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+.shipment-items-total {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.shipment-items-total span {
+    color: var(--primary-color);
+    font-weight: 700;
+}

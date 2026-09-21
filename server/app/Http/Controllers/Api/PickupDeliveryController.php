@@ -226,12 +226,6 @@ class PickupDeliveryController extends Controller
         ]);
     }
 
-    // Download Pickup & Delivery Receipt
-    public function downloadReceipt(Request $request, $id)
-    {
-        return $this->downloadInvoice($request, $id);
-    }
-
     // Download Pickup & Delivery Invoice
     public function downloadInvoice(Request $request, $id)
     {
@@ -263,9 +257,11 @@ class PickupDeliveryController extends Controller
             ]
         ];
 
-        return response()->view('invoices.pickup-delivery-invoice', [
+        $invoiceNumber = 'INV-' . strtoupper(substr(md5($pickupDelivery->request_id ?? $id), 0, 6));
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.pickup-delivery-invoice', [
             'pickup_delivery' => $pickupDelivery,
-            'invoice_number' => 'INV-' . strtoupper(substr(md5($pickupDelivery->request_id ?? $id), 0, 6)),
+            'invoice_number' => $invoiceNumber,
             'customer_name' => $pickupDelivery->name ?? ($pickupDelivery->user->name ?? 'Customer'),
             'invoice_date' => $pickupDelivery->created_at ? $pickupDelivery->created_at->format('d M Y') : date('d M Y'),
             'due_date' => $pickupDelivery->created_at ? $pickupDelivery->created_at->format('d M Y') : date('d M Y'),
@@ -274,9 +270,9 @@ class PickupDeliveryController extends Controller
             'bank_account_number' => \App\Models\Setting::get('bank_account_number', '0900779403'),
             'bank_account_name' => \App\Models\Setting::get('bank_account_name', 'Leezoe integrated'),
             'bank_name' => \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank.'),
-        ], 200, [
-            'Content-Type' => 'text/html; charset=UTF-8'
         ]);
+
+        return $pdf->download('Pickup-Delivery-Invoice-' . $invoiceNumber . '.pdf');
     }
 
     // Admin: Generate Invoice
@@ -285,12 +281,6 @@ class PickupDeliveryController extends Controller
         $pickupDelivery = PickupDelivery::with('user')->where(function($q) use ($id) {
             $q->where('id', $id)->orWhere('request_id', $id);
         })->firstOrFail();
-
-        if (empty($pickupDelivery->cost) || !is_numeric($pickupDelivery->cost) || (float)$pickupDelivery->cost <= 0) {
-            return response()->json([
-                'message' => 'Cannot generate invoice: Pickup & delivery cost (price) has not been set yet. Please edit details and set a price first.'
-            ], 422);
-        }
 
         $pickupDelivery->invoice_generated = true;
         $pickupDelivery->save();

@@ -86,25 +86,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/procurements', [ProcurementController::class, 'store']);
     Route::get('/procurements', [ProcurementController::class, 'index']);
     Route::get('/procurements/{id}', [ProcurementController::class, 'show']);
-    Route::get('/procurements/{id}/receipt', [ProcurementController::class, 'downloadReceipt']);
     Route::get('/procurements/{id}/invoice', [ProcurementController::class, 'downloadInvoice']);
     
     // User Shipments
+    Route::post('/shipments', [ShipmentController::class, 'userStore']);
+    Route::put('/shipments/{id}', [ShipmentController::class, 'userUpdate']);
     Route::get('/shipments', [ShipmentController::class, 'index']);
     Route::get('/shipments/stats', [ShipmentController::class, 'stats']);
-    Route::get('/shipments/{id}/receipt', [ShipmentController::class, 'downloadReceipt']);
 
     // User Pickup & Deliveries
     Route::get('/pickup-deliveries', [PickupDeliveryController::class, 'index']);
     Route::get('/pickup-deliveries/{id}', [PickupDeliveryController::class, 'show']);
     Route::get('/pickup-deliveries/{id}/invoice', [PickupDeliveryController::class, 'downloadInvoice']);
-    Route::get('/pickup-deliveries/{id}/receipt', [PickupDeliveryController::class, 'downloadInvoice']);
 
     // User Frozen Cargos
     Route::get('/frozen-cargos', [FrozenCargoController::class, 'index']);
     Route::get('/frozen-cargos/{id}', [FrozenCargoController::class, 'show']);
     Route::get('/frozen-cargos/{id}/invoice', [FrozenCargoController::class, 'downloadInvoice']);
-    Route::get('/frozen-cargos/{id}/receipt', [FrozenCargoController::class, 'downloadInvoice']);
 });
 
 

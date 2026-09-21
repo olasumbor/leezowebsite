@@ -17,11 +17,14 @@ class Shipment extends Model
         'status',
         'expected_delivery_date',
         'service',
+        'shipment_type',
         'weight',
         'packages',
         'shipped_date',
         'delivered_date',
         'recipient_name',
+        'recipient_email',
+        'recipient_phone',
         'recipient_location',
         'shipping_cost',
         'invoice_generated',
@@ -39,5 +42,10 @@ class Shipment extends Model
     public function events()
     {
         return $this->hasMany(ShipmentEvent::class)->orderBy('timestamp', 'desc');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(ShipmentItem::class);
     }
 }
