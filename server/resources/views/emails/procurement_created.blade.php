@@ -7,7 +7,7 @@
     
     <div class="info-box">
         <p><strong>Procurement ID:</strong> {{ $procurement->procurement_id ?? ('PR-' . $procurement->id) }}</p>
-        <p><strong>Details:</strong> {{ $procurement->details }}</p>
+        <p><strong>Items:</strong> {{ $procurement->items ? $procurement->items->count() : 0 }} item(s)</p>
         <p><strong>Status:</strong> <span class="status-badge pending">{{ strtoupper($procurement->status ?? 'PENDING') }}</span></p>
         <p><strong>Date Submitted:</strong> {{ $procurement->created_at ? $procurement->created_at->format('M d, Y') : date('M d, Y') }}</p>
     </div>

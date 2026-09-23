@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td><strong>${p.procurement_id || 'PROC-'+p.id}</strong></td>
                         <td>${p.user ? p.user.name : p.name}<br><small style="color: #6b7280;">${p.email}</small></td>
-                        <td>${p.details ? (p.details.length > 40 ? p.details.substring(0, 40)+'...' : p.details) : 'N/A'}</td>
+                        <td>${p.items && p.items.length ? p.items.length + (p.items.length === 1 ? ' item' : ' items') : 'N/A'}</td>
                         <td><span class="status-badge ${p.status}">${p.status ? p.status.toUpperCase() : 'PENDING'}</span></td>
                         <td>${new Date(p.created_at).toLocaleDateString()}</td>
                         <td>
@@ -292,17 +292,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('editProcurementId').value = p.id;
                 document.getElementById('procurementModalTitle').textContent = `Manage Procurement (${p.procurement_id || 'PROC-'+p.id})`;
                 document.getElementById('editProcStatus').value = p.status || 'pending';
-                document.getElementById('editProcSupplier').value = p.supplier || '';
-                document.getElementById('editProcCategory').value = p.category || '';
-                document.getElementById('editProcQuantity').value = p.quantity || '';
-                document.getElementById('editProcCost').value = p.cost || '';
-                document.getElementById('editProcLocation').value = p.location || '';
+                document.getElementById('editProcCustomer').textContent =
+                    [p.user ? p.user.name : p.name, p.email, p.phone].filter(Boolean).join(' | ') || '—';
                 document.getElementById('editProcRecipientLocation').value = p.recipient_location || '';
-                document.getElementById('editProcExpectedDate').value = p.expected_date || '';
-                document.getElementById('editProcDeliveredDate').value = p.delivered_date || '';
-                document.getElementById('editProcDetails').value = p.details || '';
+                document.getElementById('editProcRequestDate').value = p.request_date ? p.request_date.split('T')[0] : '';
+                document.getElementById('editProcExpectedDelivery').value = p.expected_delivery ? p.expected_delivery.split('T')[0] : '';
+                document.getElementById('editProcDeliveryDate').value = p.delivery_date ? p.delivery_date.split('T')[0] : '';
+                document.getElementById('editProcReceiptDate').value = p.receipt_date ? p.receipt_date.split('T')[0] : '';
 
+                // Load items into the form (modal is shown first so the
+                // visibility-aware container resolver picks the edit form,
+                // and the container id is passed explicitly as backup)
                 document.getElementById('procurementModal').style.display = 'flex';
+
+                const itemsContainer = document.getElementById('procurementItemsContainer');
+                if (itemsContainer) {
+                    itemsContainer.innerHTML = '';
+
+                    if (p.items && p.items.length > 0) {
+                        p.items.forEach((item, index) => {
+                            addProcurementItemRow(item, index, 'procurementItemsContainer');
+                        });
+                    } else {
+                        // Add at least one empty row
+                        addProcurementItemRow(null, 0, 'procurementItemsContainer');
+                    }
+                    calculateProcurementTotals('procurementItemsContainer');
+                }
+
+                // Update totals display
+                if (p.formatted_totals) {
+                    updateProcurementTotalsDisplay(p);
+                }
             }
         } catch (err) {
             console.error(err);
@@ -317,17 +338,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem("auth_token");
             const id = document.getElementById('editProcurementId').value;
 
+            // Get items from the edit-modal container explicitly so rows from
+            // the create form can never leak in
+            const items = getProcurementItemsFromForm('procurementItemsContainer');
+
+            // Pricing lives on the items (rate/cost/shipment fee/transportation);
+            // procurement-level supplier/category/quantity/cost/location are
+            // legacy fields and are no longer edited here.
             const payload = {
                 status: document.getElementById('editProcStatus').value,
-                supplier: document.getElementById('editProcSupplier').value,
-                category: document.getElementById('editProcCategory').value,
-                quantity: document.getElementById('editProcQuantity').value,
-                cost: document.getElementById('editProcCost').value,
-                location: document.getElementById('editProcLocation').value,
                 recipient_location: document.getElementById('editProcRecipientLocation').value,
-                expected_date: document.getElementById('editProcExpectedDate').value || null,
-                delivered_date: document.getElementById('editProcDeliveredDate').value || null,
+                // request_date is auto-set on creation and read-only here;
+                // it is intentionally not sent back to the server.
+                expected_delivery: document.getElementById('editProcExpectedDelivery').value || null,
+                delivery_date: document.getElementById('editProcDeliveryDate').value || null,
+                receipt_date: document.getElementById('editProcReceiptDate').value || null,
             };
+
+            // Add items if any exist
+            if (items.length > 0) {
+                payload.items = items;
+            }
 
             if (typeof setButtonLoading === 'function' && submitBtn) {
                 setButtonLoading(submitBtn, true, 'Saving...');
@@ -1177,6 +1208,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitBtn = createProcurementForm.querySelector("button[type='submit']") || createProcurementForm.querySelector("button");
             const token = localStorage.getItem("auth_token");
 
+            // Get items from the create-form container explicitly
+            const items = getProcurementItemsFromForm('createProcurementItemsContainer');
+
             if (typeof setButtonLoading === 'function' && submitBtn) {
                 setButtonLoading(submitBtn, true, 'Creating...');
             }
@@ -1193,7 +1227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         category: document.getElementById('procCategory').value,
                         quantity: document.getElementById('procQuantity').value,
                         cost: document.getElementById('procCostInput').value,
-                        details: document.getElementById('procDetails').value,
+                        items: items.length > 0 ? items : undefined,
                     })
                 });
                 if (response.ok) {

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\FrozenCargoCreatedMail;
 use App\Mail\FrozenCargoStatusUpdatedMail;
+use App\Support\Pdf;
 
 class FrozenCargoController extends Controller
 {
@@ -281,7 +282,7 @@ class FrozenCargoController extends Controller
 
         $invoiceNumber = $frozenCargo->request_id ?? (string) $id;
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.frozen-cargo-invoice', [
+        $pdf = Pdf::loadView('invoices.frozen-cargo-invoice', [
             'frozen_cargo' => $frozenCargo,
             'invoice_number' => $invoiceNumber,
             'customer_name' => $frozenCargo->name ?? ($frozenCargo->user->name ?? 'Customer'),

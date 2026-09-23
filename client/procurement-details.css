@@ -168,6 +168,84 @@
 
 
 /* ==========================================
+   ITEMS BREAKDOWN TABLE
+========================================== */
+
+.proc-items-section {
+    margin-top: 25px;
+    border-top: 1px solid #e1e8ed;
+    padding-top: 20px;
+}
+
+.proc-items-title {
+    margin: 0 0 8px;
+    color: #1f2937;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.proc-items-note {
+    margin: 0 0 15px;
+    font-size: 0.82rem;
+    color: #6b7280;
+}
+
+.proc-items-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.proc-items-table {
+    font-size: 0.85rem;
+    min-width: 880px;
+}
+
+.proc-items-table th.num,
+.proc-items-table td.num {
+    text-align: center;
+    white-space: nowrap;
+}
+
+.proc-items-table th.numeric,
+.proc-items-table td.numeric {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.proc-items-table td.empty {
+    text-align: center;
+    color: #6b7280;
+    white-space: normal;
+}
+
+.proc-items-table tfoot td {
+    padding: 12px 18px;
+    border-top: 1px solid var(--dash-card-border, #e2e8f0);
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+.proc-items-table .totals-row td {
+    background: #f9fafb;
+    font-weight: 600;
+}
+
+.proc-items-table .grand-row td {
+    background: #fef3c7;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.proc-items-table td.label {
+    padding-right: 15px;
+}
+
+.proc-items-table td.grand {
+    color: #10b981;
+}
+
+
+/* ==========================================
    TABLET — 992px
 ========================================== */
 

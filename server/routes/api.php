@@ -119,7 +119,9 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/procurements', [ProcurementController::class, 'adminIndex']);
     Route::post('/procurements', [ProcurementController::class, 'adminStore']);
     Route::get('/procurements/{id}', [ProcurementController::class, 'adminShow']);
+    Route::get('/procurements/{id}/with-items', [ProcurementController::class, 'adminShow']);
     Route::put('/procurements/{id}', [ProcurementController::class, 'adminUpdate']);
+    Route::put('/procurements/{id}/items', [ProcurementController::class, 'updateItems']);
     Route::put('/procurements/{id}/status', [ProcurementController::class, 'updateStatus']);
     Route::post('/procurements/{id}/generate-invoice', [ProcurementController::class, 'generateInvoice']);
     

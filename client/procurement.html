@@ -43,6 +43,111 @@
   <link rel="stylesheet" href="style.css">
 
   <link rel=stylesheet href=toast.css>
+
+  <style>
+    /* Procurement request: multi-item form */
+    .proc-form-section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dash-navy, #0b1a53);
+      margin: 0 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--dash-card-border, #e2e8f0);
+    }
+
+    .proc-section {
+      margin-bottom: 28px;
+    }
+
+    .proc-items-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .proc-items-head .proc-form-section-title {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .proc-items-hint {
+      font-size: 12.5px;
+      color: var(--dash-text-muted, #64748b);
+      margin: 0 0 14px;
+      line-height: 1.5;
+    }
+
+    .proc-items-table td {
+      padding: 8px 10px;
+    }
+
+    .proc-items-table th {
+      padding: 10px 12px;
+    }
+
+    .proc-items-table input {
+      width: 100%;
+      min-width: 105px;
+      padding: 8px 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      color: var(--dash-text-dark, #1e293b);
+      border: 1px solid var(--dash-card-border, #e2e8f0);
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .proc-items-table input:focus {
+      border-color: var(--dash-primary, #15803d);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+    }
+
+    .proc-items-table input.proc-item-desc {
+      min-width: 180px;
+    }
+
+    .proc-item-remove {
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .proc-item-remove:hover {
+      background-color: #fee2e2;
+    }
+
+    /* Read-only pricing note */
+    .proc-costs-note {
+      background-color: #f1f5f9;
+      border-left: 3px solid var(--dash-primary, #15803d);
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin: 0 0 14px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--dash-text-muted, #64748b);
+    }
+
+    .proc-costs-note strong {
+      color: var(--dash-text-dark, #1e293b);
+    }
+
+    @media (max-width: 576px) {
+      .proc-items-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 
 <body class="dash-body">
@@ -76,7 +181,7 @@
     </div>
   </header>
 
-  <main class="dash-page-wrapper" style="max-width: 800px;">
+  <main class="dash-page-wrapper" style="max-width: 1100px;">
     <a href="dashboard.html" class="dash-back-link">
       <span>← Back to Dashboard</span>
     </a>
@@ -93,28 +198,68 @@
 
     <div class="dash-card">
       <form class="dash-form" id="procurementForm">
-        <div class="dash-form-grid">
-          <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+        <!-- CUSTOMER DETAILS -->
+        <div class="proc-section">
+          <h3 class="proc-form-section-title">Your Details</h3>
+          <div class="dash-form-grid">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
           </div>
 
           <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+        <!-- SCHEDULE -->
+        <div class="proc-section">
+          <h3 class="proc-form-section-title">Schedule</h3>
+          <div class="dash-form-grid">
+            <div class="form-group">
+              <label for="expected_delivery">Expected Delivery</label>
+              <input type="date" id="expected_delivery" name="expected_delivery">
+            </div>
+          </div>
+          <p class="proc-items-hint">Delivery and receipt dates are completed by our team once your items are
+            shipped and received.</p>
         </div>
 
-        <div class="form-group">
-          <label for="details">Procurement Item Details</label>
-          <textarea id="details" name="details"
-            placeholder="List all the food items, products, quantity, or specific brand preferences you want us to procure..."
-            required></textarea>
+        <!-- ITEMS -->
+        <div class="proc-section">
+          <div class="proc-items-head">
+            <h3 class="proc-form-section-title">Procurement Items</h3>
+            <button type="button" class="dash-action-btn-outline dash-action-btn" id="addProcItemBtn">
+              <span>+ Add Item</span>
+            </button>
+          </div>
+          <p class="proc-items-hint">Add every item you want us to procure. Item description is required; quantity and
+            weight help us plan the shipment.</p>
+          <div class="dash-table-wrapper">
+            <table class="dash-table proc-items-table">
+              <thead>
+                <tr>
+                  <th>Item Description *</th>
+                  <th>Category</th>
+                  <th>Supplier</th>
+                  <th>Qty</th>
+                  <th>Weight (kg)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="procItemsBody">
+                <!-- item rows are injected by procurement.js -->
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <button type="submit" class="dash-action-btn"

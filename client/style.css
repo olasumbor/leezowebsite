@@ -5992,6 +5992,12 @@ body.dash-body {
     background-color: var(--dash-primary-hover);
 }
 
+.dash-action-btn:disabled {
+    background-color: #cbd5e1;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .dash-action-btn-outline {
     background-color: transparent;
     color: var(--dash-primary);

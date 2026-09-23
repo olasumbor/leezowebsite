@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\PickupDeliveryCreatedMail;
 use App\Mail\PickupDeliveryStatusUpdatedMail;
+use App\Support\Pdf;
 
 class PickupDeliveryController extends Controller
 {
@@ -259,7 +260,7 @@ class PickupDeliveryController extends Controller
 
         $invoiceNumber = 'INV-' . strtoupper(substr(md5($pickupDelivery->request_id ?? $id), 0, 6));
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.pickup-delivery-invoice', [
+        $pdf = Pdf::loadView('invoices.pickup-delivery-invoice', [
             'pickup_delivery' => $pickupDelivery,
             'invoice_number' => $invoiceNumber,
             'customer_name' => $pickupDelivery->name ?? ($pickupDelivery->user->name ?? 'Customer'),

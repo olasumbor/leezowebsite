@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 12mm 14mm;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 45px 40px;
+            padding: 0;
+            font-family: DejaVu Sans, Arial, sans-serif;
+            font-size: 8px;
+            color: #18243a;
+        }
+
+        .receipt {
+            width: 100%;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .header td {
+            vertical-align: middle;
+        }
+
+        .logo-cell {
+            width: 28%;
+        }
+
+        .logo {
+            width: 150px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .title-cell {
+            width: 44%;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .reference-cell {
+            width: 28%;
+            text-align: right;
+            vertical-align: top !important;
+        }
+
+        .reference {
+            color: #006f3c;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .reference-status {
+            color: #f28c00;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* ================= COMPANY INFO ================= */
+
+        .company-info {
+            border: 1px solid #bdcce0;
+            padding: 7px 10px;
+            line-height: 11px;
+            margin-bottom: 8px;
+        }
+
+        .date {
+            float: right;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        /* ================= DETAILS ================= */
+
+        .details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 7px;
+        }
+
+        .details td {
+            border: 1px solid #bdcce0;
+            height: 62px;
+            vertical-align: top;
+            padding: 7px;
+        }
+
+        .details-left {
+            width: 50%;
+            text-align: center;
+        }
+
+        .details-right {
+            width: 50%;
+            text-align: center;
+        }
+
+        .details-title {
+            font-size: 8px;
+            margin-bottom: 8px;
+        }
+
+        .details-content {
+            line-height: 10px;
+        }
+
+        /* ================= ITEMS TABLE ================= */
+
+        .items {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .items th {
+            background: #00a64f;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 7px 6px;
+            text-align: left;
+            font-size: 7.5px;
+            font-weight: bold;
+            height: 32px;
+        }
+
+        .items td {
+            border: 1px solid #bdcce0;
+            padding: 6px;
+            height: 36px;
+            vertical-align: middle;
+            font-size: 7.5px;
+        }
+
+        .items .description {
+            font-weight: bold;
+        }
+
+        .items .category,
+        .items .supplier {
+            line-height: 9px;
+        }
+
+        /* Column widths */
+        .col-description {
+            width: 15.5%;
+        }
+
+        .col-category {
+            width: 11%;
+        }
+
+        .col-supplier {
+            width: 12.5%;
+        }
+
+        .col-quantity {
+            width: 9.5%;
+        }
+
+        .col-weight {
+            width: 9.5%;
+        }
+
+        .col-rate {
+            width: 9.5%;
+        }
+
+        .col-cost {
+            width: 10%;
+        }
+
+        .col-shipment {
+            width: 10%;
+        }
+
+        .col-transport {
+            width: 9.5%;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+        }
+
+        .footer td {
+            vertical-align: top;
+        }
+
+        .terms {
+            width: 45%;
+            padding-right: 15px;
+        }
+
+        .bank {
+            width: 28%;
+            padding-right: 10px;
+        }
+
+        .summary {
+            width: 27%;
+        }
+
+        .footer-title {
+            font-size: 8px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .footer-text {
+            font-size: 7.5px;
+            line-height: 9px;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #edf4fd;
+        }
+
+        .summary-table td {
+            
+            padding: 6px 8px;
+            font-size: 8px;
+            height: 28px;
+        }
+
+        .summary-label {
+            font-weight: bold;
+            width: 58%;
+        }
+
+        .summary-value {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .total-row td {
+            border-top: 1px solid #bdcce0;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        /* ================= SIGNATURE ================= */
+
+        .signature {
+            width: 100%;
+            text-align: right;
+            margin-top: 50px;
+            padding-right: 8px;
+            font-weight: bold;
+            font-size: 9px;
+        }
+
+        .signature-line {
+            width: 130px;
+            border-top: 1px solid #18243a;
+            margin: 0 0 4px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="receipt">
+
+        <!-- HEADER -->
+        <table class="header">
+            <tr>
+                <td class="logo-cell">
+                    <!-- Replace with your actual logo -->
+                    <img src="LOGO_PLACEHOLDER.png" class="logo" alt="Logo">
+                </td>
+
+                <td class="title-cell">
+                    <div class="title">PROCUREMENT RECEIPT</div>
+                </td>
+
+                <td class="reference-cell">
+                    <div class="reference">PR56888602</div>
+                    <div class="reference-status">PROCESSING</div>
+                </td>
+            </tr>
+        </table>
+
+
+        <!-- COMPANY INFORMATION -->
+        <div class="company-info">
+            <span>
+                LEEZFOOD NG. EXPORT &amp; LOGISTICS<br>
+                Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria<br>
+                Email: leezo.integratedserviceslimited@gmail.com
+            </span>
+
+            <span class="date">
+                DATE: September 11, 2026
+            </span>
+        </div>
+
+
+        <!-- CUSTOMER / PROCUREMENT DETAILS -->
+        <table class="details">
+            <tr>
+
+                <td class="details-left">
+                    <div class="details-title">CUSTOMER DETAILS</div>
+
+                    <div class="details-content">
+                        Name: jacob dunga<br>
+                        Email: nasirb4isunes@gmail.com<br>
+                        Phone: 09007777888
+                    </div>
+                </td>
+
+                <td class="details-right">
+                    <div class="details-title">PROCUREMENT SCHEDULE</div>
+
+                    <div class="details-content">
+                        Request Date: Sep 10, 2026<br>
+                        Expected Delivery: Sep 12, 2026<br>
+                        Delivered Date: —<br>
+                        Receipt Date: Sep 11, 2026
+                    </div>
+                </td>
+
+            </tr>
+        </table>
+
+
+        <!-- PROCUREMENT ITEMS -->
+        <table class="items">
+
+            <thead>
+                <tr>
+                    <th class="col-description">ITEM DESCRIPTION</th>
+                    <th class="col-category">CATEGORY</th>
+                    <th class="col-supplier">SUPPLIER</th>
+                    <th class="col-quantity">QUANTITY</th>
+                    <th class="col-weight">WEIGHT (KG)</th>
+                    <th class="col-rate">RATE</th>
+                    <th class="col-cost">COST</th>
+                    <th class="col-shipment">SHIPMENT FEE</th>
+                    <th class="col-transport">TRANSPORTATION</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td class="description">Egusi</td>
+                    <td class="category">
+                        General<br>
+                        Procurement
+                    </td>
+                    <td class="supplier">
+                        Leezo<br>
+                        Packaging
+                    </td>
+                    <td>3 bags</td>
+                    <td></td>
+                    <td>₦5,000</td>
+                    <td>₦15,000</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="description">Sardines</td>
+                    <td class="category">
+                        General<br>
+                        Procurement
+                    </td>
+                    <td class="supplier">
+                        Leezo<br>
+                        Packaging
+                    </td>
+                    <td>10 cartons</td>
+                    <td></td>
+                    <td>₦80,000</td>
+                    <td>₦800,000</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="description">Ijebu Garri</td>
+                    <td class="category">
+                        General<br>
+                        Procurement
+                    </td>
+                    <td class="supplier">
+                        Leezo<br>
+                        Packaging
+                    </td>
+                    <td>12 bags</td>
+                    <td></td>
+                    <td>₦40,000</td>
+                    <td>₦480,000</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="description">Milo</td>
+                    <td class="category">
+                        General<br>
+                        Procurement
+                    </td>
+                    <td class="supplier">
+                        Leezo<br>
+                        Packaging
+                    </td>
+                    <td>20 cartons</td>
+                    <td></td>
+                    <td>₦60,000</td>
+                    <td>₦1,200,000</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="description">Cartons</td>
+                    <td></td>
+                    <td></td>
+                    <td>15</td>
+                    <td></td>
+                    <td>₦3,000</td>
+                    <td>₦45,000</td>
+                    <td>—</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="description">Shipment</td>
+                    <td>Logistics</td>
+                    <td class="supplier">
+                        Leezo<br>
+                        Packaging
+                    </td>
+                    <td></td>
+                    <td>6 kg</td>
+                    <td>₦100,000</td>
+                    <td>—</td>
+                    <td>₦600,000</td>
+                    <td>—</td>
+                </tr>
+
+                <tr>
+                    <td class="description">Transportation</td>
+                    <td>Logistics</td>
+                    <td class="supplier">
+                        Leezo<br>
+                        Packaging
+                    </td>
+                    <td>1</td>
+                    <td></td>
+                    <td>₦50,000</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>₦50,000</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+        <!-- FOOTER -->
+        <table class="footer">
+            <tr>
+
+                <!-- TERMS -->
+                <td class="terms">
+                    <div class="footer-title">TERMS &amp; CONDITIONS</div>
+
+                    <div class="footer-text">
+                        The border service agency of any county maintains the right
+                        to open and inspect any package from shipment.
+                        LEEZFOOD NG. EXPORT is not responsible for any item
+                        removed, opened, or qualified unit. We are not responsible
+                        for any delay in transit and it is beyond our control.
+                    </div>
+                </td>
+
+
+                <!-- BANK DETAILS -->
+                <td class="bank">
+                    <div class="footer-title">COMPANY BANK DETAILS</div>
+
+                    <div class="footer-text">
+                        Bank: Guaranty Trust Bank<br>
+                        Account Name: Leezo integrated<br>
+                        Account Number: 0900779403
+                    </div>
+                </td>
+
+
+                <!-- PAYMENT SUMMARY -->
+                <td class="summary">
+
+                    <table class="summary-table">
+
+                        <tr>
+                            <td class="summary-label">
+                                PROCUREMENT COST
+                            </td>
+
+                            <td class="summary-value">
+                                ₦2,540,000.00
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="summary-label">
+                                SHIPMENT FEE
+                            </td>
+
+                            <td class="summary-value">
+                                ₦600,000.00
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="summary-label">
+                                TRANSPORTATION
+                            </td>
+
+                            <td class="summary-value">
+                                ₦50,000.00
+                            </td>
+                        </tr>
+
+                        <tr class="total-row">
+                            <td class="summary-label">
+                                TOTAL PAYMENT
+                            </td>
+
+                            <td class="summary-value">
+                                ₦3,190,000.00
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </td>
+
+            </tr>
+        </table>
+
+
+        <!-- SIGNATURE -->
+        <div class="signature">
+            <div class="signature-line"></div>
+            Signed by Management
+        </div>
+
+    </div>
+
+</body>
+
+</html>

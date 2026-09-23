@@ -2,238 +2,232 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procurement Invoice {{ $invoice_number ?? 'INV-000017' }}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --accent:#d97706;
-            --accent-dark:#92400e;
-            --accent-light:#fffbeb;
-            --accent-soft:#fef3c7;
-            --text-dark: #111827;
-            --text-muted: #6b7280;
-            --text-light: #9ca3af;
-            --border-gray: #e5e7eb;
-        }
+        @page { size: A4 landscape; margin: 12mm 19.5mm; }
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: DejaVu Sans, Arial, sans-serif; font-size: 9px; color: #18243a; }
+        .receipt { width: 100%; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #f3f4f6;
-            color: var(--text-dark);
-            line-height: 1.5;
-            padding: 2rem 1rem;
-        }
-        .no-print-bar {
-            max-width: 800px; margin: 0 auto 1.5rem auto;
-            display: flex; justify-content: space-between; align-items: center;
-            background: #ffffff; padding: 1rem 1.5rem; border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-        .btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.6rem 1.25rem; font-size: 0.9rem; font-weight: 600;
-            border-radius: 8px; cursor: pointer; border: none;
-        }
-        .btn-primary { background-color: var(--accent); color: #ffffff; }
-        .btn-primary:hover { background-color: var(--accent-dark); }
-        .btn-secondary { background-color: #e5e7eb; color: #374151; }
+        /* ---------- Header ---------- */
+        .header { width: 100%; border-collapse: collapse; margin-bottom: 7px; }
+        .header td { vertical-align: middle; padding: 0; }
+        .logo-cell { width: 32%; }
+        .logo { width: 180px; height: auto; }
+        .title-cell { width: 50%; text-align: center; }
+        .title { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .reference-cell { width: 18%; text-align: right; vertical-align: top !important; }
+        .reference { color: #2c6fd8; font-size: 12px; font-weight: bold; }
+        .reference-status { color: #f28c00; font-size: 12px; font-weight: bold; }
 
-        .invoice-card {
-            max-width: 800px; margin: 0 auto; background: #ffffff; border-radius: 0;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); position: relative; overflow: hidden;
-        }
-        .top-banner {
-            background: var(--accent); color: #ffffff; padding: 1.5rem 2.5rem;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .brand-section { display: flex; align-items: center; gap: 0.75rem; }
-        .banner-title { font-size: 1.6rem; font-weight: 800; letter-spacing: 0.03em; color: #ffffff; }
-        .banner-inv-num { font-size: 0.85rem; color: var(--accent-soft); margin-top: 0.15rem; }
-        .banner-company-details { text-align: right; font-size: 0.75rem; color: var(--accent-soft); line-height: 1.4; }
+        /* ---------- Company box + date ---------- */
+        .company-info { border: 1px solid #bdcce0; background: #f4f7fb; padding: 5px 10px 3px 10px; font-size: 9px; line-height: 11px; }
+        .date { text-align: right; font-weight: bold; font-size: 10px; line-height: 11px; margin: 6px 0 3px 0; }
 
-        .invoice-body { padding: 2.5rem; }
-        .top-summary-bar {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            margin-bottom: 1.75rem; padding-bottom: 1.25rem;
-        }
-        .customer-name { font-size: 1.35rem; font-weight: 800; color: var(--text-dark); }
-        .balance-due-top { text-align: right; }
-        .balance-due-label { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
-        .balance-due-amount { font-size: 1.3rem; font-weight: 800; color: var(--accent); }
+        /* ---------- Customer / schedule ---------- */
+        .details { width: 100%; border-collapse: collapse; margin-bottom: 7px; }
+        .details td { width: 50%; border: 1px solid #bdcce0; vertical-align: middle; text-align: center; padding: 7px; }
+        .details-left { width: 50%; }
+        .details-right { width: 50%; }
+        .details-title { font-size: 10px; line-height: 11px; margin-bottom: 10px; }
+        .details-content { font-size: 10px; line-height: 11px; }
 
-        .details-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem 2.5rem;
-            background: var(--accent-light); border: 1px solid var(--accent-soft);
-            border-radius: 10px; padding: 1.1rem 1.25rem; margin-bottom: 1.75rem;
-        }
-        .details-item .dl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
-        .details-item .dv { font-weight: 600; color: var(--text-dark); font-size: 0.92rem; }
+        /* ---------- Items table ---------- */
+        .items { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .items th { background: #00a64f; color: #ffffff; border: 1px solid #ffffff; padding: 7px 6px; text-align: left; vertical-align: middle; font-size: 8.5px; font-weight: bold; }
+        .items td { border: 1px solid #bdcce0; padding: 8px 6px; height: 22px; vertical-align: middle; font-size: 9px; line-height: 11px; }
+        .items .description { font-weight: bold; }
+        .items .category, .items .supplier { line-height: 11px; }
+        .col-description { width: 15.3%; }
+        .col-category { width: 11.3%; }
+        .col-supplier { width: 12.6%; }
+        .col-quantity { width: 9.6%; }
+        .col-weight { width: 10.5%; }
+        .col-rate { width: 10%; }
+        .col-cost { width: 10.9%; }
+        .col-shipment { width: 10.6%; }
+        .col-transport { width: 8.5%; }
 
-        .meta-grid { display: flex; justify-content: flex-end; gap: 2rem; margin-bottom: 2.5rem; font-size: 0.85rem; }
-        .meta-table { border-collapse: collapse; }
-        .meta-table td { padding: 0.2rem 0.5rem; }
-        .meta-label { color: var(--text-muted); text-align: right; }
-        .meta-value { font-weight: 600; color: var(--text-dark); text-align: right; }
+        /* ---------- Footer ---------- */
+        .footer { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .footer td { vertical-align: top; border-top: 1px solid #bdcce0; padding-top: 8px; }
+        .terms { width: 43.3%; padding-right: 8px !important; }
+        .bank { width: 27.8%; padding-right: 10px !important; }
+        .summary { width: 28.9%; }
+        .footer-title { font-size: 9px; font-weight: normal; line-height: 10.4px; margin: 0; }
+        .footer-text { font-size: 9px; line-height: 10.4px; }
+        .summary-table { width: 100%; border-collapse: collapse; background: #edf4fd; border: 1px solid #5b9be6; }
+        .summary-table td { padding: 6px 8px; font-size: 9px; border-top: none; }
+        .summary-label { font-weight: bold; width: 58%; }
+        .summary-value { text-align: right; font-weight: bold; }
+        .total-row td { padding: 9px 8px; border-top: 1px solid #5b9be6; font-size: 10px; font-weight: bold; }
 
-        .items-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; }
-        .items-table th {
-            color: var(--accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.05em; padding: 0.75rem 0.5rem; border-bottom: 1.5px solid var(--border-gray); text-align: left;
-        }
-        .items-table th.col-num { width: 40px; }
-        .items-table th.col-amount { text-align: right; }
-        .items-table td { padding: 1.25rem 0.5rem; border-bottom: 1px solid var(--border-gray); vertical-align: top; font-size: 0.9rem; }
-        .item-title { font-weight: 600; color: var(--text-dark); }
-        .item-subtext { font-size: 0.75rem; color: var(--text-light); margin-top: 0.25rem; }
-        .amount-cell { text-align: right; font-weight: 700; color: var(--text-dark); }
-        .bottom-financials { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem; gap: 2rem; }
-        .payment-box { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; max-width: 380px; }
-        .payment-box strong { color: var(--text-dark); }
-        .totals-block { width: 320px; font-size: 0.88rem; }
-        .totals-row { display: flex; justify-content: space-between; padding: 0.4rem 0; color: var(--text-dark); }
-        .totals-row.subtotal { color: var(--text-muted); }
-        .totals-row.total-bold { font-weight: 800; font-size: 0.95rem; }
-        .balance-due-highlight {
-            background-color: var(--accent-light); padding: 0.75rem 1rem; border-radius: 6px;
-            display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;
-            color: var(--accent); font-weight: 800; font-size: 1.05rem;
-        }
-
-        .terms-section { border-top: 1px solid var(--border-gray); padding-top: 1.5rem; margin-bottom: 2.5rem; }
-        .terms-title { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; }
-        .terms-text { font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
-
-        @media print {
-            body { background: #ffffff; padding: 0; }
-            .no-print-bar { display: none !important; }
-            .invoice-card { box-shadow: none; max-width: 100%; }
-        }
+        /* ---------- Signature ---------- */
+        .signature { width: 100%; text-align: right; margin-top: 26px; padding-right: 8px; font-weight: bold; font-size: 10px; }
     </style>
 </head>
 <body>
-
-    <div class="no-print-bar">
-        <div>
-            <strong style="font-size: 0.95rem; color: #111827;">Procurement Invoice - {{ $invoice_number ?? 'INV-000017' }}</strong>
-            <p style="font-size: 0.8rem; color: #6b7280;">Ready to print or save as PDF document</p>
+    <div class="receipt">
+        <table class="header">
+            <tr>
+                <td class="logo-cell">
+@php
+$logoPath = public_path('logo-leezo.NG.png');
+$logoSrc = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : 'logo-leezo.NG.png';
+@endphp
+                    <img src="{{ $logoSrc }}" class="logo" alt="Logo">
+                </td>
+                <td class="title-cell">
+                    <div class="title">PROCUREMENT RECEIPT</div>
+                </td>
+                <td class="reference-cell">
+                    <div class="reference">{{ $procurement->procurement_id ?? '' }}</div>
+                    <div class="reference-status">{{ strtoupper($procurement->status ?? 'PROCESSING') }}</div>
+                </td>
+            </tr>
+        </table>
+        <div class="company-info">
+            LEEZFOOD NG. EXPORT &amp; LOGISTICS<br>
+            Shop 8, Kingscourt Estate, Shasha Akowonjo, Lagos, Nigeria<br>
+            Email: leezo.integratedserviceslimited@gmail.com
         </div>
-        <div style="display: flex; gap: 0.5rem;">
-            <button onclick="window.print()" class="btn btn-primary">Print / Save PDF</button>
-            <button onclick="window.close()" class="btn btn-secondary">Close</button>
+        <div class="date">
+            DATE: {{ $procurement->receipt_date ? \Carbon\Carbon::parse($procurement->receipt_date)->format('F d, Y') : ($procurement->created_at ? \Carbon\Carbon::parse($procurement->created_at)->format('F d, Y') : date('F d, Y')) }}
         </div>
-    </div>
-
-    <div class="invoice-card">
-        <div class="top-banner">
-            <div class="brand-section">
-                @php
-                    $logoPath = public_path('logo-leezo.NG.png');
-                    $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath)) : '/logo-leezo.NG.png';
-                @endphp
-                <img src="{{ $logoSrc }}" alt="Leezofood Logo" style="max-height: 52px; width: auto; background: #ffffff; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
-            </div>
-
-            <div style="text-align: center;">
-                <div class="banner-title">PROCUREMENT INVOICE</div>
-                <div class="banner-inv-num">{{ $invoice_number ?? 'INV-000017' }}</div>
-            </div>
-
-            <div class="banner-company-details">
-                <div>Shop 8, Kingscourt Estate</div>
-                <div>Shasha Akowonjo, Lagos, Nigeria</div>
-                <div>leezointegratedserviceslimited@gmail.com</div>
-            </div>
-        </div>
-
-        <div class="invoice-body">
-            <div class="top-summary-bar">
-                <div class="customer-name">{{ $customer_name ?? 'Valued Customer' }}</div>
-                <div class="balance-due-top">
-                    <div class="balance-due-label">Balance Due</div>
-                    <div class="balance-due-amount">NGN{{ number_format($total_amount ?? 0, 2) }}</div>
-                </div>
-            </div>
-
-            <div class="details-grid">
-                <div class="details-item"><div class="dl">Procurement ID</div><div class="dv">{{ $procurement->procurement_id ?? 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Category</div><div class="dv">{{ $procurement->category ?? 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Quantity</div><div class="dv">{{ $procurement->quantity ?? 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Supplier</div><div class="dv">{{ $procurement->supplier ?? 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Location</div><div class="dv">{{ $procurement->location ?? 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Recipient Location</div><div class="dv">{{ $procurement->recipient_location ?? 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Expected Date</div><div class="dv">{{ $procurement->expected_date ? \Carbon\Carbon::parse($procurement->expected_date)->format('d M Y') : 'N/A' }}</div></div>
-                <div class="details-item"><div class="dl">Details</div><div class="dv">{{ $procurement->details ?? 'N/A' }}</div></div>
-            </div>
-
-            <div class="meta-grid">
-                <table class="meta-table">
-                    <tr><td class="meta-label">Invoice#</td><td class="meta-value">{{ $invoice_number ?? 'INV-000017' }}</td></tr>
-                    <tr><td class="meta-label">Invoice Date</td><td class="meta-value">{{ $invoice_date ?? date('d M Y') }}</td></tr>
-                    <tr><td class="meta-label">Terms</td><td class="meta-value">Due on Receipt</td></tr>
-                    <tr><td class="meta-label">Due Date</td><td class="meta-value">{{ $due_date ?? date('d M Y') }}</td></tr>
-                </table>
-            </div>
-
-            <table class="items-table">
-                <thead>
-                    <tr>
-                        <th class="col-num">#</th>
-                        <th>Item & Description</th>
-                        <th class="col-amount">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($items as $index => $item)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td><div class="item-title">{{ $item['name'] }}</div></td>
-                        <td class="amount-cell">
-                            <div>NGN{{ number_format($item['amount'], 2) }}</div>
-                            @if(isset($item['subtext']))
-                            <div class="item-subtext">{{ $item['subtext'] }}</div>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            @php
-                $bankAccountNumber = $bank_account_number ?? \App\Models\Setting::get('bank_account_number', '0900779403');
-                $bankAccountName = $bank_account_name ?? \App\Models\Setting::get('bank_account_name', 'Leezoe integrated');
-                $bankName = $bank_name ?? \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank.');
-            @endphp
-            <div class="bottom-financials">
-                <div>
-                    <div class="payment-box">
-                        <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem;">Payment Details</div>
-                        <div style="margin-bottom: 0.75rem;">Thanks for your business. Please make your payment using the details below:</div>
-                        <div style="display: grid; gap: 6px; font-size: 0.85rem; background: #f8fafc; padding: 12px 14px; border-radius: 6px; border: 1px solid var(--border-gray);">
-                            <div><span style="color: var(--text-muted); font-weight: 500;">Bank Name:</span> <strong>{{ $bankName }}</strong></div>
-                            <div><span style="color: var(--text-muted); font-weight: 500;">Account Name:</span> <strong>{{ $bankAccountName }}</strong></div>
-                            <div><span style="color: var(--text-muted); font-weight: 500;">Account Number:</span> <strong>{{ $bankAccountNumber }}</strong></div>
-                        </div>
+        <table class="details">
+            <tr>
+                <td class="details-left">
+                    <div class="details-title">CUSTOMER DETAILS</div>
+                    <div class="details-content">
+                        Name: {{ $procurement->name ?? '' }}<br>
+                        Email: {{ $procurement->email ?? '' }}<br>
+                        Phone: {{ $procurement->phone ?? '' }}
                     </div>
-                </div>
-                <div class="totals-block">
-                    <div class="totals-row subtotal"><span>Sub Total</span><span>{{ number_format($total_amount ?? 0, 2) }}</span></div>
-                    <div class="totals-row total-bold"><span>Total</span><span>NGN{{ number_format($total_amount ?? 0, 2) }}</span></div>
-                    <div class="balance-due-highlight"><span>Balance Due</span><span>NGN{{ number_format($total_amount ?? 0, 2) }}</span></div>
-                </div>
-            </div>
-
-            <div class="terms-section">
-                <div class="terms-title">Terms & Conditions</div>
-                <div class="terms-text">
-                    The border service agency of any country maintains the right to open and inspect any package from this shipment. LEEZOFOODNG. EXPORT is not responsible for any item removed, opened, or qualified unfit. We are not responsible for any delay in transit and it is beyond our control.
-                </div>
-            </div>
+                </td>
+                <td class="details-right">
+                    <div class="details-title">PROCUREMENT SCHEDULE</div>
+                    <div class="details-content">
+                        Request Date: {{ $procurement->request_date ? \Carbon\Carbon::parse($procurement->request_date)->format('M d, Y') : '—' }}<br>
+                        Expected Delivery: {{ $procurement->expected_delivery ? \Carbon\Carbon::parse($procurement->expected_delivery)->format('M d, Y') : '—' }}<br>
+                        Delivered Date: {{ $procurement->delivery_date ? \Carbon\Carbon::parse($procurement->delivery_date)->format('M d, Y') : '—' }}<br>
+                        Receipt Date: {{ $procurement->receipt_date ? \Carbon\Carbon::parse($procurement->receipt_date)->format('M d, Y') : '—' }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table class="items">
+            <thead>
+                <tr>
+                    <th class="col-description">ITEM DESCRIPTION</th>
+                    <th class="col-category">CATEGORY</th>
+                    <th class="col-supplier">SUPPLIER</th>
+                    <th class="col-quantity">QUANTITY</th>
+                    <th class="col-weight">WEIGHT (KG)</th>
+                    <th class="col-rate">RATE</th>
+                    <th class="col-cost">COST</th>
+                    <th class="col-shipment">SHIPMENT FEE</th>
+                    <th class="col-transport">TRANSPORTATION</th>
+                </tr>
+            </thead>
+            <tbody>
+@foreach($procurement->items ?? [] as $item)
+@php
+$cat = trim($item->category ?? '');
+$catParts = $cat !== '' ? preg_split('/\s+/', $cat, 2) : [];
+$sup = trim($item->supplier ?? '');
+$supParts = $sup !== '' ? preg_split('/\s+/', $sup, 2) : [];
+$qtyRaw = $item->quantity ?? null;
+$qtyStr = '';
+if ($qtyRaw !== null && $qtyRaw !== '') { $qtyStr = (string)(int)$qtyRaw; }
+$weightRaw = $item->weight ?? null;
+$weightStr = '';
+if ($weightRaw !== null && $weightRaw !== '') { $weightStr = rtrim(rtrim(number_format((float)$weightRaw, 2, '.', ''), '0'), '.') . ' kg'; }
+$rateRaw = $item->rate ?? null;
+$rateStr = '—';
+if ($rateRaw !== null && $rateRaw !== '' && (float)$rateRaw != 0) { $rateStr = '₦' . number_format((float)$rateRaw); }
+$costRaw = $item->cost ?? null;
+if (($costRaw === null || $costRaw === '') && $qtyRaw !== null && $qtyRaw !== '' && $rateRaw !== null && $rateRaw !== '') { $costRaw = (float)$qtyRaw * (float)$rateRaw; }
+$costStr = '—';
+if ($costRaw !== null && $costRaw !== '' && (float)$costRaw != 0) { $costStr = '₦' . number_format((float)$costRaw); }
+$shipRaw = $item->shipment_fee ?? null;
+$shipStr = '—';
+if ($shipRaw !== null && $shipRaw !== '' && (float)$shipRaw != 0) { $shipStr = '₦' . number_format((float)$shipRaw); }
+$transRaw = $item->transportation ?? null;
+$transStr = '—';
+if ($transRaw !== null && $transRaw !== '' && (float)$transRaw != 0) { $transStr = '₦' . number_format((float)$transRaw); }
+@endphp
+                <tr>
+                    <td class="description">{{ $item->description ?? '' }}</td>
+                    <td class="category">
+@if(count($catParts) === 2)
+{!! e($catParts[0]) !!}<br>
+{!! e($catParts[1]) !!}
+@elseif(count($catParts) === 1)
+{{ $catParts[0] }}
+@endif
+                    </td>
+                    <td class="supplier">
+@if(count($supParts) === 2)
+{!! e($supParts[0]) !!}<br>
+{!! e($supParts[1]) !!}
+@elseif(count($supParts) === 1)
+{{ $supParts[0] }}
+@endif
+                    </td>
+                    <td>{{ $qtyStr }}</td>
+                    <td>{{ $weightStr }}</td>
+                    <td>{{ $rateStr }}</td>
+                    <td>{{ $costStr }}</td>
+                    <td>{{ $shipStr }}</td>
+                    <td>{{ $transStr }}</td>
+                </tr>
+@endforeach
+            </tbody>
+        </table>
+        <table class="footer">
+            <tr>
+                <td class="terms">
+                    <div class="footer-title">TERMS &amp; CONDITIONS</div>
+                    <div class="footer-text">
+                        The border service agency of any county maintains the right
+                        to open and inspect any package from shipment.
+                        LEEZFOOD NG. EXPORT is not responsible for any item
+                        removed, opened, or qualified unit. We are not responsible
+                        for any delay in transit and it is beyond our control.
+                    </div>
+                </td>
+                <td class="bank">
+                    <div class="footer-title">COMPANY BANK DETAILS</div>
+                    <div class="footer-text">
+                        Bank: {{ $bank_name ?? \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank') }}<br>
+                        Account Name: {{ $bank_account_name ?? \App\Models\Setting::get('bank_account_name', 'Leezo integrated') }}<br>
+                        Account Number: {{ $bank_account_number ?? \App\Models\Setting::get('bank_account_number', '0900779403') }}
+                    </div>
+                </td>
+                <td class="summary">
+                    <table class="summary-table">
+                        <tr>
+                            <td class="summary-label">PROCUREMENT COST</td>
+                            <td class="summary-value">₦{{ number_format((float)($procurement->total_cost ?? 0), 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="summary-label">SHIPMENT FEE</td>
+                            <td class="summary-value">₦{{ number_format((float)($procurement->total_shipment_fee ?? 0), 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="summary-label">TRANSPORTATION</td>
+                            <td class="summary-value">₦{{ number_format((float)($procurement->total_transportation ?? 0), 2) }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="summary-label">TOTAL PAYMENT</td>
+                            <td class="summary-value">₦{{ number_format((float)($procurement->grand_total ?? 0), 2) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <div class="signature">
+            Signed by Management
         </div>
     </div>
-
 </body>
 </html>

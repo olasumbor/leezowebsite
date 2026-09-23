@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use App\Mail\ShipmentCreatedMail;
 use App\Mail\ShipmentStatusUpdatedMail;
 use App\Mail\InvoiceGeneratedMail;
+use App\Support\Pdf;
 
 class ShipmentController extends Controller
 {
@@ -187,7 +188,7 @@ class ShipmentController extends Controller
 
         $invoiceNumber = $shipment->tracking_id ?? $shipment->tracking_number ?? (string) $id;
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.shipment-invoice', [
+        $pdf = Pdf::loadView('invoices.shipment-invoice', [
             'shipment' => $shipment,
             'invoice_number' => $invoiceNumber,
             'customer_name' => $shipment->recipient_name ?? ($shipment->user->name ?? 'Customer'),
