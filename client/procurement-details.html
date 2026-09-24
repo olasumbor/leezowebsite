@@ -178,19 +178,19 @@
         </div>
         <div class="dash-detail-item" style="grid-column: 1 / -1;">
           <label>Total Cost (Items)</label>
-          <p id="procurementTotalCost" style="font-size: 1.1rem; color: #374151; font-weight: 600;">—</p>
+          <p id="procurementTotalCost" style="font-size: 1.1rem; color: #374151; font-weight: 600;">Pending Quote</p>
         </div>
         <div class="dash-detail-item" style="grid-column: 1 / -1;">
           <label>Total Shipment Fee</label>
-          <p id="procurementTotalShipmentFee" style="font-size: 1.1rem; color: #374151; font-weight: 600;">—</p>
+          <p style="font-size: 1.1rem; color: #374151; font-weight: 600;" id="procurementTotalShipmentFee">Pending Quote</p>
         </div>
         <div class="dash-detail-item" style="grid-column: 1 / -1;">
           <label>Total Transportation</label>
-          <p id="procurementTotalTransportation" style="font-size: 1.1rem; color: #374151; font-weight: 600;">—</p>
+          <p style="font-size: 1.1rem; color: #374151; font-weight: 600;" id="procurementTotalTransportation">Pending Quote</p>
         </div>
         <div class="dash-detail-item" style="grid-column: 1 / -1;">
           <label>Grand Total</label>
-          <p id="procurementGrandTotal" style="font-size: 1.4rem; color: var(--dash-primary); font-weight: 700;">—</p>
+          <p id="procurementGrandTotal" style="font-size: 1.4rem; color: var(--dash-primary); font-weight: 700;">Pending Quote</p>
         </div>
       </div>
 
@@ -198,7 +198,8 @@
       <div class="proc-items-section">
         <h4 class="proc-items-title">Items Breakdown</h4>
         <p class="proc-items-note">Pricing (rate, cost, shipment fee and
-          transportation) is read-only and is confirmed by our team for each item.</p>
+          transportation) is read-only and is confirmed by our team for each item.
+          Values show as <strong>Pending</strong> until quoted.</p>
         <div class="dash-table-wrapper proc-items-wrapper">
           <table class="dash-table proc-items-table">
             <thead>
@@ -223,13 +224,13 @@
             <tfoot>
               <tr class="totals-row">
                 <td colspan="7" class="numeric label">TOTALS:</td>
-                <td id="detailTotalCost" class="numeric">₦0.00</td>
-                <td id="detailTotalShipmentFee" class="numeric">₦0.00</td>
-                <td id="detailTotalTransportation" class="numeric">₦0.00</td>
+                <td id="detailTotalCost" class="numeric">Pending Quote</td>
+                <td id="detailTotalShipmentFee" class="numeric">Pending Quote</td>
+                <td id="detailTotalTransportation" class="numeric">Pending Quote</td>
               </tr>
               <tr class="grand-row">
                 <td colspan="9" class="numeric label">GRAND TOTAL:</td>
-                <td id="detailGrandTotal" class="numeric grand">₦0.00</td>
+                <td id="detailGrandTotal" class="numeric grand">Pending Quote</td>
               </tr>
             </tfoot>
           </table>

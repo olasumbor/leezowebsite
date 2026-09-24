@@ -24,6 +24,124 @@ window.switchShipmentModalTab = (tabName) => {
 };
 
 // ============================================================
+// Frozen cargo multi-item helpers (description / qty / weight / rate / cost)
+// Rate & cost columns exist ONLY in the admin dashboard.
+// ============================================================
+
+function appendFrozenItemRow(tbodyId, data) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    data = data || {};
+
+    const tr = document.createElement('tr');
+    tr.className = 'frozen-item-row';
+    tr.innerHTML = `
+        <td><input type="text" class="frozen-item-desc" value="${escapeAttr(data.description || data.name || '')}" placeholder="e.g. Frozen chicken"></td>
+        <td><input type="number" min="0" step="1" class="frozen-item-qty" value="${escapeAttr(data.quantity == null ? '' : data.quantity)}" oninput="updateFrozenItemsTotal('${tbodyId}')"></td>
+        <td><input type="number" min="0" step="any" class="frozen-item-weight" value="${escapeAttr(data.weight == null ? '' : data.weight)}" oninput="updateFrozenItemsTotal('${tbodyId}')"></td>
+        <td><input type="number" min="0" step="any" class="frozen-item-rate" value="${escapeAttr(data.rate == null ? '' : data.rate)}" oninput="updateFrozenItemsTotal('${tbodyId}')"></td>
+        <td><input type="number" min="0" step="any" class="frozen-item-cost" value="${escapeAttr(data.cost == null ? '' : data.cost)}" oninput="updateFrozenItemsTotal('${tbodyId}')"></td>
+        <td style="text-align: center;">
+            <button type="button" class="btn-remove-item" onclick="removeFrozenItemRow(this)" title="Remove item">
+                <i class="fas fa-times"></i>
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(tr);
+    updateFrozenItemsTotal(tbodyId);
+}
+
+function removeFrozenItemRow(btn) {
+    const row = btn.closest('tr');
+    const tbody = row ? row.parentNode : null;
+    if (row) row.remove();
+    if (tbody) updateFrozenItemsTotal(tbody.id);
+}
+
+function collectFrozenItems(tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return [];
+    const items = [];
+    tbody.querySelectorAll('tr.frozen-item-row').forEach(row => {
+        const description = (row.querySelector('.frozen-item-desc')?.value || '').trim();
+        if (!description) return;
+        const qtyRaw = (row.querySelector('.frozen-item-qty')?.value || '').trim();
+        const weightRaw = (row.querySelector('.frozen-item-weight')?.value || '').trim();
+        const rateRaw = (row.querySelector('.frozen-item-rate')?.value || '').trim();
+        const costRaw = (row.querySelector('.frozen-item-cost')?.value || '').trim();
+        items.push({
+            description: description,
+            quantity: qtyRaw === '' ? 0 : (parseInt(qtyRaw, 10) || 0),
+            weight: weightRaw === '' ? null : (parseFloat(weightRaw) || null),
+            rate: rateRaw === '' ? null : (parseFloat(rateRaw) || null),
+            cost: costRaw === '' ? null : (parseFloat(costRaw) || null),
+        });
+    });
+    return items;
+}
+
+function renderFrozenItems(tbodyId, items) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (items && items.length > 0) {
+        items.forEach(item => appendFrozenItemRow(tbodyId, {
+            description: item.description || item.name || '',
+            quantity: item.quantity,
+            weight: item.weight,
+            rate: item.rate,
+            cost: item.cost,
+        }));
+    } else {
+        appendFrozenItemRow(tbodyId);
+    }
+    updateFrozenItemsTotal(tbodyId);
+}
+
+function updateFrozenItemsTotal(tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    let total = 0;
+    tbody.querySelectorAll('tr.frozen-item-row').forEach(row => {
+        const cost = parseFloat(row.querySelector('.frozen-item-cost')?.value);
+        if (Number.isFinite(cost)) { total += cost; return; }
+        const qty = parseFloat(row.querySelector('.frozen-item-qty')?.value);
+        const rate = parseFloat(row.querySelector('.frozen-item-rate')?.value);
+        if (Number.isFinite(qty) && Number.isFinite(rate)) total += qty * rate;
+    });
+    const totalId = tbodyId === 'editFrozenItems' ? 'editFrozenItemsTotal' : 'createFrozenItemsTotal';
+    const totalEl = document.getElementById(totalId);
+    if (totalEl) totalEl.textContent = currencyFmt(total);
+}
+
+function addFrozenItemRow(tbodyId) {
+    appendFrozenItemRow(tbodyId || 'createFrozenItems');
+}
+
+// Compact item summary for the admin frozen cargo table
+function renderFrozenItemsSummary(cargo) {
+    const items = Array.isArray(cargo.items) ? cargo.items : [];
+    if (items.length > 0) {
+        const labels = items.map(i => escapeAttr(i.description || i.name || '')).filter(Boolean);
+        const shown = labels.slice(0, 2).join(', ');
+        const more = labels.length > 2 ? ` (+${labels.length - 2} more)` : '';
+        return `${items.length} item(s)<br><small style="color:#6b7280;">${shown}${more}</small>`;
+    }
+    if (cargo.cargo_description) {
+        return `1 item<br><small style="color:#6b7280;">${escapeAttr(cargo.cargo_description)}</small>`;
+    }
+    return '<em>None</em>';
+}
+
+window.addFrozenItemRow = addFrozenItemRow;
+window.removeFrozenItemRow = removeFrozenItemRow;
+window.collectFrozenItems = collectFrozenItems;
+window.renderFrozenItems = renderFrozenItems;
+window.updateFrozenItemsTotal = updateFrozenItemsTotal;
+window.renderFrozenItemsSummary = renderFrozenItemsSummary;
+
+// ============================================================
 // Shipment multi-item helpers (name / qty / weight / rate / cost)
 // ============================================================
 const currencyFmt = (amount) => {
@@ -1319,6 +1437,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateUserDropdown(allUsers);
             }
             createFrozenFormContainer.style.display = createFrozenFormContainer.style.display === 'none' ? 'block' : 'none';
+            if (createFrozenFormContainer.style.display === 'block') {
+                renderFrozenItems('createFrozenItems', []);
+            }
         });
     }
 
@@ -1333,6 +1454,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 setButtonLoading(submitBtn, true, 'Creating...');
             }
 
+            const items = collectFrozenItems('createFrozenItems');
+            if (items.length === 0) {
+                showToast('Please add at least one frozen cargo item.', 'warning');
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+                return;
+            }
+
             try {
                 const response = await fetch(`${CONFIG.API_URL}/admin/frozen-cargos`, {
                     method: 'POST',
@@ -1342,18 +1472,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         name: document.getElementById('frzName').value,
                         email: document.getElementById('frzEmail').value,
                         phone: document.getElementById('frzPhone').value,
-                        cargo_description: document.getElementById('frzCargoDescription').value,
                         temperature_requirement: document.getElementById('frzTemperature').value,
-                        weight: document.getElementById('frzWeight').value,
                         origin: document.getElementById('frzOrigin').value,
                         destination: document.getElementById('frzDestination').value,
                         departure_date: document.getElementById('frzDepartureDate').value || null,
-                        cost: document.getElementById('frzCostInput').value,
+                        notes: document.getElementById('frzNotes').value,
+                        items: items,
                     })
                 });
                 if (response.ok) {
                     showToast('Frozen cargo request created successfully', 'success');
                     createFrozenForm.reset();
+                    renderFrozenItems('createFrozenItems', []);
                     createFrozenFormContainer.style.display = 'none';
                     loadFrozenCargos();
                 } else {
@@ -1476,7 +1606,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 allFrozenCargos = await response.json();
                 if (allFrozenCargos.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center;">No frozen cargo requests found.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center;">No frozen cargo requests found.</td></tr>`;
                     return;
                 }
                 tbody.innerHTML = allFrozenCargos.map(r => `
@@ -1485,6 +1615,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${r.user ? r.user.name : r.name}<br><small style="color: #6b7280;">${r.email} (${r.phone})</small></td>
                         <td>${r.temperature_requirement || 'Frozen'}</td>
                         <td>${r.origin} &rarr; ${r.destination}</td>
+                        <td>${renderFrozenItemsSummary(r)}</td>
                         <td>${r.notes ? (r.notes.length > 30 ? r.notes.substring(0, 30)+'...' : r.notes) : '<em>None</em>'}</td>
                         <td><span class="status-badge ${r.status}">${r.status ? r.status.toUpperCase() : 'PENDING'}</span></td>
                         <td>
@@ -1508,13 +1639,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editFrozenId').value = item.id;
         document.getElementById('frozenModalTitle').textContent = `Manage Frozen Cargo (${item.request_id})`;
         document.getElementById('editFrozenStatus').value = item.status || 'pending';
-        document.getElementById('editFrozenCost').value = item.cost || '';
         document.getElementById('editFrozenTemp').value = item.temperature_requirement || '';
-        document.getElementById('editFrozenWeight').value = item.weight || '';
         document.getElementById('editFrozenOrigin').value = item.origin || '';
         document.getElementById('editFrozenDestination').value = item.destination || '';
         document.getElementById('editFrozenDepartureDate').value = item.departure_date || '';
         document.getElementById('editFrozenNotes').value = item.notes || '';
+
+        // Legacy records without item rows fall back to their single description.
+        const items = Array.isArray(item.items) && item.items.length > 0
+            ? item.items
+            : (item.cargo_description ? [{
+                description: item.cargo_description,
+                quantity: 1,
+                weight: item.weight,
+                rate: null,
+                cost: item.cost,
+            }] : []);
+        renderFrozenItems('editFrozenItems', items);
 
         document.getElementById('frozenModal').style.display = 'flex';
     };
@@ -1529,13 +1670,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const payload = {
                 status: document.getElementById('editFrozenStatus').value,
-                cost: document.getElementById('editFrozenCost').value,
                 temperature_requirement: document.getElementById('editFrozenTemp').value,
-                weight: document.getElementById('editFrozenWeight').value,
                 origin: document.getElementById('editFrozenOrigin').value,
                 destination: document.getElementById('editFrozenDestination').value,
                 departure_date: document.getElementById('editFrozenDepartureDate').value || null,
                 notes: document.getElementById('editFrozenNotes').value,
+                items: collectFrozenItems('editFrozenItems'),
             };
 
             if (typeof setButtonLoading === 'function' && submitBtn) {

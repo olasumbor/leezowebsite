@@ -156,7 +156,7 @@ function displayShipments(shipmentList) {
             <td style="text-align: right;">
                 ${shipment.totalCost != null
                     ? '₦' + Number(shipment.totalCost).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    : '<span style="color: #9ca3af;">—</span>'}
+                    : '<span style="color: #9ca3af;">Pending Quote</span>'}
             </td>
 
             <td>

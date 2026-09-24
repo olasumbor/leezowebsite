@@ -493,13 +493,41 @@
                             <input type="text" id="frzName" placeholder="Customer Name" required>
                             <input type="email" id="frzEmail" placeholder="Customer Email" required>
                             <input type="text" id="frzPhone" placeholder="Phone Number" required>
-                            <input type="text" id="frzCargoDescription" placeholder="Cargo Description" required>
                             <input type="text" id="frzTemperature" placeholder="Temp Requirement (e.g. Frozen -18°C)">
-                            <input type="number" step="0.1" id="frzWeight" placeholder="Weight (kg)">
                             <input type="text" id="frzOrigin" placeholder="Origin" required>
                             <input type="text" id="frzDestination" placeholder="Destination" required>
                             <input type="date" id="frzDepartureDate" placeholder="Departure Date">
-                            <input type="number" step="0.01" id="frzCostInput" placeholder="Price/Cost (₦)">
+                            <input type="text" id="frzNotes" placeholder="Notes (optional)"
+                                style="grid-column: 1 / -1;">
+                            <div style="grid-column: 1 / -1;">
+                                <div
+                                    style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 8px;">
+                                    <h4 style="margin:0;font-size:0.95rem;">Frozen Cargo Items</h4>
+                                    <button type="button" class="btn-secondary"
+                                        style="padding:6px 12px;font-size:0.85rem;"
+                                        onclick="addFrozenItemRow('createFrozenItems')">
+                                        <i class="fas fa-plus"></i> Add Item
+                                    </button>
+                                </div>
+                                <div class="shipment-items-table-wrap" style="overflow-x:auto;">
+                                    <table class="shipment-items-table" id="createFrozenItemsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Quantity</th>
+                                                <th>Weight (kg)</th>
+                                                <th>Rate (₦)</th>
+                                                <th>Cost (₦)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="createFrozenItems"></tbody>
+                                    </table>
+                                    <div class="shipment-items-total">
+                                        Estimated Total (Items): <span id="createFrozenItemsTotal">₦0.00</span>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i
                                     class="fas fa-plus"></i> Save Frozen Cargo Request</button>
                         </form>
@@ -512,6 +540,7 @@
                                     <th>Customer</th>
                                     <th>Temp Requirement</th>
                                     <th>Route</th>
+                                    <th>Items</th>
                                     <th>Notes</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -519,7 +548,7 @@
                             </thead>
                             <tbody id="admin-frozen-tbody">
                                 <tr>
-                                    <td colspan="7" style="text-align: center;">Loading frozen cargo requests...</td>
+                                    <td colspan="8" style="text-align: center;">Loading frozen cargo requests...</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1263,16 +1292,8 @@
                         </select>
                     </div>
                     <div>
-                        <label>Cost / Price (₦)</label>
-                        <input type="number" step="0.01" id="editFrozenCost" placeholder="Price for cold-chain service">
-                    </div>
-                    <div>
                         <label>Temp Requirement</label>
                         <input type="text" id="editFrozenTemp" placeholder="e.g. Frozen (-18°C)">
-                    </div>
-                    <div>
-                        <label>Weight (kg)</label>
-                        <input type="number" step="0.1" id="editFrozenWeight">
                     </div>
                     <div>
                         <label>Origin</label>
@@ -1288,8 +1309,36 @@
                     </div>
                 </div>
                 <div style="margin-top: 15px;">
-                    <label>Cargo Description & Notes</label>
-                    <textarea id="editFrozenNotes" rows="3" placeholder="Additional notes or description"></textarea>
+                    <div
+                        style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;">
+                        <h4 style="margin:0;">Frozen Cargo Items (rate &amp; cost: admin only)</h4>
+                        <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:0.85rem;"
+                            onclick="addFrozenItemRow('editFrozenItems')">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                    </div>
+                    <div class="shipment-items-table-wrap" style="overflow-x:auto;">
+                        <table class="shipment-items-table" id="editFrozenItemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Rate (₦)</th>
+                                    <th>Cost (₦)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="editFrozenItems"></tbody>
+                        </table>
+                        <div class="shipment-items-total">
+                            Estimated Total (Items): <span id="editFrozenItemsTotal">₦0.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <label>Additional Notes</label>
+                    <textarea id="editFrozenNotes" rows="3" placeholder="Cold chain instructions, certificates, or other notes"></textarea>
                 </div>
                 <div class="modal-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
                     <button type="button" class="btn-secondary" onclick="closeModal('frozenModal')">Cancel</button>

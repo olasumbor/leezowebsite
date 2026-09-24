@@ -53,10 +53,10 @@ async function fetchProcurementDetails() {
                 customerPhone: data.phone || "—",
                 items: data.items || [],
             invoiceGenerated: data.invoice_generated === true,
-                totalCost: data.total_cost ? `₦${parseFloat(data.total_cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "₦0.00",
-                totalShipmentFee: data.total_shipment_fee ? `₦${parseFloat(data.total_shipment_fee).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "₦0.00",
-                totalTransportation: data.total_transportation ? `₦${parseFloat(data.total_transportation).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "₦0.00",
-                grandTotal: data.grand_total ? `₦${parseFloat(data.grand_total).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "₦0.00",
+                totalCost: data.total_cost ? `₦${parseFloat(data.total_cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending Quote",
+                totalShipmentFee: data.total_shipment_fee ? `₦${parseFloat(data.total_shipment_fee).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending Quote",
+                totalTransportation: data.total_transportation ? `₦${parseFloat(data.total_transportation).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending Quote",
+                grandTotal: data.grand_total ? `₦${parseFloat(data.grand_total).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending Quote",
             };
 
             showDetails();
@@ -141,10 +141,10 @@ function renderProcurementItemsTable(items) {
     tbody.innerHTML = items.map((item, index) => {
         const qty = item.quantity !== null && item.quantity !== undefined ? item.quantity : "—";
         const weight = item.weight !== null && item.weight !== undefined ? parseFloat(item.weight).toFixed(2) : "—";
-        const rate = item.rate !== null && item.rate !== undefined ? `₦${parseFloat(item.rate).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "—";
-        const cost = item.cost !== null && item.cost !== undefined ? `₦${parseFloat(item.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "—";
-        const shipmentFee = item.shipment_fee !== null && item.shipment_fee !== undefined ? `₦${parseFloat(item.shipment_fee).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "₦0.00";
-        const transportation = item.transportation !== null && item.transportation !== undefined ? `₦${parseFloat(item.transportation).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "₦0.00";
+        const rate = item.rate !== null && item.rate !== undefined ? `₦${parseFloat(item.rate).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending";
+        const cost = item.cost !== null && item.cost !== undefined ? `₦${parseFloat(item.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending";
+        const shipmentFee = item.shipment_fee !== null && item.shipment_fee !== undefined ? `₦${parseFloat(item.shipment_fee).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending";
+        const transportation = item.transportation !== null && item.transportation !== undefined ? `₦${parseFloat(item.transportation).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending";
 
         return `
             <tr>

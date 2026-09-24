@@ -47,7 +47,7 @@ async function fetchShipmentDetails() {
                 deliveredDate: data.delivered_date ? new Date(data.delivered_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—",
                 recipient: data.recipient_name || data.recipient || "—",
                 recipientLocation: data.recipient_location || data.destination || "—",
-                shippingCost: data.shipping_cost ? (isNaN(data.shipping_cost) ? data.shipping_cost : `₦${parseFloat(data.shipping_cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "—",
+                shippingCost: data.shipping_cost ? (isNaN(data.shipping_cost) ? data.shipping_cost : `₦${parseFloat(data.shipping_cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote",
                 status: data.status,
                 canEdit: data.can_edit === true,
                 invoiceGenerated: data.invoice_generated === true || data.invoice_generated === 1 || data.invoice_generated === "1",
@@ -146,8 +146,8 @@ function renderShipmentItems() {
                 <td>${escapeHtml(item.name || '—')}</td>
                 <td>${item.quantity || '—'}</td>
                 <td>${item.weight ? `${item.weight}` : '—'}</td>
-                <td style="text-align: right;">${formatCurrency(item.rate)}</td>
-                <td style="text-align: right;">${formatCurrency(item.cost)}</td>
+                <td style="text-align: right;">${formatOrPending(item.rate)}</td>
+                <td style="text-align: right;">${formatOrPending(item.cost)}</td>
             </tr>
         `;
     }).join("");
@@ -169,7 +169,7 @@ function renderShipmentItems() {
 
     // Display the total
     if (totalContainer && totalValue) {
-        totalValue.textContent = formatCurrency(totalCost);
+        totalValue.textContent = Number.isFinite(totalCost) && totalCost > 0 ? formatCurrency(totalCost) : "Pending Quote";
         totalContainer.style.display = 'block';
     }
 }

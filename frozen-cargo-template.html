@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Frozen Cargo Receipt - {{ $invoice_number ?? 'RQST0000000' }}</title>
+    <title>Frozen Cargo Receipt - RQST9687268</title>
     <style>
         /* STEP 1: Page + fonts
        DejaVu Sans is bundled with dompdf and supports the Naira sign (&#8358;).
@@ -184,17 +184,12 @@
     <table class="header-table">
         <tr>
             <td style="width: 50%;">
-                @php
-                    $logoPath = public_path('logo-leezo.NG.png');
-                    $logoSrc = file_exists($logoPath)
-                        ? 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath))
-                        : '/logo-leezo.NG.png';
-                @endphp
-                <img class="logo-img" src="{{ $logoSrc }}" alt="LEEZOFOOD NG.EXPORT & LOGISTICS">
+                <!-- Replace src with your logo path (or a base64 data URI) -->
+                <img class="logo-img" src="logo.png" alt="LEEZOFOOD NG.EXPORT & LOGISTICS">
             </td>
             <td style="width: 50%;">
                 <div class="doc-title">FROZEN CARGO RECEIPT</div>
-                <div class="doc-number">{{ $invoice_number ?? 'RQST0000000' }}</div>
+                <div class="doc-number">RQST9687268</div>
             </td>
         </tr>
     </table>
@@ -205,65 +200,9 @@
         leezointegratedserviceslimited@gmail.com
     </div>
 
-    @php
-        try {
-            $displayDate = \Carbon\Carbon::parse($invoice_date ?? now())->format('F j, Y');
-        } catch (\Throwable $e) {
-            $displayDate = date('F j, Y');
-        }
-
-        $formatWeight = function ($value) {
-            if ($value === null || ! is_numeric($value)) {
-                return '—';
-            }
-
-            return rtrim(rtrim(number_format((float) $value, 2), '0'), '.') . ' kg';
-        };
-
-        $formatMoney = function ($value) {
-            if ($value === null || ! is_numeric($value)) {
-                return '—';
-            }
-
-            return '₦' . number_format((float) $value, 0);
-        };
-
-        $rows = [];
-        if ($frozenCargo->items && $frozenCargo->items->count() > 0) {
-            foreach ($frozenCargo->items as $fcItem) {
-                $cost = null;
-                if ($fcItem->cost !== null && is_numeric($fcItem->cost)) {
-                    $cost = (float) $fcItem->cost;
-                } elseif ($fcItem->rate !== null && is_numeric($fcItem->rate)
-                    && $fcItem->quantity !== null && is_numeric($fcItem->quantity)) {
-                    $cost = (float) $fcItem->quantity * (float) $fcItem->rate;
-                }
-
-                $rows[] = [
-                    'description' => (string) $fcItem->description,
-                    'quantity' => ($fcItem->quantity !== null && is_numeric($fcItem->quantity) && (float) $fcItem->quantity > 0)
-                        ? number_format((float) $fcItem->quantity, 0)
-                        : '—',
-                    'weight' => $formatWeight($fcItem->weight),
-                    'rate' => $formatMoney($fcItem->rate),
-                    'cost' => $formatMoney($cost),
-                ];
-            }
-        } else {
-            // Legacy record without item rows: fall back to the header fields.
-            $rows[] = [
-                'description' => $frozenCargo->cargo_description ?? 'Cold-Chain / Frozen Cargo',
-                'quantity' => '—',
-                'weight' => $formatWeight($frozenCargo->weight),
-                'rate' => '—',
-                'cost' => $formatMoney((float) ($total_amount ?? 0)),
-            ];
-        }
-    @endphp
-
     <div class="date-block">
         <div class="date-label">DATE</div>
-        <div class="date-value">{{ $displayDate }}</div>
+        <div class="date-value">September 13, 2026</div>
     </div>
 
     <!-- ITEMS -->
@@ -278,15 +217,27 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($rows as $row)
             <tr>
-                <td class="left">{{ $row['description'] }}</td>
-                <td class="center">{{ $row['quantity'] }}</td>
-                <td class="center">{{ $row['weight'] }}</td>
-                <td class="center">{{ $row['rate'] }}</td>
-                <td class="right">{{ $row['cost'] }}</td>
+                <td class="left">Shipment cost</td>
+                <td class="center">&mdash;</td>
+                <td class="center">20 kg</td>
+                <td class="center">&#8358;10,000</td>
+                <td class="right">&#8358;200,000</td>
             </tr>
-            @endforeach
+            <tr>
+                <td class="left">Cartons</td>
+                <td class="center">50</td>
+                <td class="center">&mdash;</td>
+                <td class="center">&#8358;2,000</td>
+                <td class="right">&#8358;100,000</td>
+            </tr>
+            <tr>
+                <td class="left">Styrofoam</td>
+                <td class="center">7</td>
+                <td class="center">&mdash;</td>
+                <td class="center">&#8358;10,000</td>
+                <td class="right">&#8358;70,000</td>
+            </tr>
         </tbody>
     </table>
 
@@ -305,15 +256,15 @@
             <td style="width: 34%;">
                 <div class="footer-heading">Company Bank Details</div>
                 <div class="bank-text">
-                    Bank: {{ $bank_name ?? \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank') }}<br>
-                    Account Name: {{ $bank_account_name ?? \App\Models\Setting::get('bank_account_name', 'Leezoe integrated') }}<br>
-                    Account Number: {{ $bank_account_number ?? \App\Models\Setting::get('bank_account_number', '0900779403') }}
+                    Bank: Guaranty Trust Bank<br>
+                    Account Name: Leezoe integrated<br>
+                    Account Number: 0900779403
                 </div>
             </td>
             <td style="width: 28%;">
                 <div class="total-box">
                     <div class="total-label">TOTAL COST</div>
-                    <div class="total-amount">&#8358;{{ number_format((float) ($total_amount ?? 0), 0) }}</div>
+                    <div class="total-amount">&#8358;370,000</div>
                 </div>
                 <div class="signed">Signed by Management</div>
             </td>

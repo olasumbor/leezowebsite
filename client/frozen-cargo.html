@@ -38,6 +38,25 @@
   <!-- CSS File -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="toast.css">
+  <style>
+    .proc-section { margin-bottom: 22px; }
+    .proc-form-section-title {
+      font-size: 15px; font-weight: 700; color: var(--dash-navy, #0b1a53);
+      margin: 0 0 16px; padding-bottom: 10px;
+      border-bottom: 1px solid var(--dash-card-border, #e2e8f0);
+    }
+    .proc-items-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+    .proc-items-head .proc-form-section-title { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .proc-items-hint { font-size: 12.5px; color: var(--dash-text-muted, #64748b); margin: 0 0 14px; line-height: 1.5; }
+    .proc-items-table td { padding: 8px 10px; }
+    .proc-items-table th { padding: 10px 12px; }
+    .proc-items-table input { width: 100%; min-width: 105px; padding: 8px 10px; font-family: 'Poppins', sans-serif; font-size: 13px; color: var(--dash-text-dark, #1e293b); border: 1px solid var(--dash-card-border, #e2e8f0); border-radius: 6px; outline: none; box-sizing: border-box; }
+    .proc-items-table input:focus { border-color: var(--dash-primary, #15803d); box-shadow: 0 0 0 3px rgba(21,128,61,.15); }
+    .proc-items-table input.frozen-item-desc { min-width: 180px; }
+    .proc-item-remove { width: 30px; height: 30px; border: none; border-radius: 6px; background: #fee2e2; color: #dc2626; font-size: 18px; line-height: 1; cursor: pointer; }
+    .proc-item-remove:hover { background: #fecaca; }
+    @media (max-width: 640px) { .proc-items-head { flex-direction: column; align-items: stretch; } }
+  </style>
 </head>
 
 <body class="dash-body">
@@ -91,32 +110,35 @@
       <form class="dash-form" id="frozenCargoForm">
         <div class="dash-form-grid">
           <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter full name" required>
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="Enter email address" required>
-          </div>
-        </div>
-
-        <div class="dash-form-grid">
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
-          </div>
-
-          <div class="form-group">
             <label for="departure_date">Desired Shipping / Departure Date</label>
             <input type="date" id="departure_date" name="departure_date">
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="cargo_description">Cargo / Goods Description</label>
-          <textarea id="cargo_description" name="cargo_description"
-            placeholder="Specify food items, perishables, packaging type, etc." required rows="2"></textarea>
+        <div class="proc-section">
+          <div class="proc-items-head">
+            <h3 class="proc-form-section-title" style="margin:0;">🧊 Frozen Cargo Items</h3>
+            <button type="button" class="dash-action-btn-outline dash-action-btn" id="frozenAddItemBtn"
+              style="padding: 8px 14px; font-size: 13px;" onclick="addFrozenItemRow()">
+              <span>+ Add Item</span>
+            </button>
+          </div>
+          <p class="proc-items-hint">Add each frozen item separately. Description is required; quantity and
+            weight are optional. Rate &amp; cost are set by our team and shown on the details page.</p>
+          <div class="dash-table-wrapper" style="overflow-x: auto;">
+            <table class="dash-table proc-items-table">
+              <thead>
+                <tr>
+                  <th style="min-width: 200px;">Item Description</th>
+                  <th style="min-width: 110px;">Quantity</th>
+                  <th style="min-width: 120px;">Weight (kg)</th>
+                  <th style="width: 50px;"></th>
+                </tr>
+              </thead>
+              <tbody id="frozenItemsBody">
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div class="dash-form-grid">
@@ -132,10 +154,6 @@
             </select>
           </div>
 
-          <div class="form-group">
-            <label for="weight">Estimated Cargo Weight (kg)</label>
-            <input type="number" id="weight" name="weight" step="0.1" placeholder="e.g. 500">
-          </div>
         </div>
 
         <div class="dash-form-grid">

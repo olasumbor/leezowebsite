@@ -22,13 +22,19 @@ async function loadFrozenHistory() {
 
             if (response.ok) {
                 const apiData = await response.json();
-                frozenData = apiData.map(item => ({
-                    id: item.request_id || `RQST-${item.id}`,
-                    route: `${item.cargo_description || 'Cold Cargo'} (${item.origin || 'Lagos'} → ${item.destination || 'Destination'})`,
+                frozenData = apiData.map(item => {
+                    const items = Array.isArray(item.items) ? item.items : [];
+                    const summary = items.length > 0
+                        ? items.map(i => i.description).filter(Boolean).slice(0, 2).join(", ") + (items.length > 2 ? ` (+${items.length - 2} more)` : "")
+                        : (item.cargo_description || 'Cold Cargo');
+                    return {
+                        id: item.request_id || `RQST-${item.id}`,
+                        route: `${summary} (${item.origin || 'Lagos'} → ${item.destination || 'Destination'})`,
                     date: item.departure_date ? new Date(item.departure_date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : (item.created_at ? new Date(item.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "-"),
                     status: formatStatus(item.status),
                     rawItem: item
-                }));
+                    };
+                });
             }
         }
     } catch (err) {

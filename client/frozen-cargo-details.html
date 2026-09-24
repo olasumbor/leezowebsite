@@ -46,6 +46,36 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="pickup-delivery-details.css">
   <link rel="stylesheet" href="toast.css">
+  <style>
+    /* Frozen cargo items block (mirrors shipment-details.css) */
+    .dash-shipment-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border: 1px solid var(--dash-border, #e2e8f0);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dash-shipment-items-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #f1f5f9;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .dash-shipment-items-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dash-shipment-items-table td:first-child {
+      font-weight: 600;
+      color: #101828;
+    }
+  </style>
 </head>
 
 <body class="dash-body">
@@ -89,10 +119,14 @@
         <h1 class="dash-header-title">Frozen Cargo <span id="frozenId"></span></h1>
         <p class="dash-header-subtitle">Temperature-controlled tracking and booking overview.</p>
       </div>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadFrozenInvoice">Download
-          Invoice</button>
-        <button type="button" class="dash-action-btn" id="trackFrozen">Track Request</button>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+        <div>
+          <button type="button" class="dash-action-btn-outline dash-action-btn" id="downloadFrozenInvoice"
+            disabled>Download
+            Invoice</button>
+          <p id="frozenInvoiceNotReady" style="margin: 6px 0 0; font-size: 0.8rem; color: #6b7280;">Invoice will be
+            available once our team generates it.</p>
+        </div>
       </div>
     </div>
 
@@ -140,8 +174,10 @@
           <p id="frozenStatus">—</p>
         </div>
         <div class="dash-detail-item" style="grid-column: 1 / -1;">
-          <label>Cargo / Goods Description</label>
-          <p id="frozenDescription">—</p>
+          <label>Cargo Items</label>
+          <div id="frozenItemsBlock">
+            <p id="frozenDescription">—</p>
+          </div>
         </div>
         <div class="dash-detail-item">
           <label>Temperature Requirement</label>

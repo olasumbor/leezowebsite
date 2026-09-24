@@ -145,6 +145,7 @@ Route::middleware(['auth:sanctum', 'role:admin'])->prefix('admin')->group(functi
     Route::get('/frozen-cargos', [FrozenCargoController::class, 'adminIndex']);
     Route::post('/frozen-cargos', [FrozenCargoController::class, 'adminStore']);
     Route::put('/frozen-cargos/{id}', [FrozenCargoController::class, 'adminUpdate']);
+    Route::put('/frozen-cargos/{id}/items', [FrozenCargoController::class, 'updateItems']);
     Route::put('/frozen-cargos/{id}/status', [FrozenCargoController::class, 'updateStatus']);
     Route::post('/frozen-cargos/{id}/generate-invoice', [FrozenCargoController::class, 'generateInvoice']);
 

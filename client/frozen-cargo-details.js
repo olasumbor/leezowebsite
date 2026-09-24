@@ -28,18 +28,39 @@ async function loadFrozenDetails() {
             if (response.ok) {
                 const matched = await response.json();
                 if (matched) {
+                    const rawItems = Array.isArray(matched.items) ? matched.items : [];
+                    const items = rawItems.map(item => ({
+                        description: item.description || item.name || "N/A",
+                        quantity: item.quantity ?? "—",
+                        weight: item.weight != null ? `${item.weight} kg` : "—",
+                        rate: item.rate != null ? `₦${parseFloat(item.rate).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending",
+                        cost: item.cost != null ? `₦${parseFloat(item.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending",
+                    }));
+                    // Fallback for legacy records without item rows
+                    if (items.length === 0 && matched.cargo_description) {
+                        items.push({
+                            description: matched.cargo_description,
+                            quantity: "—",
+                            weight: matched.weight ? `${matched.weight} kg` : "—",
+                            rate: "Pending",
+                            cost: matched.cost ? `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}` : "Pending",
+                        });
+                    }
+                    const total = matched.total_cost ?? matched.cost ?? null;
                     frozenItem = {
                         status: formatStatus(matched.status),
                         name: matched.name || "N/A",
                         phone: matched.phone || "N/A",
-                        description: matched.cargo_description || "N/A",
+                        description: matched.cargo_description || (items[0] ? items[0].description : "N/A"),
                         temperature: matched.temperature_requirement || "Frozen (-18°C)",
                         weight: matched.weight ? `${matched.weight} kg` : "N/A",
                         origin: matched.origin || "N/A",
                         destination: matched.destination || "N/A",
                         departureDate: matched.departure_date ? new Date(matched.departure_date).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
                         notes: matched.notes || "None",
-                        cost: matched.cost ? (isNaN(matched.cost) ? matched.cost : `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote"
+                        cost: total ? (isNaN(total) ? total : `₦${parseFloat(total).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote",
+                        invoiceGenerated: matched.invoice_generated === true,
+                        items: items,
                     };
                 }
             }
@@ -81,7 +102,42 @@ function renderDetails(item) {
     if (document.getElementById("frozenStatus")) document.getElementById("frozenStatus").textContent = item.status;
     if (document.getElementById("frozenCost")) document.getElementById("frozenCost").textContent = item.cost;
 
+    updateInvoiceAvailability(item.invoiceGenerated);
+
+    renderFrozenItems(item.items || []);
+
     updateStatusTimeline(item.status);
+}
+
+function renderFrozenItems(items) {
+    const container = document.getElementById("frozenItemsBlock");
+    if (!container) return;
+    if (!items || items.length === 0) {
+        container.innerHTML = `<p id="frozenDescription" style="color:#6b7280;">No item details available.</p>`;
+        return;
+    }
+    const rows = items.map(row => `
+        <tr>
+            <td>${escapeFrozenHtml(row.description || '—')}</td>
+            <td>${escapeFrozenHtml(row.quantity ?? '—')}</td>
+            <td>${escapeFrozenHtml(row.weight ?? '—')}</td>
+            <td style="text-align:right;">${escapeFrozenHtml(row.rate ?? '—')}</td>
+            <td style="text-align:right;">${escapeFrozenHtml(row.cost ?? '—')}</td>
+        </tr>`).join("");
+    container.innerHTML = `
+        <div style="overflow-x:auto;">
+        <table class="dash-shipment-items-table">
+            <thead><tr>
+                <th>Item Description</th><th>Quantity</th><th>Weight</th>
+                <th style="text-align:right;">Rate (₦)</th><th style="text-align:right;">Cost (₦)</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+        </table></div>`;
+}
+
+function escapeFrozenHtml(value) {
+    return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function showNotFound() {
@@ -119,10 +175,34 @@ function updateStatusTimeline(status) {
 // Download Invoice Handler
 
 const downloadInvoiceBtn = document.getElementById("downloadFrozenInvoice") || document.getElementById("downloadInvoice");
+const invoiceNote = document.getElementById("frozenInvoiceNotReady");
+let invoiceGenerated = false;
+
+function updateInvoiceAvailability(available) {
+    invoiceGenerated = available === true;
+    if (downloadInvoiceBtn) {
+        downloadInvoiceBtn.disabled = !invoiceGenerated;
+        downloadInvoiceBtn.title = invoiceGenerated
+            ? "Download your invoice"
+            : "Invoice will be available once our team generates it";
+    }
+    if (invoiceNote) {
+        invoiceNote.style.display = invoiceGenerated ? "none" : "block";
+    }
+}
+
+// Start locked until the record confirms the admin generated the invoice
+updateInvoiceAvailability(false);
+
 if (downloadInvoiceBtn) {
     downloadInvoiceBtn.addEventListener("click", async function () {
         if (!frozenId) {
             if (typeof showToast !== "undefined") showToast("Request ID not found.", "warning");
+            return;
+        }
+
+        if (!invoiceGenerated) {
+            if (typeof showToast !== "undefined") showToast("Invoice has not been generated by our team yet.", "warning");
             return;
         }
 
