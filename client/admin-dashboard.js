@@ -142,6 +142,92 @@ window.updateFrozenItemsTotal = updateFrozenItemsTotal;
 window.renderFrozenItemsSummary = renderFrozenItemsSummary;
 
 // ============================================================
+// Pickup & delivery multi-item helpers (description / cost).
+// Cost is admin-only; the customer form never sends pricing.
+// ============================================================
+function appendPickupItemRow(tbodyId, data) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    data = data || {};
+
+    const tr = document.createElement('tr');
+    tr.className = 'pickup-item-row';
+    tr.innerHTML = `
+        <td><input type="text" class="pickup-item-desc" value="${escapeAttr(data.description || data.name || '')}" placeholder="e.g. Pick up and delivery"></td>
+        <td><input type="number" min="0" step="any" class="pickup-item-cost" value="${escapeAttr(data.cost == null ? '' : data.cost)}" oninput="updatePickupItemsTotal('${tbodyId}')"></td>
+        <td style="text-align: center;">
+            <button type="button" class="btn-remove-item" onclick="removePickupItemRow(this)" title="Remove item">
+                <i class="fas fa-times"></i>
+            </button>
+        </td>
+    `;
+
+    tbody.appendChild(tr);
+    updatePickupItemsTotal(tbodyId);
+}
+
+function removePickupItemRow(btn) {
+    const row = btn.closest('tr');
+    const tbody = row ? row.parentNode : null;
+    if (row) row.remove();
+    if (tbody) updatePickupItemsTotal(tbody.id);
+}
+
+function collectPickupItems(tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return [];
+    const items = [];
+    tbody.querySelectorAll('tr.pickup-item-row').forEach(row => {
+        const description = (row.querySelector('.pickup-item-desc')?.value || '').trim();
+        if (!description) return;
+        const costRaw = (row.querySelector('.pickup-item-cost')?.value || '').trim();
+        items.push({
+            description: description,
+            cost: costRaw === '' ? null : (parseFloat(costRaw) || null),
+        });
+    });
+    return items;
+}
+
+function renderPickupItems(tbodyId, items) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (items && items.length > 0) {
+        items.forEach(item => appendPickupItemRow(tbodyId, {
+            description: item.description || item.name || '',
+            cost: item.cost,
+        }));
+    } else {
+        appendPickupItemRow(tbodyId);
+    }
+    updatePickupItemsTotal(tbodyId);
+}
+
+function updatePickupItemsTotal(tbodyId) {
+    const tbody = document.getElementById(tbodyId);
+    if (!tbody) return;
+    let total = 0;
+    tbody.querySelectorAll('tr.pickup-item-row').forEach(row => {
+        const cost = parseFloat(row.querySelector('.pickup-item-cost')?.value);
+        if (Number.isFinite(cost)) total += cost;
+    });
+    const totalId = tbodyId === 'editPickupItems' ? 'editPickupItemsTotal' : 'createPickupItemsTotal';
+    const totalEl = document.getElementById(totalId);
+    if (totalEl) totalEl.textContent = currencyFmt(total);
+}
+
+function addPickupItemRow(tbodyId) {
+    appendPickupItemRow(tbodyId || 'createPickupItems');
+}
+
+window.addPickupItemRow = addPickupItemRow;
+window.removePickupItemRow = removePickupItemRow;
+window.collectPickupItems = collectPickupItems;
+window.renderPickupItems = renderPickupItems;
+window.updatePickupItemsTotal = updatePickupItemsTotal;
+
+// ============================================================
 // Shipment multi-item helpers (name / qty / weight / rate / cost)
 // ============================================================
 const currencyFmt = (amount) => {
@@ -1378,6 +1464,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateUserDropdown(allUsers);
             }
             createPickupFormContainer.style.display = createPickupFormContainer.style.display === 'none' ? 'block' : 'none';
+            if (createPickupFormContainer.style.display === 'block') {
+                renderPickupItems('createPickupItems', []);
+            }
         });
     }
 
@@ -1392,24 +1481,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 setButtonLoading(submitBtn, true, 'Creating...');
             }
 
+            const items = collectPickupItems('createPickupItems');
+            if (items.length === 0) {
+                showToast('Please add at least one pickup item.', 'warning');
+                if (typeof setButtonLoading === 'function' && submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+                return;
+            }
+
             try {
                 const response = await fetch(`${CONFIG.API_URL}/admin/pickup-deliveries`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({
                         user_id: document.getElementById('pkdUser').value,
-                        name: document.getElementById('pkdName').value,
-                        email: document.getElementById('pkdEmail').value,
-                        phone: document.getElementById('pkdPhone').value,
                         delivery_phone: document.getElementById('pkdDeliveryPhone').value,
                         pickup_address: document.getElementById('pkdPickupAddress').value,
                         delivery_address: document.getElementById('pkdDeliveryAddress').value,
-                        cost: document.getElementById('pkdCostInput').value,
+                        items: items,
                     })
                 });
                 if (response.ok) {
                     showToast('Pickup & delivery request created successfully', 'success');
                     createPickupForm.reset();
+                    renderPickupItems('createPickupItems', []);
                     createPickupFormContainer.style.display = 'none';
                     loadPickupDeliveries();
                 } else {
@@ -1543,10 +1639,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('editPickupId').value = item.id;
         document.getElementById('pickupModalTitle').textContent = `Manage Pickup & Delivery (${item.request_id})`;
         document.getElementById('editPickupStatus').value = item.status || 'pending';
-        document.getElementById('editPickupCost').value = item.cost || '';
         document.getElementById('editPickupAddress').value = item.pickup_address || '';
         document.getElementById('editDeliveryAddress').value = item.delivery_address || '';
         document.getElementById('editDeliveryPhone').value = item.delivery_phone || '';
+
+        // Legacy records without item rows fall back to their header cost.
+        const pickupItems = Array.isArray(item.items) && item.items.length > 0
+            ? item.items
+            : [{ description: 'Pickup & delivery service', cost: item.cost }];
+        renderPickupItems('editPickupItems', pickupItems);
 
         document.getElementById('pickupModal').style.display = 'flex';
     };
@@ -1561,10 +1662,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const payload = {
                 status: document.getElementById('editPickupStatus').value,
-                cost: document.getElementById('editPickupCost').value,
                 pickup_address: document.getElementById('editPickupAddress').value,
                 delivery_address: document.getElementById('editDeliveryAddress').value,
                 delivery_phone: document.getElementById('editDeliveryPhone').value,
+                items: collectPickupItems('editPickupItems'),
             };
 
             if (typeof setButtonLoading === 'function' && submitBtn) {

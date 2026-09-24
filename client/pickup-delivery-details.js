@@ -38,7 +38,8 @@ async function loadPickupDetails() {
                         deliveryAddress: matched.delivery_address || "N/A",
                         requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
                         deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—",
-                        cost: matched.cost ? (isNaN(matched.cost) ? matched.cost : `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote"
+                        items: mapPickupItems(matched),
+                        cost: formatPickupCost(matched.total_cost || matched.cost)
                     };
                 }
             }
@@ -60,7 +61,8 @@ async function loadPickupDetails() {
                 deliveryAddress: matched.delivery_address || "N/A",
                 requestDate: matched.created_at ? new Date(matched.created_at).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "N/A",
                 deliveredDate: matched.status === "completed" || matched.status === "delivered" ? "Delivered" : "—",
-                cost: matched.cost ? (isNaN(matched.cost) ? matched.cost : `₦${parseFloat(matched.cost).toLocaleString('en-NG', { minimumFractionDigits: 2 })}`) : "Pending Quote"
+                items: mapPickupItems(matched),
+                cost: formatPickupCost(matched.total_cost || matched.cost)
             };
         }
     }
@@ -94,7 +96,61 @@ function renderDetails(pickup) {
     if (document.getElementById("pickupStatus")) document.getElementById("pickupStatus").textContent = pickup.status;
     if (document.getElementById("pickupCost")) document.getElementById("pickupCost").textContent = pickup.cost;
 
+    renderPickupItems(pickup.items || []);
+
     updatePickupStatus(pickup.status);
+}
+
+// Normalise the request's item rows (legacy records fall back to one row).
+function mapPickupItems(raw) {
+    const rawItems = Array.isArray(raw && raw.items) ? raw.items : [];
+    const items = rawItems.map(row => ({
+        description: row.description || row.name || "—",
+        cost: row.cost,
+    }));
+
+    if (items.length === 0) {
+        items.push({
+            description: "Pickup & delivery service",
+            cost: raw ? raw.cost : null,
+        });
+    }
+
+    return items;
+}
+
+function formatPickupCost(value) {
+    if (value == null || value === "" || isNaN(value)) return "Pending Quote";
+    return `₦${parseFloat(value).toLocaleString("en-NG", { minimumFractionDigits: 2 })}`;
+}
+
+function renderPickupItems(items) {
+    const container = document.getElementById("pickupItemsBlock");
+    if (!container) return;
+    if (!items || items.length === 0) {
+        container.innerHTML = `<p style="color:#6b7280;">No item details available.</p>`;
+        return;
+    }
+
+    const rows = items.map(row => `
+        <tr>
+            <td>${escapePickupHtml(row.description || "—")}</td>
+            <td style="text-align:right;">${row.cost == null || row.cost === "" || isNaN(row.cost) ? "Pending Quote" : "₦" + parseFloat(row.cost).toLocaleString("en-NG", { minimumFractionDigits: 2 })}</td>
+        </tr>`).join("");
+
+    container.innerHTML = `
+        <div style="overflow-x:auto;">
+        <table class="dash-shipment-items-table">
+            <thead><tr>
+                <th>Item Description</th><th style="text-align:right;">Cost (₦)</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+        </table></div>`;
+}
+
+function escapePickupHtml(value) {
+    return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 function showNotFound() {

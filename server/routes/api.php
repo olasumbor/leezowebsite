@@ -98,6 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pickup-deliveries', [PickupDeliveryController::class, 'index']);
     Route::get('/pickup-deliveries/{id}', [PickupDeliveryController::class, 'show']);
     Route::get('/pickup-deliveries/{id}/invoice', [PickupDeliveryController::class, 'downloadInvoice']);
+    Route::get('/pickup-deliveries/{id}/receipt', [PickupDeliveryController::class, 'downloadReceipt']);
 
     // User Frozen Cargos
     Route::get('/frozen-cargos', [FrozenCargoController::class, 'index']);

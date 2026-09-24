@@ -444,13 +444,38 @@
                             <select id="pkdUser" required>
                                 <option value="" disabled selected>Select User</option>
                             </select>
-                            <input type="text" id="pkdName" placeholder="Customer Name" required>
-                            <input type="email" id="pkdEmail" placeholder="Customer Email" required>
-                            <input type="text" id="pkdPhone" placeholder="Sender Phone" required>
                             <input type="text" id="pkdDeliveryPhone" placeholder="Recipient Phone">
                             <input type="text" id="pkdPickupAddress" placeholder="Pickup Address" required>
                             <input type="text" id="pkdDeliveryAddress" placeholder="Delivery Address" required>
-                            <input type="number" step="0.01" id="pkdCostInput" placeholder="Price/Cost (₦)">
+                            <p style="grid-column: 1 / -1; margin: 0; color: #6b7280; font-size: 0.85rem;">
+                                Sender name, email &amp; phone are pulled from the selected user's account.
+                            </p>
+                            <div style="grid-column: 1 / -1;">
+                                <div
+                                    style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0 8px;">
+                                    <h4 style="margin:0;font-size:0.95rem;">Pickup Items</h4>
+                                    <button type="button" class="btn-secondary"
+                                        style="padding:6px 12px;font-size:0.85rem;"
+                                        onclick="addPickupItemRow('createPickupItems')">
+                                        <i class="fas fa-plus"></i> Add Item
+                                    </button>
+                                </div>
+                                <div class="shipment-items-table-wrap" style="overflow-x:auto;">
+                                    <table class="shipment-items-table" id="createPickupItemsTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Cost (₦)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="createPickupItems"></tbody>
+                                    </table>
+                                    <div class="shipment-items-total">
+                                        Estimated Total (Items): <span id="createPickupItemsTotal">₦0.00</span>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn-primary" style="grid-column: 1 / -1;"><i
                                     class="fas fa-plus"></i> Save Pickup Request</button>
                         </form>
@@ -1244,10 +1269,6 @@
                         </select>
                     </div>
                     <div>
-                        <label>Cost / Price (₦)</label>
-                        <input type="number" step="0.01" id="editPickupCost" placeholder="Price for pickup & delivery">
-                    </div>
-                    <div>
                         <label>Pickup Address</label>
                         <input type="text" id="editPickupAddress">
                     </div>
@@ -1258,6 +1279,31 @@
                     <div>
                         <label>Recipient Phone</label>
                         <input type="text" id="editDeliveryPhone">
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div
+                        style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;">
+                        <h4 style="margin:0;">Pickup Items (cost: admin only)</h4>
+                        <button type="button" class="btn-secondary" style="padding:6px 12px;font-size:0.85rem;"
+                            onclick="addPickupItemRow('editPickupItems')">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                    </div>
+                    <div class="shipment-items-table-wrap" style="overflow-x:auto;">
+                        <table class="shipment-items-table" id="editPickupItemsTable">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Cost (₦)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="editPickupItems"></tbody>
+                        </table>
+                        <div class="shipment-items-total">
+                            Total (Items): <span id="editPickupItemsTotal">₦0.00</span>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-actions" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">

@@ -57,6 +57,36 @@
   <!-- Details CSS -->
   <link rel="stylesheet" href="pickup-delivery-details.css">
   <link rel="stylesheet" href="toast.css">
+  <style>
+    /* Request items block (mirrors frozen-cargo-details) */
+    .dash-shipment-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+      border: 1px solid var(--dash-border, #e2e8f0);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dash-shipment-items-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #f1f5f9;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .dash-shipment-items-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dash-shipment-items-table td:first-child {
+      font-weight: 600;
+      color: #101828;
+    }
+  </style>
 </head>
 
 
@@ -172,6 +202,12 @@
       <div class="dash-detail-item">
         <label>Delivered Date</label>
         <p id="pickupDeliveredDate">—</p>
+      </div>
+      <div class="dash-detail-item" style="grid-column: 1 / -1;">
+        <label>Request Items</label>
+        <div id="pickupItemsBlock">
+          <p id="pickupItemsFallback" style="color:#6b7280;">—</p>
+        </div>
       </div>
       <div class="dash-detail-item" style="grid-column: 1 / -1;">
         <label>Service Cost</label>

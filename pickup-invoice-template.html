@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Pick Up &amp; Delivery {{ (($kind ?? 'invoice') === 'receipt') ? 'Receipt' : 'Invoice' }} {{ $pickup_delivery->request_id ?? ($invoice_number ?? '') }}</title>
+    <title>Pick Up &amp; Delivery Receipt PKD65351934</title>
     <style>
         /* dompdf-safe: no flex/grid, no CSS variables, no gap, no box-shadow.
      DejaVu Sans is bundled with dompdf and includes the Naira sign. */
@@ -290,19 +290,6 @@
     <div class="topbar"></div>
     <div class="page">
 
-        @php
-            $receiptNo = $pickup_delivery->request_id ?? ($invoice_number ?? '');
-            $senderName = $pickup_delivery->name ?? ($customer_name ?? 'Customer');
-            $senderPhone = $pickup_delivery->phone ?? '';
-            $itemSummary = collect($items ?? [])->pluck('name')->filter()->implode(', ');
-            if ($itemSummary === '') {
-                $itemSummary = 'Pickup & delivery';
-            }
-            $formattedDate = $pickup_delivery && $pickup_delivery->created_at
-                ? $pickup_delivery->created_at->format('F j, Y')
-                : date('F j, Y');
-        @endphp
-
         <!-- Header -->
         <table class="header">
             <tr>
@@ -317,8 +304,8 @@
                     <div class="brand-c">EXPORT &amp; LOGISTICS</div>
                 </td>
                 <td>
-                    <div class="title">@if(($kind ?? 'invoice') === 'receipt') PICK UP &amp; DELIVERY RECEIPT @else PICK UP &amp; DELIVERY INVOICE @endif</div>
-                    <div class="receipt-no">{{ $receiptNo }}</div>
+                    <div class="title">PICK UP &amp; DELIVERY RECEIPT</div>
+                    <div class="receipt-no">PKD65351934</div>
                 </td>
             </tr>
         </table>
@@ -335,7 +322,7 @@
                 </td>
                 <td class="date-box" style="width:60mm;">
                     <span class="date-label">Date:</span><br>
-                    {{ $formattedDate }}
+                    September 12, 2026
                 </td>
             </tr>
         </table>
@@ -348,7 +335,7 @@
                         style="width:8mm; height:10mm;" alt="Location pin"></td>
                 <td>
                     <div class="lbl">PICK UP</div>
-                    <div class="txt">{{ $senderName }}{{ $senderPhone ? ' - ' . $senderPhone : '' }}<br>{{ $pickup_delivery->pickup_address }}</div>
+                    <div class="txt">Mr John - 09087766553<br>20, Lekki, Lagos - Cloth</div>
                 </td>
                 <td class="mid">
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjgiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA2NCA0MCI+PHJlY3QgeD0iMSIgeT0iOSIgd2lkdGg9IjExIiBoZWlnaHQ9IjIuNiIgcng9IjEuMyIgZmlsbD0iI2ZmZmZmZiIvPjxyZWN0IHg9IjQiIHk9IjE1IiB3aWR0aD0iOSIgaGVpZ2h0PSIyLjYiIHJ4PSIxLjMiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSIxIiB5PSIyMSIgd2lkdGg9IjExIiBoZWlnaHQ9IjIuNiIgcng9IjEuMyIgZmlsbD0iI2ZmZmZmZiIvPjxyZWN0IHg9IjE2IiB5PSI1IiB3aWR0aD0iMzAiIGhlaWdodD0iMjQiIHJ4PSIyLjUiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNDcgMTJoOWw3IDl2OEg0N3oiIGZpbGw9IiNmZmZmZmYiLz48cGF0aCBkPSJNNTAgMTVoNC41bDQgNUg1MHoiIGZpbGw9IiMxMjI3NGEiLz48cmVjdCB4PSIxNiIgeT0iMjciIHdpZHRoPSI0NyIgaGVpZ2h0PSIzIiBmaWxsPSIjZmZmZmZmIi8+PGNpcmNsZSBjeD0iMjciIGN5PSIzMSIgcj0iNiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTIyNzRhIiBzdHJva2Utd2lkdGg9IjEuNiIvPjxjaXJjbGUgY3g9IjI3IiBjeT0iMzEiIHI9IjIuMiIgZmlsbD0iIzEyMjc0YSIvPjxjaXJjbGUgY3g9IjU1IiBjeT0iMzEiIHI9IjYiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzEyMjc0YSIgc3Ryb2tlLXdpZHRoPSIxLjYiLz48Y2lyY2xlIGN4PSI1NSIgY3k9IjMxIiByPSIyLjIiIGZpbGw9IiMxMjI3NGEiLz48L3N2Zz4="
@@ -360,7 +347,7 @@
                         style="width:8mm; height:10mm;" alt="Location pin"></td>
                 <td>
                     <div class="lbl">DELIVERY</div>
-                    <div class="txt">{{ $pickup_delivery->delivery_address }}@if($pickup_delivery->delivery_phone)<br>Phone: {{ $pickup_delivery->delivery_phone }}@endif</div>
+                    <div class="txt">9, Ikoyi, Lagos<br>Phone: 09088776659</div>
                 </td>
             </tr>
         </table>
@@ -370,14 +357,14 @@
             <tr>
                 <td style="width:50%;">
                     <h3>PICK UP &amp; DELIVERY DETAILS</h3>
-                    <p>Sender Name: {{ $senderName }}</p>
-                    <p>Sender Number: {{ $senderPhone ?: '&mdash;' }}</p>
-                    <p>Request ID: {{ $receiptNo }}</p>
+                    <p>Sender Name: Mrs Jane</p>
+                    <p>Sender Number: 0908725368</p>
+                    <p>Pick Up: Mr John - 09087766553</p>
                 </td>
                 <td class="right" style="width:50%; padding-top:11mm;">
-                    <p>Pick Up Address: {{ $pickup_delivery->pickup_address }}</p>
-                    <p>Item{{ collect($items ?? [])->count() > 1 ? 's' : '' }}: {{ $itemSummary }}</p>
-                    <p>Delivery: {{ $pickup_delivery->delivery_address }}{{ $pickup_delivery->delivery_phone ? ' - ' . $pickup_delivery->delivery_phone : '' }}</p>
+                    <p>Pick Up Address: 20, Lekki, Lagos</p>
+                    <p>Item: Cloth</p>
+                    <p>Delivery: 9, Ikoyi, Lagos - 09088776659</p>
                 </td>
             </tr>
         </table>
@@ -388,12 +375,10 @@
                 <th>ITEM DESCRIPTION</th>
                 <th class="cost">COST</th>
             </tr>
-            @foreach(($items ?? []) as $item)
             <tr>
-                <td>{{ $item['name'] }}@if(!empty($item['subtext']))<br><small style="font-size:7.5pt; color:#5b6d8c;">{{ $item['subtext'] }}</small>@endif</td>
-                <td class="cost">&#8358;{{ number_format((float) ($item['amount'] ?? 0), 2) }}</td>
+                <td>Pick up and delivery</td>
+                <td class="cost">&#8358;10,000</td>
             </tr>
-            @endforeach
         </table>
 
         <!-- Footer: bank details left, total + signature right -->
@@ -402,16 +387,16 @@
                 <td style="padding-top:12mm;">
                     <div class="bank">
                         <strong>Company Bank Details</strong><br>
-                        Bank: {{ $bank_name ?? \App\Models\Setting::get('bank_name', 'Guaranty Trust Bank.') }}<br>
-                        Account Name: {{ $bank_account_name ?? \App\Models\Setting::get('bank_account_name', 'Leezoe integrated') }}<br>
-                        Account Number: {{ $bank_account_number ?? \App\Models\Setting::get('bank_account_number', '0900779403') }}
+                        Bank: Guaranty Trust Bank<br>
+                        Account Name: Keya logistics<br>
+                        Account Number: 3000594170
                     </div>
                 </td>
                 <td style="width:92mm;">
                     <table class="total">
                         <tr>
                             <td class="tl">TOTAL COST</td>
-                            <td class="tv">&#8358;{{ number_format((float) ($total_amount ?? 0), 2) }}</td>
+                            <td class="tv">&#8358;10,000</td>
                         </tr>
                     </table>
                     <table class="sign">

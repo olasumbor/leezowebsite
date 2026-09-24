@@ -77,9 +77,6 @@ if (pickupDeliveryForm) {
     pickupDeliveryForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
         const delivery_phone = document.getElementById("delivery_phone") ? document.getElementById("delivery_phone").value.trim() : "";
         const pickup_address = document.getElementById("pickup_address").value.trim();
         const delivery_address = document.getElementById("delivery_address").value.trim();
@@ -105,9 +102,6 @@ if (pickupDeliveryForm) {
                     "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    name,
-                    email,
-                    phone,
                     delivery_phone,
                     pickup_address,
                     delivery_address
